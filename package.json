@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@comunica/query-sparql-rdfjs": "^2.5.1",
     "commander": "^9.4.1",
     "log4js": "^6.7.0",
     "n3": "^1.16.3",
