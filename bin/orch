@@ -1,0 +1,70 @@
+#!/bin/bash
+
+PROJDIR=$(dirname $0)
+
+cd ${PROJDIR}/..
+
+if [ $# -eq 0 ]; then
+    cat <<EOF;
+usage: $0 [options] rule [rule ...]
+
+options:
+    --in  <directory> : directory with input notifications
+    --out <directory> : directory with orchestrator output
+    --err <directory> : directory with failed notifications
+    --keep            : keep --in data (don't delete after processing)
+EOF
+    exit 1
+fi
+
+for arg in "$@"; do
+    shift
+    case "$arg" in  
+        '--in')   set -- "$@" '-i' ;;
+        '--out')  set -- "$@" '-o' ;;
+        '--err')  set -- "$@" '-e' ;;
+        '--keep') set -- "$@" '-k' ;;
+        *)       set -- "$@" "$arg" ;;
+    esac
+done
+
+# default
+IN="in"
+OUT="out"
+ERR="err"
+KEEP=0
+
+OPTIND=1
+while getopts "ki:o:e:" opt
+do
+    case "$opt" in
+        'k') KEEP=1 ;;
+        'i') IN=$OPTARG ;;
+        'o') OUT=$OPTARG ;;
+        'e') ERR=$OPTARG ;;
+    esac
+done
+
+shift $(expr $OPTIND - 1) # remove options from positional parameter
+
+for f in in/*; do
+    echo -n "$f "
+
+    BASENAME=$(basename -- $f | sed 's/\.[a-zA-Z0-9]*//')
+
+    TMPDATA=$(mktemp)
+    TMPERROR=$(mktemp)
+    node src/orch.js $f "$@" > ${TMPDATA} 2> ${TMPERROR}
+
+    if [ $? -eq 0 ]; then
+        mv ${TMPDATA} ${OUT}/${BASENAME}.ttl
+        echo "OK"
+    else
+        mv ${TMPERROR} ${ERR}/${BASENAME}.ttl
+        echo "FAILED"
+    fi
+
+    if [ $KEEP -eq 0 ]; then 
+        rm $f
+    fi
+done
