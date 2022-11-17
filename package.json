@@ -9,5 +9,11 @@
     "stream-to-string": "^1.2.0",
     "streamify-string": "^1.0.1",
     "tmp": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/n3": "^1.10.4",
+    "@types/streamify-string": "^1.0.0",
+    "@types/tmp": "^0.2.3",
+    "tsconfig.json": "^1.0.11"
   }
 }

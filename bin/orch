@@ -54,7 +54,7 @@ for f in in/*; do
 
     TMPDATA=$(mktemp)
     TMPERROR=$(mktemp)
-    node src/orch.js $f "$@" > ${TMPDATA} 2> ${TMPERROR}
+    node dist/orch.js $f "$@" > ${TMPDATA} 2> ${TMPERROR}
 
     if [ $? -eq 0 ]; then
         mv ${TMPDATA} ${OUT}/${BASENAME}.ttl

@@ -1,13 +1,14 @@
+import * as fs from 'fs';
+import * as tmp from 'tmp';
+import * as log4js from 'log4js';
+import { program } from 'commander';
+import { spawn} from 'node:child_process';
+import rdfParser from 'rdf-parse';
+import rdfSerializer from 'rdf-serialize';
+import stringifyStream = require('stream-to-string');
+import streamifyString = require('streamify-string');
+
 const eye = '/usr/local/bin/eye';
-const fs = require('fs');
-const tmp = require('tmp');
-const log4js = require('log4js');
-const { program } = require('commander');
-const { spawn } = require('node:child_process');
-const rdfParser = require("rdf-parse").default;
-const rdfSerializer = require("rdf-serialize").default;
-const stringifyStream = require('stream-to-string');
-const streamifyString = require('streamify-string');
 
 program.version('0.0.1')
        .argument('<data>')
@@ -39,12 +40,12 @@ logger.info(`rules: ${rules}`);
 
 main(data,rules);
 
-async function main(data,rules) {
+async function main(data: string, rules: string[]) {
     const result = await reason(data,rules);
     console.log(result);
 }
 
-async function reason(data,rules) {
+async function reason(data: string , rules: string[]) {
     const n3  = await dataAsN3(data);
     logger.trace(n3);
 
@@ -56,7 +57,7 @@ async function reason(data,rules) {
 
     const args = ['--quiet','--nope','--pass'];
     args.push(tmpobj.name);
-    args.push(rules);
+    rules.forEach(r => args.push(r));
 
     logger.debug(`${eye}`);
     logger.debug(`eye args: ${args}`);
@@ -84,9 +85,8 @@ async function reason(data,rules) {
     });
 }
 
-async function dataAsN3(file) {
-    const data = fs.readFileSync(file,{encoding: 'utf8', flag:'r'})
-    return new Promise( async (resolve,reject) => {
+async function dataAsN3(file: string) : Promise<string> {
+    return new Promise<string>( async (resolve,reject) => {
         fs.readFile(file, 'utf8', async (err,data) => {
             if (err) {
                 reject(err);
@@ -99,7 +99,7 @@ async function dataAsN3(file) {
     }) ;
 }
 
-async function rdfTransform(data,path,outType) {
+async function rdfTransform(data: string, path: string, outType: string ) {
     const inStream = streamifyString(data);
     // Guess the content-type from the path name
     const quadStream = rdfParser.parse(inStream, { path:path });
