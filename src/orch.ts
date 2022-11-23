@@ -3,9 +3,11 @@ import * as tmp from 'tmp';
 import * as log4js from 'log4js';
 import { program } from 'commander';
 import { spawn} from 'node:child_process';
-import { parseAsN3Store, rdfTransformStore , topGraphIds , injectMainSubject} from './util';
+import { parseAsN3Store, rdfTransformStore , topGraphIds , storeAddPredicate} from './util';
 
 const eye = '/usr/local/bin/eye';
+const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
+const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
 
 program.version('0.0.1')
        .argument('<data>')
@@ -58,7 +60,10 @@ async function reason(dataPath: string , rulePaths: string[]) {
         }
 
         // Inject a top graph indicator in the KG
-        injectMainSubject(store,topIds[0]);
+        storeAddPredicate(store, POL_MAIN_SUBJECT, topIds[0]);
+
+        // Inject the file origin in the KG
+        storeAddPredicate(store, POL_ORIGIN, dataPath);
 
         const n3  = await rdfTransformStore(store, 'text/turtle');
 

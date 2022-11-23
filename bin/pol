@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PROJDIR=$(dirname $0)
+
+cd ${PROJDIR}/..
+
+if [ $# -eq 0 ]; then
+    cat <<EOF;
+usage: $0 [options] orch-output-file
+
+options:
+    --info : verbose messages
+    --debug : debug messages
+    --trace : trace messages
+EOF
+    exit 1
+fi
+
+node dist/pol.js "$@"
