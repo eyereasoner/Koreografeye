@@ -2,10 +2,12 @@ import * as N3 from 'n3';
 import { QueryEngine } from '@comunica/query-sparql-rdfjs';
 import * as fs from 'fs';
 import { program  } from 'commander';
+import { getMainSubject, parseAsN3Store } from './util';
 import * as log4js from 'log4js';
 
-const POL='https://www.example.org/ns/policy#';
-const FNO='https://w3id.org/function/ontology#';
+const POL = 'https://www.example.org/ns/policy#';
+const FNO = 'https://w3id.org/function/ontology#';
+const pluginConf = './plugin.json';
 
 program.version('0.0.1')
        .argument('<data>')
@@ -29,16 +31,44 @@ if (opts.trace) {
 }
 
 const myEngine = new QueryEngine();
-const data  = program.args[0];
+const data     = program.args[0];
 
 execute_policies(data);
 
-async function execute_policies(path: string) {
-    const store = await parseData(path);
-    await extractPolicies(path,store);
+function loadConfig(path:string) {
+    const cfg = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
+    return JSON.parse(cfg);
 }
 
-async function extractPolicies(path: string, store: N3.Store) {
+async function execute_policies(path: string) {
+    const store = await parseAsN3Store(path);
+    const policies = await extractPolicies(store,path);
+    const plugins  = loadConfig(pluginConf); 
+
+    for (let key in policies) {
+        const policy = policies[key];
+        const target = policy['target'];
+        const implementation = plugins[target];
+        
+        if (implementation) {
+            logger.info(`${target} -> ${implementation}`);
+            await callImplementation(implementation,store,policy);
+        }
+        else {
+            logger.error(`${target} has no implementation`);
+        }
+    }
+}
+
+async function callImplementation(plugin:string, store: N3.Store, policy:any) {
+    logger.info(`calling ${plugin}...`);
+    const pkg = await import(plugin);
+    const result = await pkg.policyTarget(store,policy);
+    logger.info(`..returned a ${result}`);
+    return result;
+}
+
+async function extractPolicies(store: N3.Store, path?: string) {
     const sql = `
 PREFIX pol: <${POL}> 
 PREFIX fno: <${FNO}>
@@ -64,7 +94,7 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
         const policy          = binding.get('policy')?.value.toString() ;
         const executionTarget = binding.get('executionTarget')?.value.toString();
         const name            = binding.get('name')?.value.toString() ?? '<undef>';
-        const value           = binding.get('value')?.value.toString();
+        const value           = binding.get('value');
 
         if (policies[id]) {
             policies[id]['args'][name] = value;
@@ -80,26 +110,5 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
         }
     });
 
-    console.log(policies);
-}
-
-async function parseData(path: string) : Promise<N3.Store> {
-    const parser       = new N3.Parser();
-    const store        = new N3.Store();
-
-    const rdfData = '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'});
-
-    return new Promise<N3.Store>( (resolve,reject) => {
-        parser.parse(rdfData, (error, quad, _) => {
-            if (error) {
-                reject(error);
-            }
-            else if (quad) {
-                store.addQuad(quad);
-            }
-            else {
-                resolve(store);
-            }
-        });
-    });
+    return policies;
 }

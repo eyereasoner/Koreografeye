@@ -3,10 +3,7 @@ import * as tmp from 'tmp';
 import * as log4js from 'log4js';
 import { program } from 'commander';
 import { spawn} from 'node:child_process';
-import rdfParser from 'rdf-parse';
-import rdfSerializer from 'rdf-serialize';
-import stringifyStream = require('stream-to-string');
-import streamifyString = require('streamify-string');
+import { parseAsN3Store, rdfTransformStore , topGraphIds , injectMainSubject} from './util';
 
 const eye = '/usr/local/bin/eye';
 
@@ -45,24 +42,50 @@ async function main(data: string, rules: string[]) {
     console.log(result);
 }
 
-async function reason(data: string , rules: string[]) {
-    const n3  = await dataAsN3(data);
-    logger.trace(n3);
+async function reason(dataPath: string , rulePaths: string[]) {
+    return new Promise( async (resolve,reject) =>  {
+        logger.trace(`parsing ${dataPath}...`);
+        const store = await parseAsN3Store(dataPath);
 
-    const tmpobj = tmp.fileSync();
-    logger.trace(`tmp file: ${tmpobj.name}`);
+        if (!store) {
+            reject(`failed to create a store from ${dataPath}`);
+        }
 
-    logger.debug(`writing n3 to ${tmpobj.name}`);
-    fs.writeFileSync(tmpobj.name, n3);
+        const topIds = topGraphIds(store);
 
-    const args = ['--quiet','--nope','--pass'];
-    args.push(tmpobj.name);
-    rules.forEach(r => args.push(r));
+        if (topIds.length != 1) {
+            reject(`document doesn't contain one main subject`);
+        }
 
-    logger.debug(`${eye}`);
-    logger.debug(`eye args: ${args}`);
+        // Inject a top graph indicator in the KG
+        injectMainSubject(store,topIds[0]);
 
-    return new Promise( (resolve,reject) =>  {
+        const n3  = await rdfTransformStore(store, 'text/turtle');
+
+        if (!n3) {
+            reject(`failed to transform store to turtle`);
+        }
+
+        logger.trace(n3);
+
+        const tmpobj = tmp.fileSync();
+
+        if (! tmpobj) {
+            reject(`failed to creat tmp object`);
+        }
+
+        logger.trace(`tmp file: ${tmpobj.name}`);
+
+        logger.debug(`writing n3 to ${tmpobj.name}`);
+        fs.writeFileSync(tmpobj.name, n3);
+
+        const args = ['--quiet','--nope','--pass'];
+        args.push(tmpobj.name);
+        rulePaths.forEach(r => args.push(r));
+
+        logger.info(`${eye}`);
+        logger.info(`eye args: ${args}`);
+
         let errorData = '';
         let resultData = '';
 
@@ -83,26 +106,4 @@ async function reason(data: string , rules: string[]) {
             }
         });
     });
-}
-
-async function dataAsN3(file: string) : Promise<string> {
-    return new Promise<string>( async (resolve,reject) => {
-        fs.readFile(file, 'utf8', async (err,data) => {
-            if (err) {
-                reject(err);
-            }
-            else {
-                const n3 = await rdfTransform(data,file,'text/turtle');
-                resolve(n3);
-            }
-        });
-    }) ;
-}
-
-async function rdfTransform(data: string, path: string, outType: string ) {
-    const inStream = streamifyString(data);
-    // Guess the content-type from the path name
-    const quadStream = rdfParser.parse(inStream, { path:path });
-    const outStream = rdfSerializer.serialize(quadStream, { contentType: outType });
-    return await stringifyStream(outStream);
 }
