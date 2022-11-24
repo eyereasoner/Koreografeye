@@ -1,5 +1,6 @@
 import * as N3 from 'n3';
 import * as fs from 'fs';
+import * as jsonld from 'jsonld';
 import rdfParser from 'rdf-parse';
 import rdfSerializer from 'rdf-serialize';
 import stringifyStream = require('stream-to-string');
@@ -50,6 +51,14 @@ export async function rdfTransformStore(store: N3.Store, outType: string) {
                 store.match(undefined,undefined,undefined,undefined), { contentType: outType } 
     );
     return await stringifyStream(outStream);
+}
+
+export async function jsonldStrFrame(jsonstr:string, frame: any) {
+    const doc = JSON.parse(jsonstr);
+    
+    const framed =  await jsonld.frame(doc, frame);
+
+    return framed;
 }
 
 // Return all identifiers of subjects that are not an object in an RDF graph
