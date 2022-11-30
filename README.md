@@ -52,14 +52,18 @@ Each plugin should implement a `policyTarget` function with the following
 signature:
 
 ```
-export async function policyTarget(store: N3.Store, policy: any) : Promise<boolean>;
+export async function policyTarget(mainStore: N3.Store, policyStore: N3.Store , policy: IPolicyType) : Promise<boolean>;
 ```
 
 where:
 
-- store: an `N3.Store` containing the parsed input file
-- policy: a structure containf all parameters for the requested policy:
-    - *path*: path to the input file
-    - *policy* : identifier of the policy instance
-    - *target* : identifier of the policy
-    - *args* : key/value pairs of all arguments that were provided for the policy
+- mainStore: an `N3.Store` containing the parsed input file (without the policies)
+- policyStore: an `N3.Store` containing the current active parsed policy
+- policy: an `IPolicyType` structure containg all parameters for the requested policy:
+    - *node*   : `N3.NamedNode | N3.BlankNode` : the policy node ()
+    - *path*   : `string` : path to the input file
+    - *policy* : `string` : identifier of the policy instance
+    - *target* : `string` : identifier of the policy target
+    - *mainSubject* : `string` : the activity identifier of the notification
+    - *origin* : `string` : path to the original notifiction input file
+    - *args*   : `any { [key: string] : RDF.Term | undefined }`  : key/value pairs of all arguments that were provided for the policy

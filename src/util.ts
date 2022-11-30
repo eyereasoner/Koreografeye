@@ -1,6 +1,7 @@
 import * as N3 from 'n3';
 import * as fs from 'fs';
 import * as jsonld from 'jsonld';
+import * as RDF from '@rdfjs/types';
 import rdfParser from 'rdf-parse';
 import rdfSerializer from 'rdf-serialize';
 import stringifyStream = require('stream-to-string');
@@ -14,7 +15,9 @@ export type IPolicyType = {
     target: string ,      // Name of execution target (the idenfier of the policy function)
     mainSubject: string , // Activity identifier
     origin: string ,      // Path to original activity
-    args: any             // Name/Value pairs of policy arguments
+    args: {             // Name/Value pairs of policy arguments
+        [key : string]: RDF.Term | undefined 
+    }
 };
 
 export async function parseAsN3Store(path: string) : Promise<N3.Store> {
