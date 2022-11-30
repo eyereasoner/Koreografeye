@@ -1,7 +1,7 @@
 import * as N3 from 'n3';
 import { rdfTransformStore , jsonldStrFrame , type IPolicyType} from '../util';
 
-export async function policyTarget(mainStore: N3.Store, policyStore: N3.Store, policy: IPolicyType) : Promise<boolean> {
+export async function policyTarget(mainStore: N3.Store, _: N3.Store, policy: IPolicyType) : Promise<boolean> {
     const rdf = await rdfTransformStore(mainStore,'application/ld+json');
     console.log(JSON.stringify(policy,null,4));
     const json = await jsonldStrFrame(

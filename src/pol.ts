@@ -44,7 +44,6 @@ function loadConfig(path:string) {
 
 async function execute_policies(path: string) {
     const store = await parseAsN3Store(path);
-    const policies = await extractPolicies(store,path);
     const plugins  = loadConfig(pluginConf); 
     
     const mainSubject = storeGetPredicate(store, POL_MAIN_SUBJECT);
@@ -53,10 +52,9 @@ async function execute_policies(path: string) {
         logger.error(`no ${POL_MAIN_SUBJECT}?!`);
         return;
     }
-    
-    logger.debug(`main subject: ${mainSubject}`);
-
-    const mainStore   = extractGraph(store,mainSubject);
+    else {
+        logger.debug(`main subject: ${mainSubject.value}`);
+    }
 
     const origin = storeGetPredicate(store, POL_ORIGIN);
 
@@ -64,6 +62,16 @@ async function execute_policies(path: string) {
         logger.error(`no ${POL_ORIGIN}?!`);
         return;
     }
+    else {
+        logger.debug(`origin: ${origin.value}`);
+    }
+    
+    const policies = await extractPolicies(store,path, {
+        mainSubject: mainSubject ,
+        origin: origin
+    });
+
+    const mainStore   = extractGraph(store,mainSubject);
 
     for (let key in policies) {
         const policy = policies[key];
@@ -72,8 +80,8 @@ async function execute_policies(path: string) {
         const implementation = plugins[target];
         const policyStore = extractGraph(store,idNode);
 
-        policy['mainSubject'] = mainSubject;
-        policy['origin'] = origin;
+        policy['mainSubject'] = mainSubject.value;
+        policy['origin'] = origin.value;
         
         if (implementation) {
             logger.info(`${target} -> ${implementation}`);
@@ -93,7 +101,7 @@ async function callImplementation(plugin:string, mainStore: N3.Store, policyStor
     return result;
 }
 
-async function extractPolicies(store: N3.Store, path: string) {
+async function extractPolicies(store: N3.Store, path: string, xtra: any) {
     const sql = `
 PREFIX pol: <${POL}> 
 PREFIX fno: <${FNO}>
@@ -115,7 +123,7 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
     const policies : { [id: string] : IPolicyType } = {};
 
     bindings.forEach( (binding) => {
-        const id             = binding.get('id')?.value ;
+        const id = binding.get('id')?.value ;
 
         let idNode : N3.NamedNode | N3.BlankNode;
 
@@ -142,9 +150,10 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
         const value           = binding.get('value');
 
         if (id && policy && executionTarget) {
-            logger.error('failed to find pol:policy or a fno:Executes with fno:executes');
+            logger.info(`found policy ${id} with target ${executionTarget}`);
         }
         else {
+            logger.error('failed to find pol:policy or a fno:Executes with fno:executes');
             return;
         }
 
@@ -157,13 +166,15 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
                 'path'   : path ,
                 'policy' : policy ,
                 'target' : executionTarget,
-                'mainSubject' : '',
-                'origin' : '',
-                'args'   : {}
+                'args'   : {} ,
+                ...xtra
             };
             policies[id]['args'][name] = value;
         }
     });
+
+    logger.debug(`policies:`);
+    logger.debug(policies);
 
     return policies;
 }

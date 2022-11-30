@@ -79,7 +79,7 @@ export function topGraphIds(store: N3.Store) {
     return Array.from(subjectList);
 }
 
-export function storeGetPredicate(store: N3.Store, predicate: string) {
+export function storeGetPredicate(store: N3.Store, predicate: string) : N3.BlankNode | N3.NamedNode | null {
     let object = null;
 
     store.forEach( quad => {
