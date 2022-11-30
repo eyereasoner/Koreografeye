@@ -1,8 +1,7 @@
 import * as N3 from 'n3';
 import { QueryEngine } from '@comunica/query-sparql-rdfjs';
-import * as fs from 'fs';
 import { program  } from 'commander';
-import { storeGetPredicate, parseAsN3Store , extractGraph , type IPolicyType} from './util';
+import { loadConfig, storeGetPredicate, parseAsN3Store , extractGraph , type IPolicyType} from './util';
 import * as log4js from 'log4js';
 
 const POL = 'https://www.example.org/ns/policy#';
@@ -36,11 +35,6 @@ const myEngine = new QueryEngine();
 const data     = program.args[0];
 
 execute_policies(data);
-
-function loadConfig(path:string) {
-    const cfg = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
-    return JSON.parse(cfg);
-}
 
 async function execute_policies(path: string) {
     const store = await parseAsN3Store(path);

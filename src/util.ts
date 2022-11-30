@@ -20,6 +20,11 @@ export type IPolicyType = {
     }
 };
 
+export function loadConfig(path:string) {
+    const cfg = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
+    return JSON.parse(cfg);
+}
+
 export async function parseAsN3Store(path: string) : Promise<N3.Store> {
     const parser       = new N3.Parser();
     const store        = new N3.Store();

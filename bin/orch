@@ -47,21 +47,33 @@ done
 
 shift $(expr $OPTIND - 1) # remove options from positional parameter
 
+if [ $# -eq 0 ]; then 
+    echo "$0 : missing rules argument"
+    exit 1
+fi
+
 for f in in/*; do
-    echo -n "$f "
 
     BASENAME=$(basename -- $f | sed 's/\.[a-zA-Z0-9]*//')
 
     TMPDATA=$(mktemp)
     TMPERROR=$(mktemp)
-    node dist/orch.js $f "$@" > ${TMPDATA} 2> ${TMPERROR}
+
+    # echo "node dist/orch.js $f $@ > ${TMPDATA} 2> ${TMPERROR}" >&2
+
+    echo -n "$f : "
+    node --no-warnings dist/orch.js $f "$@" > ${TMPDATA} 2> ${TMPERROR}
 
     if [ $? -eq 0 ]; then
+        echo "OK" 
         mv ${TMPDATA} ${OUT}/${BASENAME}.ttl
-        echo "OK"
+        cat ${TMPERROR} >&2
+        rm ${TMPERROR}
     else
-        mv ${TMPERROR} ${ERR}/${BASENAME}.ttl
         echo "FAILED"
+        rm ${TMPDATA}
+        cat ${TMPERROR} >&2
+        mv ${TMPERROR} ${ERR}/${BASENAME}.ttl
     fi
 
     if [ $KEEP -eq 0 ]; then 

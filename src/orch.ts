@@ -3,11 +3,11 @@ import * as tmp from 'tmp';
 import * as log4js from 'log4js';
 import { program } from 'commander';
 import { spawn} from 'node:child_process';
-import { parseAsN3Store, rdfTransformStore , topGraphIds , storeAddPredicate} from './util';
+import { parseAsN3Store, rdfTransformStore , topGraphIds , storeAddPredicate, loadConfig} from './util';
 
-const eye = '/usr/local/bin/eye';
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
+const orchConf = './orchestrator.json';
 
 program.version('0.0.1')
        .argument('<data>')
@@ -45,8 +45,18 @@ async function main(data: string, rules: string[]) {
 }
 
 async function reason(dataPath: string , rulePaths: string[]) {
-    return new Promise( async (resolve,reject) =>  {
-        logger.trace(`parsing ${dataPath}...`);
+    return new Promise<string>( async (resolve,reject) =>  {
+        logger.debug(`loading ${orchConf}`);
+        const config = loadConfig(orchConf);
+
+        if (! config) {
+            reject(`failed to load ${orchConf}`);
+        }
+
+        const eye = config['eye'];
+        const eyeargs = config['args'];
+
+        logger.debug(`parsing ${dataPath}...`);
         const store = await parseAsN3Store(dataPath);
 
         if (!store) {
@@ -79,22 +89,21 @@ async function reason(dataPath: string , rulePaths: string[]) {
             reject(`failed to creat tmp object`);
         }
 
-        logger.trace(`tmp file: ${tmpobj.name}`);
+        logger.debug(`tmp file: ${tmpobj.name}`);
 
         logger.debug(`writing n3 to ${tmpobj.name}`);
         fs.writeFileSync(tmpobj.name, n3);
 
-        const args = ['--quiet','--nope','--pass'];
-        args.push(tmpobj.name);
-        rulePaths.forEach(r => args.push(r));
+        eyeargs.push(tmpobj.name);
+        rulePaths.forEach(r => eyeargs.push(r));
 
         logger.info(`${eye}`);
-        logger.info(`eye args: ${args}`);
+        logger.info(`eye args: ${eyeargs}`);
 
         let errorData = '';
         let resultData = '';
 
-        const ls = spawn(eye,args);
+        const ls = spawn(eye,eyeargs);
         ls.stdout.on('data', (data) => {
             resultData += data;
         });
