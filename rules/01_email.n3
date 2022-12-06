@@ -15,9 +15,9 @@
 {
   [ pol:policy [
       a fno:Execution ;
-      fno:executes ex:demoPlugin ;
-      ex:param1 "my@myself.and.i" ;
-      ex:param2 "you@yourself.edu" ;
+      fno:executes ex:sendEmail ;
+      ex:to "patrick.hochstenbach@gmail.com" ;
+      ex:from "patrick_hochstenbach@gmx.net" ;
       ex:subject "A new resource was created!" ;
       ex:body ?s 
   ] ].

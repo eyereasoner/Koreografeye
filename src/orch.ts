@@ -86,7 +86,7 @@ async function reason(dataPath: string , rulePaths: string[]) {
         const tmpobj = tmp.fileSync();
 
         if (! tmpobj) {
-            reject(`failed to creat tmp object`);
+            reject(`failed to create tmp object`);
         }
 
         logger.debug(`tmp file: ${tmpobj.name}`);

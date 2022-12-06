@@ -79,7 +79,13 @@ async function execute_policies(path: string) {
         
         if (implementation) {
             logger.info(`${target} -> ${implementation}`);
-            await callImplementation(implementation,mainStore,policyStore,policy);
+
+            try {
+                await callImplementation(implementation,mainStore,policyStore,policy);
+            }
+            catch (e) {
+                console.log(`Target ${implementation} threw error ${e}`);
+            }
         }
         else {
             logger.error(`${target} has no implementation`);

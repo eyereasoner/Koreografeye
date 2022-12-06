@@ -1,3 +1,5 @@
 {
-    "http://example.org/sendEmail": "./plugin/sendEmail"
+    "http://example.org/demoPlugin": "./plugin/demoPlugin" ,
+    "http://example.org/sendEmail": "./plugin/sendEmail" ,
+    "http://example.org/sendNtfy": "./plugin/sendNtfy"
 }

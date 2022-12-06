@@ -15,10 +15,7 @@
 {
   [ pol:policy [
       a fno:Execution ;
-      fno:executes ex:demoPlugin ;
-      ex:param1 "my@myself.and.i" ;
-      ex:param2 "you@yourself.edu" ;
-      ex:subject "A new resource was created!" ;
-      ex:body ?s 
+      fno:executes ex:sendNtfy ;
+      ex:message "You got a new notification!" ;
   ] ].
 }.
