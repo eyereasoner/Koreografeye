@@ -37,7 +37,8 @@ const data     = program.args[0];
 execute_policies(data);
 
 async function execute_policies(path: string) {
-    const store = await parseAsN3Store(path);
+    let   errors   = 0;
+    const store    = await parseAsN3Store(path);
     const plugins  = loadConfig(pluginConf); 
     
     const mainSubject = storeGetPredicate(store, POL_MAIN_SUBJECT);
@@ -81,15 +82,30 @@ async function execute_policies(path: string) {
             logger.info(`${target} -> ${implementation}`);
 
             try {
-                await callImplementation(implementation,mainStore,policyStore,policy);
+                const isOk = await callImplementation(implementation,mainStore,policyStore,policy);
+                if (isOk) {
+                    // All is well
+                }
+                else {
+                    errors += 1;
+                }
             }
             catch (e) {
-                console.log(`Target ${implementation} threw error ${e}`);
+                console.error(`Target ${implementation} threw error ${e}`);
+                errors += 1;
             }
         }
         else {
             logger.error(`${target} has no implementation`);
+            errors += 1;
         }
+    }
+
+    if (errors == 0) {
+        process.exit(0);
+    }
+    else {
+        process.exit(2);
     }
 }
 

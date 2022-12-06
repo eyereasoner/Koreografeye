@@ -52,7 +52,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-for f in in/*; do
+for f in ${IN}/*; do
 
     BASENAME=$(basename -- $f | sed 's/\.[a-zA-Z0-9]*//')
 
