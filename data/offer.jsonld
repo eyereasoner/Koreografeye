@@ -1,0 +1,39 @@
+{
+    "@context": [
+      "https://www.w3.org/ns/activitystreams",
+      "https://purl.org/coar/notify"
+    ],
+    "actor": {
+      "id": "https://overlay-journal.com",
+      "name": "Overlay Journal",
+      "type": "Service"
+    },
+    "id": "urn:uuid:0370c0fb-bb78-4a9b-87f5-bed307a509dd",
+    "object": {
+      "id": "https://research-organisation.org/repository/preprint/201203/421/",
+      "ietf:cite-as": "https://doi.org/10.5555/12345680",
+      "type": "sorg:AboutPage",
+      "url": {
+        "id": "https://research-organisation.org/repository/preprint/201203/421/content.pdf",
+        "media-type": "application/pdf",
+        "type": [
+          "Article",
+          "sorg:ScholarlyArticle"
+        ]
+      }
+    },
+    "origin": {
+      "id": "https://overlay-journal.com/system",
+      "inbox": "https://overlay-journal.com/inbox/",
+      "type": "Service"
+    },
+    "target": {
+      "id": "https://research-organisation.org/repository",
+      "inbox": "https://research-organisation.org/inbox/",
+      "type": "Service"
+    },
+    "type": [
+      "Offer",
+      "coar-notify:IngestAction"
+    ]
+  }

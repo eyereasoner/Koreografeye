@@ -12,10 +12,11 @@ npm install
 
 - Put ActivityStreams notifications in the `in` directory
 - Put N3 rules in the `rules` directory
-- Run `bin/orch rules/*` to run the rules on alle in notification in the `in` directory
-    - Use the `--keep` if you don't want to automatic clean the `in` of processed notifications
+- Run `bin/orch --keep rules/*` to run the rules on alle in notification in the `in` directory
+    - Use the `--keep` option if you don't want to automatic clean the `in` after processing notifications
     - The processed notifications will end up in the `out` directory
-- Run `bin/pol` to run the policy executor with all the processed notifications from the `out` directory
+- Run `bin/pol --keep` to run the policy executor with all the processed notifications from the `out` directory
+    - Use the `--keep` option if you don't want to automatic clean the `out` after processing notifications
 
 ## Commands
 
