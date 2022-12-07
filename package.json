@@ -6,8 +6,12 @@
   "license": "MIT",
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
   "scripts": {
+    "orch": "bin/orch --keep rules/*",
+    "pol": "bin/pol --keep",
     "watch": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rm err/* ; rm out/err/*",
+    "clean:all": "npm run clean ; rm in/* out/* out/ok/*"
   },
   "dependencies": {
     "@comunica/query-sparql-rdfjs": "^2.5.1",
