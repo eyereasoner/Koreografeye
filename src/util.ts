@@ -37,8 +37,10 @@ export async function parseAsN3Store(path: string) : Promise<N3.Store> {
 
     const rdfData = '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'});
 
+    const n3Data = await rdfTransformString(rdfData, path, 'text/n3');
+
     return new Promise<N3.Store>( (resolve,reject) => {
-        parser.parse(rdfData, (error, quad, _) => {
+        parser.parse(n3Data, (error, quad, _) => {
             if (error) {
                 reject(error);
             }

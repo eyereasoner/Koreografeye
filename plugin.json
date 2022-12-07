@@ -13,5 +13,6 @@
     "http://example.org/sendNtfy": {
         "@id" : "./plugin/sendNtfy",
         "topic" : "MiniOrchestrator12345"
-    }
+    },
+    "http://example.org/sendOrigin": "./plugin/sendOrigin"
 }
