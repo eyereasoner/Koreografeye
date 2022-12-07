@@ -14,5 +14,11 @@
         "@id" : "./plugin/sendNtfy",
         "topic" : "MiniOrchestrator12345"
     },
-    "http://example.org/sendOrigin": "./plugin/sendOrigin"
+    "http://example.org/sendNotification": {
+        "@id" : "./plugin/sendNotification",
+        "@context" : [
+            "https://www.w3.org/ns/activitystreams",
+            "https://purl.org/coar/notify"
+        ]
+    }
 }

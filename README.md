@@ -8,6 +8,15 @@ This is miniature implementation of an orchestrator implementing the [Orchestrat
 npm install
 ```
 
+## Usage
+
+- Put ActivityStreams notifications in the `in` directory
+- Put N3 rules in the `rules` directory
+- Run `bin/orch rules/*` to run the rules on alle in notification in the `in` directory
+    - Use the `--keep` if you don't want to automatic clean the `in` of processed notifications
+    - The processed notifications will end up in the `out` directory
+- Run `bin/pol` to run the policy executor with all the processed notifications from the `out` directory
+
 ## Commands
 
 ### orch
@@ -71,7 +80,7 @@ where:
 
 ## Known issues
 
-- Policies must be provides using named nodes:
+- Policies **must** be provided using named nodes:
 
 *correct*
 

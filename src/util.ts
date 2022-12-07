@@ -6,6 +6,7 @@ import rdfParser from 'rdf-parse';
 import rdfSerializer from 'rdf-serialize';
 import stringifyStream = require('stream-to-string');
 import streamifyString = require('streamify-string');
+import {v4 as uuidv4} from 'uuid';
 
 export type IPolicyType = {
     node:  N3.NamedNode | N3.BlankNode , 
@@ -23,7 +24,13 @@ export type IPolicyType = {
     }
 };
 
-export function loadConfig(path:string) {
+/**
+ * Load a JSON configuration file and returns the parsed content or undefined on error.
+ * 
+ * @params path - the location off the configuration file
+ * @returns JSON object | undefined
+ */
+export function loadConfig(path:string): any | undefined {
     if (! fs.existsSync(path)) {
         return undefined;
     }
@@ -31,6 +38,12 @@ export function loadConfig(path:string) {
     return JSON.parse(cfg);
 }
 
+/**
+ * Parse an input file and return the parsed N3.Store
+ * 
+ * @param path - the location of an RDF input file
+ * @returns Promise<N3.Store>
+ */
 export async function parseAsN3Store(path: string) : Promise<N3.Store> {
     const parser       = new N3.Parser();
     const store        = new N3.Store();
@@ -54,7 +67,15 @@ export async function parseAsN3Store(path: string) : Promise<N3.Store> {
     });
 }
 
-export async function rdfTransformString(data: string, fileName: string, outType: string ) {
+/**
+ * Transform an RDF input string from one serialization to another
+ * 
+ * @param data - a string of RDF
+ * @param fileName - a file name used to guess the content type of the data string
+ * @param outType - the content-type of the output expected
+ * @returns Promise<string>
+ */
+export async function rdfTransformString(data: string, fileName: string, outType: string ): Promise<string> {
     const inStream = streamifyString(data);
     // Guess the content-type from the path name
     const quadStream = rdfParser.parse(inStream, { path:fileName });
@@ -62,14 +83,27 @@ export async function rdfTransformString(data: string, fileName: string, outType
     return await stringifyStream(outStream);
 }
 
-export async function rdfTransformStore(store: N3.Store, outType: string) {
+/**
+ * Transform an N3.Store into an RDF string of a particular serialization
+ * @param store - an N3.Store
+ * @param outType - the content-type of the output
+ * @returns Promise<string>
+ */
+export async function rdfTransformStore(store: N3.Store, outType: string): Promise<string> {
     const outStream = rdfSerializer.serialize(
                 store.match(undefined,undefined,undefined,undefined), { contentType: outType } 
     );
     return await stringifyStream(outStream);
 }
 
-export async function jsonldStrFrame(jsonstr:string, frame: any) {
+/**
+ * Parse a JSON-LD string with a frame JSON object into a new JSON-LD string
+ * 
+ * @param jsonstr - a JSON-LD string
+ * @param frame - a JSON-LD frame object
+ * @returns Promise<string>
+ */
+export async function jsonldStrFrame(jsonstr:string, frame: any): Promise<jsonld.NodeObject> {
     const doc = JSON.parse(jsonstr);
     
     const framed =  await jsonld.frame(doc, frame);
@@ -77,8 +111,12 @@ export async function jsonldStrFrame(jsonstr:string, frame: any) {
     return framed;
 }
 
-// Return all identifiers of subjects that are not an object in an RDF graph
-export function topGraphIds(store: N3.Store) {
+/**
+ * Return all identifiers of subjects that are not an object in an RDF graph
+ * @param store - a N3.Store
+ * @returns string[]
+ */
+export function topGraphIds(store: N3.Store): string[] {
     const subjectList = new Set<string>();
     const objectList = new Set<string>() ;
 
@@ -95,6 +133,13 @@ export function topGraphIds(store: N3.Store) {
     return Array.from(subjectList);
 }
 
+/**
+ * Given an N3 store and a predicate return first matching Blank Node or Named Node value in the store
+ * 
+ * @param store - a N3.Store
+ * @param predicate a string predicte
+ * @returns The first matching Blank Node or Named Node
+ */
 export function storeGetPredicate(store: N3.Store, predicate: string) : N3.BlankNode | N3.NamedNode | null {
     let object = null;
 
@@ -105,7 +150,14 @@ export function storeGetPredicate(store: N3.Store, predicate: string) : N3.Blank
     return object;
 }
 
-export function storeAddPredicate(store: N3.Store, predicate: string, object: string) {
+/**
+ * Add a new predicate with a Named Node value to the store
+ * 
+ * @param store - a N3.Store
+ * @param predicate - a predicate URL string
+ * @param object - an object URL string
+ */
+export function storeAddPredicate(store: N3.Store, predicate: string, object: string) : void {
     store.addQuad(
         N3.DataFactory.blankNode(), 
         N3.DataFactory.namedNode(predicate),
@@ -114,8 +166,14 @@ export function storeAddPredicate(store: N3.Store, predicate: string, object: st
     );
 }
 
-// Return an N3 store containing only the triples that are subject of the given identifier
-export function extractGraph(store: N3.Store, subject: N3.NamedNode | N3.BlankNode) {
+/**
+ * Return an N3 store containing only the triples that are subject of the given identifier
+ * 
+ * @param store - a N3 store
+ * @param subject - the subject for which you want to have the sub graph
+ * @returns a N3 Store with the sub-graph
+ */
+export function extractGraph(store: N3.Store, subject: RDF.Term): N3.Store<RDF.Quad, N3.Quad, RDF.Quad, RDF.Quad> {
     const newStore = new N3.Store();
 
     store.forEach( quad => {
@@ -135,4 +193,33 @@ export function extractGraph(store: N3.Store, subject: N3.NamedNode | N3.BlankNo
     }, subject, null, null, null );
 
     return newStore;
+}
+
+export function renameGraph(store: N3.Store, old_subject: RDF.Term, new_subject: RDF.NamedNode | RDF.BlankNode) : N3.Store<RDF.Quad, N3.Quad, RDF.Quad, RDF.Quad> {
+    const newStore = new N3.Store();
+
+    store.forEach( quad => {
+        if (quad.subject.equals(old_subject)) {
+            newStore.addQuad(
+                new_subject ,
+                quad.predicate ,
+                quad.object ,
+                quad.graph
+            );
+        }
+        else {
+            newStore.addQuad(quad);
+        }
+    }, null, null, null, null );
+
+    return newStore;
+} 
+
+/**
+ * Generate a UUID string
+ * 
+ * @returns A new N3.NamedNode with the UUID
+ */
+export function generate_uuid(): N3.NamedNode<string>  {
+    return N3.DataFactory.namedNode('urn:uuid:' + uuidv4());
 }

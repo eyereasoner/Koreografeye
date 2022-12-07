@@ -1,7 +1,9 @@
 import * as N3 from 'n3';
 import { QueryEngine } from '@comunica/query-sparql-rdfjs';
+import { BlankNodeScoped } from '@comunica/data-factory';
 import { program  } from 'commander';
 import { loadConfig, storeGetPredicate, parseAsN3Store , extractGraph , type IPolicyType} from './util';
+import { DataFactory } from 'rdf-data-factory';
 import * as log4js from 'log4js';
 
 const POL = 'https://www.example.org/ns/policy#';
@@ -80,7 +82,7 @@ async function execute_policies(path: string) {
         origin: origin
     });
 
-    const mainStore   = extractGraph(store,mainSubject);
+    const mainStore = extractGraph(store,mainSubject);
 
     for (let key in policies) {
         const policy = policies[key];
@@ -93,9 +95,10 @@ async function execute_policies(path: string) {
             if (typeof plugins[target] === 'string') {
                 implementation = plugins[target];
             }
-            else 
+            else {
                 implementation = plugins[target]['@id'];
                 implementationConfiguration = plugins[target];
+            }
         }
        
         const policyStore = extractGraph(store,idNode);
@@ -164,6 +167,8 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
 
     const policies : { [id: string] : IPolicyType } = {};
 
+    const DF = new DataFactory();
+
     bindings.forEach( (binding) => {
         const id = binding.get('id')?.value ;
 
@@ -171,10 +176,7 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
 
         if (id) {
             if (binding.get('id')?.termType == 'BlankNode') {
-                idNode = N3.DataFactory.blankNode(id.replaceAll(/^_:/g,''));
-            }
-            else if (binding.get('id')?.termType == 'BlankNode') {
-                idNode = N3.DataFactory.blankNode(id.replaceAll(/^_:/g,''));
+                idNode = N3.DataFactory.blankNode(id);
             }
             else if (binding.get('id')?.termType == 'NamedNode') {
                 idNode = N3.DataFactory.namedNode(id);
@@ -203,7 +205,17 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
         }
 
         if (policies[id]) {
-            policies[id]['args'][name] = value;
+            if (value?.termType === 'BlankNode' && value instanceof BlankNodeScoped ) {
+                // Comunica makes skolemnized values out of blank nodes...
+                // We need the original blank node id so that N3.Store in other 
+                // part of our code can make use of that
+                const skolemizedName = (<BlankNodeScoped> value).skolemized.value;
+                const unSkolemizedName = skolemizedName.replace(/urn:comunica_skolem:source[^:]+:/,"");
+                policies[id]['args'][name] = DF.blankNode(unSkolemizedName);
+            } 
+            else {
+                policies[id]['args'][name] = value;
+            }
         }
         else {
             policies[id] = {
