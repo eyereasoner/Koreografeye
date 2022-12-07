@@ -8,10 +8,11 @@ const POL = 'https://www.example.org/ns/policy#';
 const FNO = 'https://w3id.org/function/ontology#';
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
-const pluginConf = './plugin.json';
+let   pluginConf = './plugin.json';
 
 program.version('0.0.1')
        .argument('<data>')
+       .option('-c,--config <file>', 'configuration file')
        .option('-d,--info','output debugging messages')
        .option('-dd,--debug','output more debugging messages')
        .option('-ddd,--trace','output much more debugging messages');
@@ -21,12 +22,18 @@ program.parse(process.argv);
 const opts   = program.opts();
 const logger = log4js.getLogger();
 
+if (opts.config) {
+    pluginConf = opts.config;
+}
+
 if (opts.info) {
     logger.level = "info";
 }
+
 if (opts.debug) {
     logger.level = "debug";
 }
+
 if (opts.trace) {
     logger.level = "trace";
 }
@@ -41,11 +48,18 @@ async function execute_policies(path: string) {
     const store    = await parseAsN3Store(path);
     const plugins  = loadConfig(pluginConf); 
     
+    if (! plugins) {
+        console.error(`no ${pluginConf} found`);
+        logger.error(`no ${pluginConf} found`);
+        return;
+    }
+
     const mainSubject = storeGetPredicate(store, POL_MAIN_SUBJECT);
 
     if (! mainSubject) {
+        console.error(`no ${POL_MAIN_SUBJECT}?!`);
         logger.error(`no ${POL_MAIN_SUBJECT}?!`);
-        return;
+        process.exit(2);
     }
     else {
         logger.debug(`main subject: ${mainSubject.value}`);
@@ -55,7 +69,7 @@ async function execute_policies(path: string) {
 
     if (! origin) {
         logger.error(`no ${POL_ORIGIN}?!`);
-        return;
+        process.exit(2);
     }
     else {
         logger.debug(`origin: ${origin.value}`);
@@ -72,11 +86,23 @@ async function execute_policies(path: string) {
         const policy = policies[key];
         const idNode = policy['node'];
         const target = policy['target'];
-        const implementation = plugins[target];
+        let   implementation;
+        let   implementationConfiguration : any = {};
+
+        if (plugins[target]) {
+            if (typeof plugins[target] === 'string') {
+                implementation = plugins[target];
+            }
+            else 
+                implementation = plugins[target]['@id'];
+                implementationConfiguration = plugins[target];
+        }
+       
         const policyStore = extractGraph(store,idNode);
 
         policy['mainSubject'] = mainSubject.value;
         policy['origin'] = origin.value;
+        policy['config'] = implementationConfiguration;
         
         if (implementation) {
             logger.info(`${target} -> ${implementation}`);
@@ -91,7 +117,7 @@ async function execute_policies(path: string) {
                 }
             }
             catch (e) {
-                console.error(`Target ${implementation} threw error ${e}`);
+                console.error(`Target ${target} (${implementation}) threw error ${e}`);
                 errors += 1;
             }
         }
@@ -145,10 +171,13 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
 
         if (id) {
             if (binding.get('id')?.termType == 'BlankNode') {
-                idNode = N3.DataFactory.blankNode(binding.get('id')?.value.replaceAll(/^_:/g,''));
+                idNode = N3.DataFactory.blankNode(id.replaceAll(/^_:/g,''));
             }
             else if (binding.get('id')?.termType == 'BlankNode') {
-                idNode = N3.DataFactory.blankNode(binding.get('id')?.value.replaceAll(/^_:/g,''));
+                idNode = N3.DataFactory.blankNode(id.replaceAll(/^_:/g,''));
+            }
+            else if (binding.get('id')?.termType == 'NamedNode') {
+                idNode = N3.DataFactory.namedNode(id);
             }
             else {
                 logger.error(`wrong termType for policy ${binding.get('id')?.termType}`);

@@ -67,3 +67,32 @@ where:
     - *mainSubject* : `string` : the activity identifier of the notification
     - *origin* : `string` : path to the original notifiction input file
     - *args*   : `any { [key: string] : RDF.Term | undefined }`  : key/value pairs of all arguments that were provided for the policy
+    - *config* : `any { [key: string] : any}` : configuration settings from plugin.json for the target
+
+## Known issues
+
+- Policies must be provides using named nodes:
+
+*correct*
+
+```
+ ex:MyDemoPolicy pol:policy [
+      a fno:Execution ;
+      fno:executes ex:demoPlugin ;
+      ex:param1 "my@myself.and.i" ;
+      ex:param2 "you@yourself.edu" ;
+  ] .
+```
+
+*incorrect*
+
+```
+ [ pol:policy [
+      a fno:Execution ;
+      fno:executes ex:demoPlugin ;
+      ex:param1 "my@myself.and.i" ;
+      ex:param2 "you@yourself.edu" ;
+      ex:subject "A new resource was created!" ;
+      ex:body ?s 
+  ] ] .
+```

@@ -2,36 +2,35 @@ import * as N3 from 'n3';
 import * as nodemailer from 'nodemailer';
 import { type IPolicyType} from '../util';
 
-const transport = nodemailer.createTransport({
-    host: 'mail.gmx.net',
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD
-    }
-});
-  
 export async function policyTarget(_1: N3.Store, _2: N3.Store, policy: IPolicyType) : Promise<boolean> {
+    const transportParam = policy.config;
+
+    if (process.env.EMAIL_USERNAME && process.env.EMAIL_PASSWORD) {
+        transportParam['auth']['user'] = process.env.EMAIL_USERNAME;
+        transportParam['auth']['pass'] = process.env.EMAIL_PASSWORD;
+    }
     
+    const transport = nodemailer.createTransport(transportParam);
+
     return new Promise<boolean>( (resolve, reject) => { 
         const to      = policy.args['http://example.org/to']?.value;
         const from    = policy.args['http://example.org/from']?.value;
         const subject = policy.args['http://example.org/subject']?.value;
+        const body    = policy.args['http://example.org/body']?.value;
 
-        if (to && from && subject) {
+        if (to && from && subject && body) {
             console.log(`Sending to (${to}), from (${from}) with subject (${subject})`);
         }
         else {
-            console.error('Need a to from and subject');
-            reject(false);
+            console.error('Need a to, from, subject and body');
+            return reject(false);
         }
 
         const mailOptions = {
             from: from,
             to: to,
             subject: subject,
-            text: 'Hello People!, Welcome to Bacancy!', 
+            text: body
         };
 
         transport.sendMail(mailOptions, (err: any, info: any) => {

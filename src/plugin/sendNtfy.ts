@@ -3,13 +3,15 @@ import { type IPolicyType} from '../util';
 
 // Send a notification via https://github.com/binwiederhier/ntfy
 export async function policyTarget(_1: N3.Store, _2: N3.Store, policy: IPolicyType) : Promise<boolean> {
-    const topic = process.env.NTFY_TOPIC ;
 
-    return new Promise<boolean>( (resolve, reject) => { 
+    return new Promise<boolean>( async (resolve, reject) => { 
+        const topic = process.env.NTFY_TOPIC || policy.config['topic'];
+
         if (!topic) {
             console.error(`No NTFY_TOPIC set in environment`);
-            reject(false);
+            return reject(false);
         }
+
         const message = policy.args['http://example.org/message']?.value;
 
         if (message) {
@@ -17,14 +19,20 @@ export async function policyTarget(_1: N3.Store, _2: N3.Store, policy: IPolicyTy
         }
         else {
             console.error('Need a to message');
-            reject(false);
+            return reject(false);
         }
 
-        fetch(`https://ntfy.sh/${topic}`, {
+        const result = await fetch(`https://ntfy.sh/${topic}`, {
             method: 'POST', // PUT works too
             body: message
         });
 
-        resolve(true);
+        if (result.ok) {
+            return resolve(true);
+        }
+        else {
+            console.error(`ntfy.sh failed with: ${result.text}`);
+            return reject(false);
+        }
     });
 }

@@ -15,12 +15,18 @@ export type IPolicyType = {
     target: string ,      // Name of execution target (the idenfier of the policy function)
     mainSubject: string , // Activity identifier
     origin: string ,      // Path to original activity
-    args: {             // Name/Value pairs of policy arguments
+    args: {               // Name/Value pairs of policy arguments
         [key : string]: RDF.Term | undefined 
+    } ,
+    config: {             // Name/Value pairs passed via a configuration setting
+        [key : string] : any    
     }
 };
 
 export function loadConfig(path:string) {
+    if (! fs.existsSync(path)) {
+        return undefined;
+    }
     const cfg = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
     return JSON.parse(cfg);
 }

@@ -6,19 +6,20 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 
 {
+  # pol:mainSubject defines the top level identifier of the notification
   [ pol:mainSubject ?id ] .
   
-  ?s a ?class .
+  ?id a ?class .
   ?class list:in (as:Announce as:Create) .
 }
 =>
 {
-  [ pol:policy [
+  ex:MyEmailPolicy pol:policy [
       a fno:Execution ;
       fno:executes ex:sendEmail ;
       ex:to "patrick.hochstenbach@gmail.com" ;
       ex:from "patrick_hochstenbach@gmx.net" ;
       ex:subject "A new resource was created!" ;
-      ex:body ?s 
-  ] ].
+      ex:body "You got a new notification"
+  ] .
 }.

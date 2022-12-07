@@ -7,11 +7,12 @@ import { parseAsN3Store, rdfTransformStore , topGraphIds , storeAddPredicate, lo
 
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
-const orchConf = './orchestrator.json';
+let   orchConf = './orchestrator.json';
 
 program.version('0.0.1')
        .argument('<data>')
        .argument('<rules>')
+       .option('-c,--config <file>','config file')
        .option('-d,--info','output debugging messages')
        .option('-dd,--debug','output more debugging messages')
        .option('-ddd,--trace','output much more debugging messages');
@@ -21,12 +22,18 @@ program.parse(process.argv);
 const opts   = program.opts();
 const logger = log4js.getLogger();
 
+if (opts.config) {
+    orchConf = opts.config;
+}
+
 if (opts.info) {
     logger.level = "info";
 }
+
 if (opts.debug) {
     logger.level = "debug";
 }
+
 if (opts.trace) {
     logger.level = "trace";
 }
@@ -40,8 +47,15 @@ logger.info(`rules: ${rules}`);
 main(data,rules);
 
 async function main(data: string, rules: string[]) {
-    const result = await reason(data,rules);
-    console.log(result);
+    try {
+        const result = await reason(data,rules);
+        console.log(result);
+        process.exit(0);
+    }
+    catch (e) {
+        console.error(e);
+        process.exit(2);
+    }
 }
 
 async function reason(dataPath: string , rulePaths: string[]) {
@@ -50,7 +64,7 @@ async function reason(dataPath: string , rulePaths: string[]) {
         const config = loadConfig(orchConf);
 
         if (! config) {
-            reject(`failed to load ${orchConf}`);
+            return reject(`failed to load ${orchConf}`);
         }
 
         const eye = config['eye'];
@@ -60,13 +74,13 @@ async function reason(dataPath: string , rulePaths: string[]) {
         const store = await parseAsN3Store(dataPath);
 
         if (!store) {
-            reject(`failed to create a store from ${dataPath}`);
+            return reject(`failed to create a store from ${dataPath}`);
         }
 
         const topIds = topGraphIds(store);
 
         if (topIds.length != 1) {
-            reject(`document doesn't contain one main subject`);
+            return reject(`document doesn't contain one main subject`);
         }
 
         // Inject a top graph indicator in the KG
@@ -78,7 +92,7 @@ async function reason(dataPath: string , rulePaths: string[]) {
         const n3  = await rdfTransformStore(store, 'text/turtle');
 
         if (!n3) {
-            reject(`failed to transform store to turtle`);
+           return reject(`failed to transform store to turtle`);
         }
 
         logger.trace(n3);
@@ -86,7 +100,7 @@ async function reason(dataPath: string , rulePaths: string[]) {
         const tmpobj = tmp.fileSync();
 
         if (! tmpobj) {
-            reject(`failed to create tmp object`);
+            return reject(`failed to create tmp object`);
         }
 
         logger.debug(`tmp file: ${tmpobj.name}`);
@@ -113,10 +127,10 @@ async function reason(dataPath: string , rulePaths: string[]) {
         ls.on('close', (code) => {
             tmpobj.removeCallback();
             if (code != 0) {
-                reject(errorData);
+                return reject(errorData);
             }
             else {
-                resolve(resultData);
+                return resolve(resultData);
             }
         });
     });

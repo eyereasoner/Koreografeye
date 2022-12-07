@@ -6,16 +6,17 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 
 {
+  # pol:mainSubject defines the top level identifier of the notification
   [ pol:mainSubject ?id ] .
   
-  ?s a ?class .
+  ?id a ?class .
   ?class list:in (as:Announce as:Create) .
 }
 =>
 {
-  [ pol:policy [
+  ex:MyNotifyPolicy pol:policy [
       a fno:Execution ;
       fno:executes ex:sendNtfy ;
       ex:message "You got a new notification!" ;
-  ] ].
+  ] .
 }.
