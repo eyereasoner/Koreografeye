@@ -109,7 +109,7 @@ async function reason(dataPath: string , rulePaths: string[]) {
         fs.writeFileSync(tmpobj.name, n3);
 
         eyeargs.push(tmpobj.name);
-        rulePaths.forEach(r => eyeargs.push(r));
+        rulePaths.filter(f => fs.lstatSync(f).isFile() ).forEach(r => eyeargs.push(r));
 
         logger.info(`${eye}`);
         logger.info(`eye args: ${eyeargs}`);
