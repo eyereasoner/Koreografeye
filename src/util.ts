@@ -42,7 +42,7 @@ export function loadConfig(path:string): any | undefined {
  * Parse an input file and return the parsed N3.Store
  * 
  * @param path - the location of an RDF input file
- * @returns Promise<N3.Store>
+ * @returns The parsed N3.Store
  */
 export async function parseAsN3Store(path: string) : Promise<N3.Store> {
     const parser       = new N3.Parser();
@@ -73,7 +73,7 @@ export async function parseAsN3Store(path: string) : Promise<N3.Store> {
  * @param data - a string of RDF
  * @param fileName - a file name used to guess the content type of the data string
  * @param outType - the content-type of the output expected
- * @returns Promise<string>
+ * @returns The serialized RDF
  */
 export async function rdfTransformString(data: string, fileName: string, outType: string ): Promise<string> {
     const inStream = streamifyString(data);
@@ -87,7 +87,7 @@ export async function rdfTransformString(data: string, fileName: string, outType
  * Transform an N3.Store into an RDF string of a particular serialization
  * @param store - an N3.Store
  * @param outType - the content-type of the output
- * @returns Promise<string>
+ * @returns The serialized RDF
  */
 export async function rdfTransformStore(store: N3.Store, outType: string): Promise<string> {
     const outStream = rdfSerializer.serialize(
@@ -101,7 +101,7 @@ export async function rdfTransformStore(store: N3.Store, outType: string): Promi
  * 
  * @param jsonstr - a JSON-LD string
  * @param frame - a JSON-LD frame object
- * @returns Promise<string>
+ * @returns The framed JSON
  */
 export async function jsonldStrFrame(jsonstr:string, frame: any): Promise<jsonld.NodeObject> {
     const doc = JSON.parse(jsonstr);
@@ -114,7 +114,7 @@ export async function jsonldStrFrame(jsonstr:string, frame: any): Promise<jsonld
 /**
  * Return all identifiers of subjects that are not an object in an RDF graph
  * @param store - a N3.Store
- * @returns string[]
+ * @returns All main subjects of a graph
  */
 export function topGraphIds(store: N3.Store): string[] {
     const subjectList = new Set<string>();
@@ -195,7 +195,15 @@ export function extractGraph(store: N3.Store, subject: RDF.Term): N3.Store<RDF.Q
     return newStore;
 }
 
-export function renameGraph(store: N3.Store, old_subject: RDF.Term, new_subject: RDF.NamedNode | RDF.BlankNode) : N3.Store<RDF.Quad, N3.Quad, RDF.Quad, RDF.Quad> {
+/**
+ * Renames a subject in a graph to a new IRI. This can be used e.g. to rename the 
+ * main topic of a graph.
+ * @param store - a N3.Store
+ * @param old_subject - the IRI of the current subject
+ * @param new_subject - the IRI of the new subject
+ * @returns A new N3.Store with the renamed subject
+ */
+export function renameSubjectInGraph(store: N3.Store, old_subject: RDF.Term, new_subject: RDF.NamedNode | RDF.BlankNode) : N3.Store<RDF.Quad, N3.Quad, RDF.Quad, RDF.Quad> {
     const newStore = new N3.Store();
 
     store.forEach( quad => {

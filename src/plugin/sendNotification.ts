@@ -2,7 +2,7 @@ import * as N3 from 'n3';
 import { 
     rdfTransformStore , 
     extractGraph , 
-    renameGraph ,
+    renameSubjectInGraph ,
     generate_uuid ,
     jsonldStrFrame , 
     type IPolicyType
@@ -41,7 +41,7 @@ export async function policyTarget(_: N3.Store, policyStore: N3.Store, policy: I
     const uuid = generate_uuid();
 
     // Create a new graph with using the uuid()
-    const newNotificationStore = renameGraph(notificationStore, notification, uuid);
+    const newNotificationStore = renameSubjectInGraph(notificationStore, notification, uuid);
 
     // Transform into JSON-LD and frame it
     const context = policy.config['@context'];
