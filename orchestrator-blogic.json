@@ -3,6 +3,9 @@
     "args": [
         "--quiet" ,
         "--nope" ,
-        "--blogic"
+        "--blogic" ,
+        "rules/blogic/policy/compiler.n3" ,
+        "rules/blogic/policy/validation.n3" ,
+        "rules/blogic/policy/util.n3"
     ]
 }
