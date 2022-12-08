@@ -9,9 +9,11 @@ if [ $# -eq 0 ]; then
 usage: $0 [options] orch-output-file
 
 options:
-    --info : verbose messages
-    --debug : debug messages
-    --trace : trace messages
+    -c, --config <file>     : orchestrator config file
+    -i, --in  <directory>   : directory with input notifications
+    -o, --out <directory>   : directory with policy executor output
+    -e, --error <directory> : directory with policy executor error output
+    -k, --keep              : keep --in data (don't delete after processing)
 EOF
     exit 1
 fi
@@ -31,12 +33,14 @@ done
 IN="out"
 OUT="out/ok"
 ERR="out/err"
+CONF="./plugin.json"
 KEEP=0
 
 OPTIND=1
-while getopts "ki:o:e:" opt
+while getopts "c:ki:o:e:" opt
 do
     case "$opt" in
+        'c') CONF=$OPTARG ;;
         'k') KEEP=1 ;;
         'i') IN=$OPTARG ;;
         'o') OUT=$OPTARG ;;
@@ -57,7 +61,7 @@ for f in ${IN}/*; do
     TMPERROR=$(mktemp)
 
     echo -n "$f : "
-    node dist/pol.js "$f" > ${TMPERROR} 2>&1
+    node dist/pol.js --config ${CONF} "$f" > ${TMPERROR} 2>&1
 
     if [ $? -eq 0 ]; then
         echo "OK" 

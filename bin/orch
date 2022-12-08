@@ -9,10 +9,11 @@ if [ $# -eq 0 ]; then
 usage: $0 [options] rule [rule ...]
 
 options:
-    --in  <directory> : directory with input notifications
-    --out <directory> : directory with orchestrator output
-    --err <directory> : directory with failed notifications
-    --keep            : keep --in data (don't delete after processing)
+    -c, --config <file>    : orchestrator config file
+    -i, --in  <directory>  : directory with input notifications
+    -o, --out <directory>  : directory with orchestrator output
+    -r, --err <directory>  : directory with failed notifications
+    -k, --keep             : keep --in data (don't delete after processing)
 EOF
     exit 1
 fi
@@ -20,11 +21,12 @@ fi
 for arg in "$@"; do
     shift
     case "$arg" in  
-        '--in')    set -- "$@" '-i' ;;
-        '--out')   set -- "$@" '-o' ;;
-        '--err')   set -- "$@" '-e' ;;
-        '--keep')  set -- "$@" '-k' ;;
-        *)       set -- "$@" "$arg" ;;
+        '--config') set -- "$@" '-c' ;;
+        '--in')     set -- "$@" '-i' ;;
+        '--out')    set -- "$@" '-o' ;;
+        '--err')    set -- "$@" '-e' ;;
+        '--keep')   set -- "$@" '-k' ;;
+        *)          set -- "$@" "$arg" ;;
     esac
 done
 
@@ -32,12 +34,14 @@ done
 IN="in"
 OUT="out"
 ERR="err"
+CONF="./orchestrator.json"
 KEEP=0
 
 OPTIND=1
-while getopts "ki:o:e:" opt
+while getopts "c:ki:o:e:" opt
 do
     case "$opt" in
+        'c') CONF=$OPTARG ;;
         'k') KEEP=1 ;;
         'i') IN=$OPTARG ;;
         'o') OUT=$OPTARG ;;
@@ -62,7 +66,7 @@ for f in ${IN}/*; do
     # echo "node dist/orch.js $f $@ > ${TMPDATA} 2> ${TMPERROR}" >&2
 
     echo -n "$f : "
-    node --no-warnings dist/orch.js $f "$@" > ${TMPDATA} 2> ${TMPERROR}
+    node --no-warnings dist/orch.js --config ${CONF} $f "$@" > ${TMPDATA} 2> ${TMPERROR}
 
     if [ $? -eq 0 ]; then
         echo "OK" 

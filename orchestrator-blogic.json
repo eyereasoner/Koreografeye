@@ -1,0 +1,8 @@
+{
+    "eye": "/usr/local/bin/eye",
+    "args": [
+        "--quiet" ,
+        "--nope" ,
+        "--blogic"
+    ]
+}

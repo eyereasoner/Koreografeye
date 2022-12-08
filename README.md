@@ -15,8 +15,13 @@ npm install
 - Run `bin/orch --keep rules/*` to run the rules on alle in notification in the `in` directory
     - Use the `--keep` option if you don't want to automatic clean the `in` after processing notifications
     - The processed notifications will end up in the `out` directory
+    - _Alternative_: run `npm run orch`
 - Run `bin/pol --keep` to run the policy executor with all the processed notifications from the `out` directory
     - Use the `--keep` option if you don't want to automatic clean the `out` after processing notifications
+    - _Alternative_: run `npm run pol`
+- If you want to experiment with the [blogic](https://josd.github.io/surface/) rules:
+    - Run `bin/orch --keep --config orchestrator-blogic.json rules/blogic/*`
+    - _Alternative_: run `npm run orch:blogic`
 
 ## Commands
 
@@ -29,6 +34,7 @@ of notifications.
 
 Options:
 
+- --config *file* : orchestrator configuration file
 - --in *directory* : directory with input notifications
 - --out *directory* : directory with orchestrator output
 - --err *directory* : directory with failed notifications
@@ -42,6 +48,7 @@ Run a policy executor on one of the output files of the orchestrator
 
 Options:
 
+- --config *file* : orchestrator configuration file
 - --info : verbose messages
 - --debug : debug messages
 - --trace : trace messages
@@ -78,6 +85,57 @@ where:
     - *origin* : `string` : path to the original notifiction input file
     - *args*   : `any { [key: string] : RDF.Term | undefined }`  : key/value pairs of all arguments that were provided for the policy
     - *config* : `any { [key: string] : any}` : configuration settings from plugin.json for the target
+
+An example `IPolicyType` contents (in JSON):
+
+_After running rules/00_demo.n3 on data/demo.ttl_
+
+```
+{
+    "node": {
+        "termType": "NamedNode",
+        "value": "http://example.org/MyDemoPolicy"
+    },
+    "path": "out/demo.ttl",
+    "policy": "bc_0_b1_b0_bn_1",
+    "target": "http://example.org/demoPlugin",
+    "args": {
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": {
+            "termType": "NamedNode",
+            "value": "https://w3id.org/function/ontology#Execution"
+        },
+        "https://w3id.org/function/ontology#executes": {
+            "termType": "NamedNode",
+            "value": "http://example.org/demoPlugin"
+        },
+        "http://example.org/param1": {
+            "termType": "Literal",
+            "value": "my@myself.and.i",
+            "language": "",
+            "datatype": {
+                "termType": "NamedNode",
+                "value": "http://www.w3.org/2001/XMLSchema#string"
+            }
+        },
+        "http://example.org/param2": {
+            "termType": "Literal",
+            "value": "you@yourself.edu",
+            "language": "",
+            "datatype": {
+                "termType": "NamedNode",
+                "value": "http://www.w3.org/2001/XMLSchema#string"
+            }
+        },
+        "http://example.org/body": {
+            "termType": "NamedNode",
+            "value": "urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32"
+        }
+    },
+    "mainSubject": "urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32",
+    "origin": "file:///var/folders/g8/czx2gjfs3_bbvvk1hjlcsj9m0000gn/T/in/demo.ttl",
+    "config": {}
+}
+```
 
 ## Known issues
 
