@@ -7,7 +7,8 @@
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
   "scripts": {
     "orch": "bin/orch --keep rules/*",
-    "orch:blogic": "bin/orch --keep --config orchestrator-blogic.json rules/blogic/*",
+    "orch:blogic": "bin/orch --keep --config orchestrator-blogic.json rules/blogic/00_demo.n3",
+    "orch:policy": "bin/orch --keep --config orchestrator-blogic.json rules/blogic/00_policy.n3 rules/blogic/policy/*.n3",
     "pol": "bin/pol --keep",
     "watch": "tsc --watch",
     "build": "tsc",

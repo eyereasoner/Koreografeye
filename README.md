@@ -62,9 +62,9 @@ npm install
 - Run `bin/pol --keep` to run the policy executor with all the processed notifications from the `out` directory
     - Use the `--keep` option if you don't want to automatic clean the `out` after processing notifications
     - _Alternative_: run `npm run pol`
-- If you want to experiment with the [blogic](https://josd.github.io/surface/) rules:
-    - Run `bin/orch --keep --config orchestrator-blogic.json rules/blogic/*`
-    - _Alternative_: run `npm run orch:blogic`
+- If you want to experiment with expressing N3 rules as [RDF Surfacs](https://josd.github.io/surface/) use the following commands:
+    - run `npm run orch:blogic` : this will execute the [rules/blogic/00_demo.n3](rules/blogic/00_demo.n3) rule which is a direct translation of [rules/00_demo.n3](rules/00_demo.n3) in the RDF Surfaces language
+    - run `npm run orch:policy` : this will read [rules/blogic/00_policy.n3](rules/blogic/00_policy.n3) (written in a small DSL language) and compile these rules into RDF Surfaces using a compiler available in [rules/blogic/policy](rules/blogic/policy) 
 
 ## Commands
 
