@@ -22,5 +22,3 @@
 <urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32> as:context <https://acme.org/artifacts/alice/five_steps_to_success.html>.
 <urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32> as:object <https://infinity.science.com/artifacts/bob/review_123.html>.
 <urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32> as:target <https://orcid.org/0000-0007-01219-312199>.
-<urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32> pol:policy _:sk_0.
-

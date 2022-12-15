@@ -45,17 +45,10 @@
 } .
 
 # Extract the original data without the rules
-(_:S _:P _:O _:U) log:onQuerySurface {
-    _:S _:P _:O .
+(_:e _:id _:S _:P _:O) log:onQuerySurface {
+    _:e pol:mainSubject _:id .
+    _:id util:walkGraph << _:S _:P _:O >> .
 
-    _:P log:notEqualTo log:onNegativeSurface .
-    _:P log:notEqualTo log:onQuerySurface .
-    _:P log:notEqualTo log:onAnswerSurface .
-
-    _:P log:uri _:U .
-
-    _:U string:notMatches "https://www.example.org/ns/policy#.*" .
-    
     () log:onConstructSurface {
         _:S _:P _:O .
     } .
