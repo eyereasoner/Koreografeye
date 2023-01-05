@@ -45,25 +45,36 @@ export function loadConfig(path:string): any | undefined {
  * @returns The parsed N3.Store
  */
 export async function parseAsN3Store(path: string) : Promise<N3.Store> {
-    const parser       = new N3.Parser();
-    const store        = new N3.Store();
-
     const rdfData = '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'});
 
     const n3Data = await rdfTransformString(rdfData, path, 'text/n3');
 
-    return new Promise<N3.Store>( (resolve,reject) => {
-        parser.parse(n3Data, (error, quad, _) => {
-            if (error) {
-                reject(error);
-            }
-            else if (quad) {
-                store.addQuad(quad);
-            }
-            else {
-                resolve(store);
-            }
-        });
+    const store = await parseStringAsN3Store(n3Data);
+    return store;
+}
+
+/**
+ * Parse an RDF string and return the parsed N3.Store
+ * 
+ * @param n3Data - the RDF data as string
+ * @returns The parsed N3.Store
+ */
+export async function parseStringAsN3Store(n3Data: string): Promise<N3.Store> {
+    const parser       = new N3.Parser();
+    const store        = new N3.Store();
+  
+    return new Promise<N3.Store>((resolve, reject) => {
+      parser.parse(n3Data, (error, quad, _) => {
+        if (error) {
+          reject(error);
+        }
+        else if (quad) {
+          store.addQuad(quad);
+        }
+        else {
+          resolve(store);
+        }
+      });
     });
 }
 
