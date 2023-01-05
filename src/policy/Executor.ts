@@ -3,14 +3,33 @@ import * as N3 from 'n3';
 import { extractGraph, storeGetPredicate } from '../util';
 import { extractPolicies, findPlugin, refinePolicy } from './Extractor';
 
+/**
+ * Executes a single policy and returns the result.
+ * 
+ * @param plugin - Object that contains the configuration for the plugins.
+ * @param mainStore - N3 Store containing the input RDF graph.
+ * @param policyStore - N3 Store containing the policy to be executed.
+ * @param policy - policy configuration
+ * @param logger - Logger.
+ * @returns the result of the policy when it was correctly executed.
+ */
 async function callImplementation(plugin: string, mainStore: N3.Store, policyStore: N3.Store, policy: any, logger: Logger) {
   logger.info(`calling ${plugin}...`);
-  const pkg = await import('.'+plugin); // NOTE: ugly hack, MUST be removed
+  const pkg = await import('.' + plugin); // NOTE: ugly hack, MUST be removed
   const result = await pkg.policyTarget(mainStore, policyStore, policy);
   logger.info(`..returned a ${result}`);
   return result;
 }
 
+/**
+ * Extracts policies out of the graph.
+ * When they are extracted, the plugins are fetched and executed.
+ * 
+ * @param plugins - Object that contains the configuration for the plugins.
+ * @param reasoningResultStore - N3 Store that contains the result of the reasoner (data + ?policies).
+ * @param logger - Logger.
+ * @returns {Promise<number>} Number of errors.
+ */
 export async function executePolicies(plugins: any, reasoningResultStore: N3.Store, logger: Logger): Promise<number> {
   const mainSubject = fetchMainSubject(reasoningResultStore, logger);
   const origin = fetchOrigin(reasoningResultStore, logger);
@@ -58,6 +77,13 @@ export async function executePolicies(plugins: any, reasoningResultStore: N3.Sto
   return errors
 }
 
+/**
+ * Retrieve the main Policy Subject from the input data graph.
+ * 
+ * @param store - N3 Store data store.
+ * @param logger - Logger.
+ * @returns The main subject for the policy.
+ */
 function fetchMainSubject(store: N3.Store, logger: Logger) {
   const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 
@@ -74,6 +100,13 @@ function fetchMainSubject(store: N3.Store, logger: Logger) {
   return mainSubject
 }
 
+/**
+ * Retrieve the origin input file from the input data graph.
+ * 
+ * @param store - N3 Store data store.
+ * @param logger - Logger.
+ * @returns The origin for the policy.
+ */
 function fetchOrigin(store: N3.Store, logger: Logger) {
   const POL_ORIGIN = 'https://www.example.org/ns/policy#origin';
   const origin = storeGetPredicate(store, POL_ORIGIN);

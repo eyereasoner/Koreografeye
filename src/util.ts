@@ -48,19 +48,24 @@ export async function parseAsN3Store(path: string) : Promise<N3.Store> {
     const rdfData = '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'});
 
     const n3Data = await rdfTransformString(rdfData, path, 'text/n3');
-
+    
     const store = await parseStringAsN3Store(n3Data);
     return store;
 }
 
+export async function parseRulesAsN3Store(path: string) : Promise<N3.Store> {
+    const rdfData = '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'});
+    const store = await parseStringAsN3Store(rdfData, {format:'text/n3'});
+    return store;
+}
 /**
  * Parse an RDF string and return the parsed N3.Store
  * 
  * @param n3Data - the RDF data as string
  * @returns The parsed N3.Store
  */
-export async function parseStringAsN3Store(n3Data: string): Promise<N3.Store> {
-    const parser       = new N3.Parser();
+export async function parseStringAsN3Store(n3Data: string, options:any ={}): Promise<N3.Store> {
+    const parser       = new N3.Parser(options);
     const store        = new N3.Store();
   
     return new Promise<N3.Store>((resolve, reject) => {
@@ -101,10 +106,21 @@ export async function rdfTransformString(data: string, fileName: string, outType
  * @returns The serialized RDF
  */
 export async function rdfTransformStore(store: N3.Store, outType: string): Promise<string> {
+    if (outType === 'text/n3') {
+        return n3TransformStore(store);
+    }
     const outStream = rdfSerializer.serialize(
                 store.match(undefined,undefined,undefined,undefined), { contentType: outType } 
     );
     return await stringifyStream(outStream);
+}
+
+export async function n3TransformStore(store: N3.Store): Promise<string> {
+    const outStream = rdfSerializer.serialize(
+        store.match(), { contentType: 'text/n3' } 
+    );
+return await stringifyStream(outStream);    
+
 }
 
 /**

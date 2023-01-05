@@ -15,8 +15,8 @@ const myEngine = new QueryEngine();
  * `implementation` contains the plugin path
  * `implementationConfiguration` contains extra parameters
  * 
- * @param plugins 
- * @param target 
+ * @param plugins - Object that contains the configuration for the plugins.
+ * @param target - FnO identifier
  * @returns an object containing `implementation` and `implementationConfiguration`
  */
 export function findPlugin(plugins: any, target: string): any {
@@ -36,14 +36,14 @@ export function findPlugin(plugins: any, target: string): any {
 }
 
 /**
- * Extract policy from a graph
+ * Extract policies from a graph.
  * 
  * Note that the output does not conform yet to {@link IPolicyType}
- * @param store 
- * @param path 
- * @param xtra 
- * @param logger 
- * @returns 
+ * @param store - N3 Store containing policies.
+ * @param path - Input file (only used to fill in IPolicyType).
+ * @param xtra - extra arguments which are filled in {@link IPolicyType}.
+ * @param logger - Logger.
+ * @returns All policies from the graph as an Object of {@link IPolicyType}s.
  */
 export async function extractPolicies(store: N3.Store, path: string, xtra: any, logger: Logger): Promise<{ [id: string]: IPolicyType }> {
   const sql = `

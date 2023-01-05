@@ -1,10 +1,7 @@
-import * as fs from 'fs';
-import * as tmp from 'tmp';
-import * as log4js from 'log4js';
 import { program } from 'commander';
-import { spawn} from 'node:child_process';
-import { parseAsN3Store, rdfTransformStore , topGraphIds , storeAddPredicate, loadConfig} from './util';
+import * as log4js from 'log4js';
 import * as Reason from './orchestrator/Reason';
+import { loadConfig, parseAsN3Store, rdfTransformStore, storeAddPredicate, topGraphIds } from './util';
 
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
