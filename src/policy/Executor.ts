@@ -1,4 +1,4 @@
-import { Logger } from 'log4js';
+import { getLogger, Logger } from 'log4js';
 import * as N3 from 'n3';
 import { extractGraph, storeGetPredicate } from '../util';
 import { extractPolicies, findPlugin, refinePolicy } from './Extractor';
@@ -30,7 +30,9 @@ async function callImplementation(plugin: string, mainStore: N3.Store, policySto
  * @param logger - Logger.
  * @returns {Promise<number>} Number of errors.
  */
-export async function executePolicies(plugins: any, reasoningResultStore: N3.Store, logger: Logger): Promise<number> {
+export async function executePolicies(plugins: any, reasoningResultStore: N3.Store, logger?: Logger): Promise<number> {
+  logger = logger ?? getLogger();
+
   const mainSubject = fetchMainSubject(reasoningResultStore, logger);
   const origin = fetchOrigin(reasoningResultStore, logger);
   const policies = await extractPolicies(reasoningResultStore, "none", {}, logger);

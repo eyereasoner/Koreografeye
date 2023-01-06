@@ -84,7 +84,7 @@ async function reason(dataPath: string , rulePaths: string[]) {
         // Inject the file origin in the KG
         storeAddPredicate(store, POL_ORIGIN, dataPath);
 
-        const resultStore = await Reason.reason(store, config, rulePaths, logger);
+        const resultStore = await Reason.reasonRulePaths(store, config, rulePaths, logger);
         
         const result = await rdfTransformStore(resultStore, 'text/turtle');
         return resolve(result);

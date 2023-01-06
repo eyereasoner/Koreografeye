@@ -27,7 +27,7 @@ export type IPolicyType = {
 /**
  * Load a JSON configuration file and returns the parsed content or undefined on error.
  * 
- * @params path - the location off the configuration file
+ * @param path - the location off the configuration file
  * @returns JSON object | undefined
  */
 export function loadConfig(path:string): any | undefined {
@@ -38,6 +38,19 @@ export function loadConfig(path:string): any | undefined {
     return JSON.parse(cfg);
 }
 
+/**
+ * Load a text file and return it as a string.
+ * If the file does not exist, return undefined.
+ * 
+ * @param path - the location of a text file.
+ * @returns a string representing the input file.
+ */
+export function readText(path: string): string | undefined {
+    if (! fs.existsSync(path)) {
+        return undefined;
+    }
+    return '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'})
+}
 /**
  * Parse an input file and return the parsed N3.Store
  * 
@@ -53,6 +66,12 @@ export async function parseAsN3Store(path: string) : Promise<N3.Store> {
     return store;
 }
 
+/**
+ * Parses an N3 input file and returns it as a parsed N3 Store.
+ * 
+ * @param path - the location of an N3 rules input file
+ * @returns The parsed N3 Store
+ */
 export async function parseRulesAsN3Store(path: string) : Promise<N3.Store> {
     const rdfData = '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'});
     const store = await parseStringAsN3Store(rdfData, {format:'text/n3'});
@@ -114,7 +133,12 @@ export async function rdfTransformStore(store: N3.Store, outType: string): Promi
     );
     return await stringifyStream(outStream);
 }
-
+/**
+ * Stub: currently does not serialize N3 properly
+ * 
+ * @param store - an N3 Store.
+ * @returns The serialized N3.
+ */
 export async function n3TransformStore(store: N3.Store): Promise<string> {
     const outStream = rdfSerializer.serialize(
         store.match(), { contentType: 'text/n3' } 
