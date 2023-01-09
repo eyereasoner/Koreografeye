@@ -46,10 +46,15 @@ export function loadConfig(path:string): any | undefined {
  * @returns a string representing the input file.
  */
 export function readText(path: string): string | undefined {
-    if (! fs.existsSync(path)) {
-        return undefined;
+    try {
+        if (! fs.existsSync(path)) {
+            return undefined;
+        }
+        return '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'})
     }
-    return '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'})
+    catch (e) {
+        throw new Error(`readText(${path}) failed: ${e}`);
+    }
 }
 
 /**

@@ -17,7 +17,7 @@ import { parseStringAsN3Store, rdfTransformStore, readText } from "../util";
  */
 export async function reasonRulePaths(dataStore: Store, config: any, rulePaths: string[], logger?: Logger): Promise<Store> { 
   const rules: string[] = []
-  rulePaths.forEach(path => {
+  rulePaths.filter(path => fs.lstatSync(path).isFile()).forEach(path => {
     const rule = readText(path)
     if (rule) {
       rules.push(rule);
