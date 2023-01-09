@@ -12,6 +12,7 @@
     "pol": "bin/pol --keep",
     "watch": "tsc --watch",
     "build": "tsc",
+    "build:clean": "rm -rf dist",
     "clean": "rm err/* ; rm out/err/*",
     "clean:all": "npm run clean ; rm in/* out/* out/ok/*"
   },
