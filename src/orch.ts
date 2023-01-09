@@ -1,9 +1,7 @@
-import * as fs from 'fs';
-import * as tmp from 'tmp';
-import * as log4js from 'log4js';
 import { program } from 'commander';
-import { spawn} from 'node:child_process';
-import { parseAsN3Store, rdfTransformStore , topGraphIds , storeAddPredicate, loadConfig} from './util';
+import * as log4js from 'log4js';
+import * as Reason from './orchestrator/Reason';
+import { loadConfig, parseAsN3Store, rdfTransformStore, storeAddPredicate, topGraphIds } from './util';
 
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
@@ -67,12 +65,9 @@ async function reason(dataPath: string , rulePaths: string[]) {
             return reject(`failed to load ${orchConf}`);
         }
 
-        const eye = config['eye'];
-        const eyeargs = config['args'];
-
         logger.debug(`parsing ${dataPath}...`);
         const store = await parseAsN3Store(dataPath);
-
+        
         if (!store) {
             return reject(`failed to create a store from ${dataPath}`);
         }
@@ -89,49 +84,9 @@ async function reason(dataPath: string , rulePaths: string[]) {
         // Inject the file origin in the KG
         storeAddPredicate(store, POL_ORIGIN, dataPath);
 
-        const n3  = await rdfTransformStore(store, 'text/turtle');
-
-        if (!n3) {
-           return reject(`failed to transform store to turtle`);
-        }
-
-        logger.trace(n3);
-
-        const tmpobj = tmp.fileSync();
-
-        if (! tmpobj) {
-            return reject(`failed to create tmp object`);
-        }
-
-        logger.debug(`tmp file: ${tmpobj.name}`);
-
-        logger.debug(`writing n3 to ${tmpobj.name}`);
-        fs.writeFileSync(tmpobj.name, n3);
-
-        eyeargs.push(tmpobj.name);
-        rulePaths.filter(f => fs.lstatSync(f).isFile() ).forEach(r => eyeargs.push(r));
-
-        logger.info(`${eye}`);
-        logger.info(`eye args: ${eyeargs}`);
-
-        let errorData = '';
-        let resultData = '';
-
-        const ls = spawn(eye,eyeargs);
-        ls.stdout.on('data', (data) => {
-            resultData += data;
-        });
-        ls.stderr.on('data', (data) => {
-            errorData += data;
-        });
-        ls.on('close', (code) => {
-            tmpobj.removeCallback();
-            if (code != 0) {
-                return reject(errorData);
-            }
-            else {
-                return resolve(resultData);
-            }
-        });
+        const resultStore = await Reason.reasonRulePaths(store, config, rulePaths, logger);
+       
+        const result = await rdfTransformStore(resultStore, 'text/turtle');
+        return resolve(result);
     });
 }

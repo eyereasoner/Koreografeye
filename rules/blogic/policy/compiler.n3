@@ -2,6 +2,7 @@
 @prefix pol:  <https://www.example.org/ns/policy#> .
 @prefix util: <https://github.com/phochste/util#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix string: <http://www.w3.org/2000/10/swap/string#> .
 
 # Search for a pol:Rule 
@@ -48,6 +49,20 @@
 (_:e _:id _:S _:P _:O) log:onQuerySurface {
     _:e pol:mainSubject _:id .
     _:id util:walkGraph << _:S _:P _:O >> .
+
+    () log:onConstructSurface {
+        _:S _:P _:O .
+    } .
+} .
+
+# Extract the policy metadata
+(_:S _:P _:O) log:onQuerySurface {
+    _:S _:P _:O .
+
+    _:P list:in ( 
+        <https://www.example.org/ns/policy#mainSubject>
+        <https://www.example.org/ns/policy#origin>
+    ) .
 
     () log:onConstructSurface {
         _:S _:P _:O .

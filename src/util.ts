@@ -27,7 +27,7 @@ export type IPolicyType = {
 /**
  * Load a JSON configuration file and returns the parsed content or undefined on error.
  * 
- * @params path - the location off the configuration file
+ * @param path - the location off the configuration file
  * @returns JSON object | undefined
  */
 export function loadConfig(path:string): any | undefined {
@@ -39,31 +39,67 @@ export function loadConfig(path:string): any | undefined {
 }
 
 /**
+ * Load a text file and return it as a string.
+ * If the file does not exist, return undefined.
+ * 
+ * @param path - the location of a text file.
+ * @returns a string representing the input file.
+ */
+export function readText(path: string): string | undefined {
+    if (! fs.existsSync(path)) {
+        return undefined;
+    }
+    return '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'})
+}
+
+/**
  * Parse an input file and return the parsed N3.Store
  * 
  * @param path - the location of an RDF input file
  * @returns The parsed N3.Store
  */
 export async function parseAsN3Store(path: string) : Promise<N3.Store> {
-    const parser       = new N3.Parser();
-    const store        = new N3.Store();
-
     const rdfData = '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'});
 
     const n3Data = await rdfTransformString(rdfData, path, 'text/n3');
+    
+    const store = await parseStringAsN3Store(n3Data);
+    return store;
+}
 
-    return new Promise<N3.Store>( (resolve,reject) => {
-        parser.parse(n3Data, (error, quad, _) => {
-            if (error) {
-                reject(error);
-            }
-            else if (quad) {
-                store.addQuad(quad);
-            }
-            else {
-                resolve(store);
-            }
-        });
+/**
+ * Parses an N3 input file and returns it as a parsed N3 Store.
+ * 
+ * @param path - the location of an N3 rules input file
+ * @returns The parsed N3 Store
+ */
+export async function parseRulesAsN3Store(path: string) : Promise<N3.Store> {
+    const rdfData = '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'});
+    const store = await parseStringAsN3Store(rdfData, {format:'text/n3'});
+    return store;
+}
+/**
+ * Parse an RDF string and return the parsed N3.Store
+ * 
+ * @param n3Data - the RDF data as string
+ * @returns The parsed N3.Store
+ */
+export async function parseStringAsN3Store(n3Data: string, options:any ={}): Promise<N3.Store> {
+    const parser       = new N3.Parser(options);
+    const store        = new N3.Store();
+  
+    return new Promise<N3.Store>((resolve, reject) => {
+      parser.parse(n3Data, (error, quad, _) => {
+        if (error) {
+          reject(error);
+        }
+        else if (quad) {
+          store.addQuad(quad);
+        }
+        else {
+          resolve(store);
+        }
+      });
     });
 }
 
@@ -90,8 +126,24 @@ export async function rdfTransformString(data: string, fileName: string, outType
  * @returns The serialized RDF
  */
 export async function rdfTransformStore(store: N3.Store, outType: string): Promise<string> {
+    if (outType === 'text/n3') {
+        return n3TransformStore(store);
+    }
     const outStream = rdfSerializer.serialize(
                 store.match(undefined,undefined,undefined,undefined), { contentType: outType } 
+    );
+    return await stringifyStream(outStream);
+}
+
+/**
+ * Stub: currently does not serialize N3 properly
+ * 
+ * @param store - an N3 Store.
+ * @returns The serialized N3.
+ */
+export async function n3TransformStore(store: N3.Store): Promise<string> {
+    const outStream = rdfSerializer.serialize(
+        store.match(), { contentType: 'text/n3' } 
     );
     return await stringifyStream(outStream);
 }
