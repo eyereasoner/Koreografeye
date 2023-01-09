@@ -1,9 +1,9 @@
 import { getLogger, Logger } from "log4js";
 import { Store } from "n3";
 import * as fs from 'fs';
-import { FileResult, fileSync } from "tmp";
-import { spawn } from 'node:child_process';
 import { parseStringAsN3Store, rdfTransformStore, readText } from "../util";
+// import { EyeReasoner } from "./reasoner/EyeReasoner";
+import { EyeJsReasoner } from "./reasoner/EyeJsReasoner";
 
 /**
  * Reason over an input RDF graph with rules using the eye reasoner.
@@ -50,75 +50,20 @@ export async function reason(dataStore: Store, config: any, rules: string[], log
   
   logger.trace(n3);
 
-  const tmpobj = createTmpFile(n3, logger);
-  // add data file path to eye args
-  eyeargs.push(tmpobj.name)
+  const reasoner = new EyeJsReasoner(eyeargs);
 
-  // create files (text/plain) for rules
-  const ruleObjects: FileResult[] = rules.map(n3 => createTmpFile(n3, logger!));
+  reasoner.aboxAppend(n3);
 
-  // add rule file paths to eye args
-  ruleObjects.forEach( tmp => {
-    eyeargs.push(tmp.name)
-  })
+  rules.map(n3 => reasoner.tboxAppend(n3) );
 
   logger.info(`${eye}`);
   logger.info(`eye args: ${eyeargs}`);
 
-  const result = await eyeRunner(eye, eyeargs)
-  tmpobj.removeCallback();
-  ruleObjects.forEach(tmp => tmp.removeCallback())
+  const result = await reasoner.run();
 
-  const resultStore = await parseStringAsN3Store(result)
+  const resultStore = await parseStringAsN3Store(result);
 
-  return resultStore
-}
+  reasoner.cleanup();
 
-/**
- * Runs the eye reasoner.
- * @param eye - command to start eye (often a path).
- * @param args - arguments to run the eye reasoner.
- * @returns {string} Result of the eye reasoner.
- */
-export async function eyeRunner(eye: string, args: string[]): Promise<string> {
-  return new Promise<string>(async (resolve, reject) => {
-    let errorData = '';
-    let resultData = '';
-
-    const ls = spawn(eye, args);
-    ls.stdout.on('data', (data) => {
-      resultData += data;
-    });
-    ls.stderr.on('data', (data) => {
-      errorData += data;
-    });
-    ls.on('close', (code) => {
-      if (code != 0) {
-        return reject(errorData);
-      }
-      else {
-        return resolve(resultData);
-      }
-    });
-  })
-}
-
-/**
- * Creates a temporary file. (execute `removeCallback()` on the {@link FileResult} return value)
- * @param text - plain text to be put into a temporary file.
- * @param logger - Logger.
- * @returns {FileResult}
- */
-export function createTmpFile(text: string, logger: Logger): FileResult {
-  const tmpobj = fileSync();
-
-  if (!tmpobj) {
-    throw new Error(`failed to create tmp object`);
-  }
-
-  logger.debug(`tmp file: ${tmpobj.name}`);
-
-  logger.debug(`writing n3 to ${tmpobj.name}`);
-  fs.writeFileSync(tmpobj.name, text);
-  return tmpobj
+  return resultStore;
 }
