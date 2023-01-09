@@ -2,8 +2,9 @@ import { getLogger, Logger } from "log4js";
 import { Store } from "n3";
 import * as fs from 'fs';
 import { parseStringAsN3Store, rdfTransformStore, readText } from "../util";
-// import { EyeReasoner } from "./reasoner/EyeReasoner";
-import { EyeJsReasoner } from "./reasoner/EyeJsReasoner";
+import { Reasoner } from "./Reasoner";
+import { ComponentsManager } from 'componentsjs';
+import * as path from 'path';
 
 /**
  * Reason over an input RDF graph with rules using the eye reasoner.
@@ -50,7 +51,13 @@ export async function reason(dataStore: Store, config: any, rules: string[], log
   
   logger.trace(n3);
 
-  const reasoner = new EyeJsReasoner(eyeargs);
+  const manager = await ComponentsManager.build({
+    mainModulePath: path.join(__dirname, '..') , // Path to your npm package's root
+  });
+
+  await manager.configRegistry.register('config.jsonld');
+
+  const reasoner = <Reasoner> await manager.instantiate('urn:mini-orchestator:reasonerInstance');
 
   reasoner.aboxAppend(n3);
 

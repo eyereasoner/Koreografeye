@@ -3,5 +3,6 @@ out/**
 err/**
 dist/**/*.js
 node_modules/**
+components/**
 package-lock.json
 tsconfig.tsbuildinfo

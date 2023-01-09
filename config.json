@@ -1,0 +1,9 @@
+{
+    "@context": [
+      "https://linkedsoftwaredependencies.org/bundles/npm/componentsjs/^5.0.0/components/context.jsonld",
+      "https://linkedsoftwaredependencies.org/bundles/npm/mini-orchestrator/^0.0.0/components/context.jsonld"
+    ],
+    "@id": "urn:mini-orchestator:reasonerInstance",
+    "@type": "EyeJsReasoner",
+    "args": [ "--quiet" , "--nope" , "--pass"]
+}
