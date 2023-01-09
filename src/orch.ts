@@ -85,7 +85,7 @@ async function reason(dataPath: string , rulePaths: string[]) {
         storeAddPredicate(store, POL_ORIGIN, dataPath);
 
         const resultStore = await Reason.reasonRulePaths(store, config, rulePaths, logger);
-        
+       
         const result = await rdfTransformStore(resultStore, 'text/turtle');
         return resolve(result);
     });

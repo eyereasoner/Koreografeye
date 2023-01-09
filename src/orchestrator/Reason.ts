@@ -47,7 +47,7 @@ export async function reason(dataStore: Store, config: any, rules: string[], log
   if (!n3) {
     throw new Error(`failed to transform store to turtle`);
   }
-
+  
   logger.trace(n3);
 
   const tmpobj = createTmpFile(n3, logger);
@@ -68,6 +68,7 @@ export async function reason(dataStore: Store, config: any, rules: string[], log
   const result = await eyeRunner(eye, eyeargs)
   tmpobj.removeCallback();
   ruleObjects.forEach(tmp => tmp.removeCallback())
+
   const resultStore = await parseStringAsN3Store(result)
 
   return resultStore
