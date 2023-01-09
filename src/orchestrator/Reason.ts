@@ -13,7 +13,7 @@ import { parseStringAsN3Store, rdfTransformStore, readText } from "../util";
  * @param config - Orchestrator configuration (contains eye arguments).
  * @param rulePaths - The paths to the files containing the N3 rules.
  * @param logger - Logger.
- * @returns N3 store containing the result of applying the rulest to the input dataStore.
+ * @returns N3 store containing the result of applying the rule set to the input dataStore.
  */
 export async function reasonRulePaths(dataStore: Store, config: any, rulePaths: string[], logger?: Logger): Promise<Store> { 
   const rules: string[] = []
@@ -34,7 +34,7 @@ export async function reasonRulePaths(dataStore: Store, config: any, rulePaths: 
  * @param config - Orchestrator configuration (contains eye arguments).
  * @param rulePaths - An array of N3 (text/n3 serialization) containing the N3 rules.
  * @param logger - Logger.
- * @returns N3 store containing the result of applying the rulest to the input dataStore.
+ * @returns N3 store containing the result of applying the rule set to the input dataStore.
  */
 export async function reason(dataStore: Store, config: any, rules: string[], logger?: Logger): Promise<Store> {
   const eye = config['eye'];

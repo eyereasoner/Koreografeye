@@ -51,6 +51,7 @@ export function readText(path: string): string | undefined {
     }
     return '' + fs.readFileSync(path, {encoding:'utf8', flag:'r'})
 }
+
 /**
  * Parse an input file and return the parsed N3.Store
  * 
@@ -133,6 +134,7 @@ export async function rdfTransformStore(store: N3.Store, outType: string): Promi
     );
     return await stringifyStream(outStream);
 }
+
 /**
  * Stub: currently does not serialize N3 properly
  * 
@@ -143,8 +145,7 @@ export async function n3TransformStore(store: N3.Store): Promise<string> {
     const outStream = rdfSerializer.serialize(
         store.match(), { contentType: 'text/n3' } 
     );
-return await stringifyStream(outStream);    
-
+    return await stringifyStream(outStream);
 }
 
 /**
