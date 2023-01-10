@@ -8,7 +8,7 @@ Koreografeye was created to facilitate running automated processes against [Soli
 
 Koreografeye can be run on an input directory containing one or more RDF files (in Turtle or N3 format). For each of these files one or more N3 rule scripts can be executed. The results of this execution will be put in an output directory. If the N3 output contains _Policy_ fragments, they can be executed using a _policy executor_. 
 
-Koreografeye is mainly targeted for processing [Activity Streams](https://www.w3.org/TR/activitystreams-core/) (AS2) notifications. For each of these notifications N3 rules express one or more _Policies_ what execution steps should be executed when receiving a AS2 notification of a particular shape. The _orchestrator_ component reads all incoming AS2 notifications and executes the EYE reasoner (or EYE-JS, Roxi,... via configuration) on each of them and writes the results to an output directory. Policies are implemented as JavaScript plugins and can be execute by a _policy executor_.
+Koreografeye is mainly targeted for processing [Activity Streams](https://www.w3.org/TR/activitystreams-core/) (AS2) notifications. For each of these notifications N3 rules express one or more _Policies_ what execution steps should be executed when receiving a AS2 notification of a particular shape. The _orchestrator_ component reads all incoming AS2 notifications and executes the EYE reasoner (or [EYE-JS](https://github.com/eyereasoner/eye-js), [Roxi](https://pbonte.github.io/roxi/index.html),... via configuration) on each of them and writes the results to an output directory. Policies are implemented as JavaScript plugins and can be execute by a _policy executor_.
 
 <img src="documentation/koreografeye.png" alt="Koreografeye architecture" width="500"/>
 
