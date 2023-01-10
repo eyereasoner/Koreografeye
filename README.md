@@ -8,8 +8,7 @@ Koreografeye was created to facilitate running automated processes against [Soli
 
 Koreografeye can be run on an input directory containing one or more RDF files (in Turtle or N3 format). For each of these files one or more N3 rule scripts can be executed. The results of this execution will be put in an output directory. If the N3 output contains _Policy_ fragments, they can be executed using a _policy executor_. 
 
-Koreografeye is mainly targeted for processing [Activity Streams](https://www.w3.org/TR/activitystreams-core/) (AS2) notifications. For each of these notifications N3 rules express one or more _Policies_ what execution steps should be executed when receiving a AS2 notification of a particular shape. The _orchestrator_ component reads all incoming AS2 notifications and executes the EYE reasoner on each of them and writes the results to
-an output directory. Policies are implemented as JavaScript plugins and can be execute by a _policy executor_.
+Koreografeye is mainly targeted for processing [Activity Streams](https://www.w3.org/TR/activitystreams-core/) (AS2) notifications. For each of these notifications N3 rules express one or more _Policies_ what execution steps should be executed when receiving a AS2 notification of a particular shape. The _orchestrator_ component reads all incoming AS2 notifications and executes the EYE reasoner (or EYE-JS, Roxi,... via configuration) on each of them and writes the results to an output directory. Policies are implemented as JavaScript plugins and can be execute by a _policy executor_.
 
 <img src="documentation/koreografeye.png" alt="Koreografeye architecture" width="500"/>
 
@@ -78,21 +77,21 @@ const { executePolicies } = require('./dist/policy/Executor');
 const { parseAsN3Store, readText, storeAddPredicate } = require('./dist/util');
 
 const store = await parseAsN3Store('./data/demo.ttl'); // input graph
-const rules = [readText('./rules/00_demo.n3')] // array of n3 rules serialized as string
-const orchestratorConfig = './config.jsonld') // orchestrator config -> these are the eye arguments
+const rules = [readText('./rules/00_demo.n3')]; // array of n3 rules serialized as string
+const orchestratorConfig = './config.jsonld'; // orchestrator config -> these are the eye arguments
 
 // add main subject and origin for the reasoner
-const mainSubject = 'urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32'
+const mainSubject = 'urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32';
 storeAddPredicate(store, 'https://www.example.org/ns/policy#mainSubject', mainSubject);
 storeAddPredicate(store, 'https://www.example.org/ns/policy#origin', './data/demo.ttl');
 
 // execute reasoning (orchestration)
 const reasoningResult = await reason(store, orchestratorConfig, rules);
 
-const plugins = loadConfig('./plugin.json') // configuration for the policy executor
+const plugins = loadConfig('./plugin.json'); // configuration for the policy executor
 
 // execute policies
-await executePolicies(plugins, reasoningResult)
+await executePolicies(plugins, reasoningResult);
 ```
 
 Note: for this code to run, the project has to be compiled first (`npm run build`).

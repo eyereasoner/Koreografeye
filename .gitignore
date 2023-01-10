@@ -1,7 +1,7 @@
 in/**
 out/**
 err/**
-dist/**/*.js
+dist/**
 node_modules/**
 components/**
 package-lock.json
