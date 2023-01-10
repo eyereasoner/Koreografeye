@@ -1,10 +1,10 @@
+import { ComponentsManager } from 'componentsjs';
+import * as fs from 'fs';
 import { getLogger, Logger } from "log4js";
 import { Store } from "n3";
-import * as fs from 'fs';
-import { parseStringAsN3Store, rdfTransformStore, readText } from "../util";
-import { Reasoner } from "./Reasoner";
-import { ComponentsManager } from 'componentsjs';
 import * as path from 'path';
+import { readText } from "../util";
+import { Reasoner } from "./Reasoner";
 
 /**
  * Reason over an input RDF graph with rules using the eye reasoner.
@@ -39,16 +39,7 @@ export async function reasonRulePaths(dataStore: Store, config: string, rulePath
  */
 export async function reason(dataStore: Store, config: string, rules: string[], logger?: Logger): Promise<Store> {
   logger = logger ?? getLogger();
-
-  // create file (text/plain) for data
-  const n3 = await rdfTransformStore(dataStore, 'text/turtle');
-
-  if (!n3) {
-    throw new Error(`failed to transform store to turtle`);
-  }
   
-  logger.trace(n3);
-
   logger.trace(`loading an instance of a reasoner`);
 
   const manager = await ComponentsManager.build({
@@ -59,15 +50,6 @@ export async function reason(dataStore: Store, config: string, rules: string[], 
 
   const reasoner = await manager.instantiate<Reasoner>('urn:mini-orchestator:reasonerInstance');
 
-  reasoner.aboxAppend(n3);
-
-  rules.map(n3 => reasoner.tboxAppend(n3) );
-
-  const result = await reasoner.run();
-
-  const resultStore = await parseStringAsN3Store(result);
-
-  reasoner.cleanup();
-
+  const resultStore = await reasoner.reason(dataStore, rules);
   return resultStore;
 }
