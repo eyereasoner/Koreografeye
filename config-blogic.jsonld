@@ -1,0 +1,17 @@
+{
+    "@context": [
+      "https://linkedsoftwaredependencies.org/bundles/npm/componentsjs/^5.0.0/components/context.jsonld",
+      "https://linkedsoftwaredependencies.org/bundles/npm/mini-orchestrator/^0.0.0/components/context.jsonld"
+    ],
+    "@id": "urn:mini-orchestator:reasonerInstance",
+    "@type": "EyeReasoner",
+    "eye": "/usr/local/bin/eye",
+    "args": [
+        "--quiet" ,
+        "--nope" ,
+        "--blogic" ,
+        "rules/blogic/policy/compiler.n3" ,
+        "rules/blogic/policy/validation.n3" ,
+        "rules/blogic/policy/util.n3"
+    ]
+}

@@ -75,11 +75,11 @@ Small javascript example to execute Koreografeye using [`demo.ttl`](./data/demo.
 ```javascript
 const { reason } = require('./dist/orchestrator/Reason');
 const { executePolicies } = require('./dist/policy/Executor');
-const { loadConfig, parseAsN3Store, readText, storeAddPredicate } = require('./dist/util');
+const { parseAsN3Store, readText, storeAddPredicate } = require('./dist/util');
 
 const store = await parseAsN3Store('./data/demo.ttl'); // input graph
 const rules = [readText('./rules/00_demo.n3')] // array of n3 rules serialized as string
-const orchestratorConfig = loadConfig('./orchestrator.json') // orchestrator config -> these are the eye arguments
+const orchestratorConfig = './config.jsonld') // orchestrator config -> these are the eye arguments
 
 // add main subject and origin for the reasoner
 const mainSubject = 'urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32'

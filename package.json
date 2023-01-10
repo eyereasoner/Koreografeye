@@ -10,8 +10,8 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "orch": "bin/orch --keep rules/*",
-    "orch:blogic": "bin/orch --keep --config orchestrator-blogic.json rules/blogic/00_demo.n3",
-    "orch:policy": "bin/orch --keep --config orchestrator-blogic.json rules/blogic/00_policy.n3 rules/blogic/policy/*.n3",
+    "orch:blogic": "bin/orch --keep --config config-blogic.jsonld rules/blogic/00_demo.n3",
+    "orch:policy": "bin/orch --keep --config config-blogic.jsonld rules/blogic/00_policy.n3 rules/blogic/policy/*.n3",
     "pol": "bin/pol --keep",
     "watch": "tsc --watch",
     "build": "npm run build:ts && npm run build:components",

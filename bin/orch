@@ -34,7 +34,7 @@ done
 IN="in"
 OUT="out"
 ERR="err"
-CONF="./orchestrator.json"
+CONF="./config.jsonld"
 KEEP=0
 
 OPTIND=1

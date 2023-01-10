@@ -6,3 +6,4 @@ node_modules/**
 components/**
 package-lock.json
 tsconfig.tsbuildinfo
+componentsjs-error-state.json

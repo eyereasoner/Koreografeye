@@ -16,7 +16,7 @@ import * as path from 'path';
  * @param logger - Logger.
  * @returns N3 store containing the result of applying the rule set to the input dataStore.
  */
-export async function reasonRulePaths(dataStore: Store, config: any, rulePaths: string[], logger?: Logger): Promise<Store> { 
+export async function reasonRulePaths(dataStore: Store, config: string, rulePaths: string[], logger?: Logger): Promise<Store> { 
   const rules: string[] = []
   rulePaths.filter(path => fs.lstatSync(path).isFile()).forEach(path => {
     const rule = readText(path)
@@ -37,9 +37,7 @@ export async function reasonRulePaths(dataStore: Store, config: any, rulePaths: 
  * @param logger - Logger.
  * @returns N3 store containing the result of applying the rule set to the input dataStore.
  */
-export async function reason(dataStore: Store, config: any, rules: string[], logger?: Logger): Promise<Store> {
-  const eye = config['eye'];
-  const eyeargs = [...config['args']]; // deep copy wanted as we push items to eyeargs
+export async function reason(dataStore: Store, config: string, rules: string[], logger?: Logger): Promise<Store> {
   logger = logger ?? getLogger();
 
   // create file (text/plain) for data
@@ -51,20 +49,19 @@ export async function reason(dataStore: Store, config: any, rules: string[], log
   
   logger.trace(n3);
 
+  logger.trace(`loading an instance of a reasoner`);
+
   const manager = await ComponentsManager.build({
-    mainModulePath: path.join(__dirname, '..') , // Path to your npm package's root
+    mainModulePath: path.join(__dirname, '../..') , // Path to your npm package's root
   });
 
-  await manager.configRegistry.register('config.jsonld');
+  await manager.configRegistry.register(config);
 
-  const reasoner = <Reasoner> await manager.instantiate('urn:mini-orchestator:reasonerInstance');
+  const reasoner = await manager.instantiate<Reasoner>('urn:mini-orchestator:reasonerInstance');
 
   reasoner.aboxAppend(n3);
 
   rules.map(n3 => reasoner.tboxAppend(n3) );
-
-  logger.info(`${eye}`);
-  logger.info(`eye args: ${eyeargs}`);
 
   const result = await reasoner.run();
 

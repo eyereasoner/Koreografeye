@@ -1,11 +1,11 @@
 import { program } from 'commander';
 import * as log4js from 'log4js';
 import * as Reason from './orchestrator/Reason';
-import { loadConfig, parseAsN3Store, rdfTransformStore, storeAddPredicate, topGraphIds } from './util';
+import { parseAsN3Store, rdfTransformStore, storeAddPredicate, topGraphIds } from './util';
 
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
-let   orchConf = './orchestrator.json';
+let   orchConf         = './config.jsonld';
 
 program.version('0.0.1')
        .argument('<data>')
@@ -58,13 +58,6 @@ async function main(data: string, rules: string[]) {
 
 async function reason(dataPath: string , rulePaths: string[]) {
     return new Promise<string>( async (resolve,reject) =>  {
-        logger.debug(`loading ${orchConf}`);
-        const config = loadConfig(orchConf);
-
-        if (! config) {
-            return reject(`failed to load ${orchConf}`);
-        }
-
         logger.debug(`parsing ${dataPath}...`);
         const store = await parseAsN3Store(dataPath);
         
@@ -84,7 +77,7 @@ async function reason(dataPath: string , rulePaths: string[]) {
         // Inject the file origin in the KG
         storeAddPredicate(store, POL_ORIGIN, dataPath);
 
-        const resultStore = await Reason.reasonRulePaths(store, config, rulePaths, logger);
+        const resultStore = await Reason.reasonRulePaths(store, orchConf, rulePaths, logger);
        
         const result = await rdfTransformStore(resultStore, 'text/turtle');
         return resolve(result);
