@@ -15,7 +15,12 @@ import { extractPolicies, findPlugin, refinePolicy } from './Extractor';
  */
 async function callImplementation(plugin: string, mainStore: N3.Store, policyStore: N3.Store, policy: any, logger: Logger) {
   logger.info(`calling ${plugin}...`);
-  const pkg = await import('.' + plugin); // NOTE: ugly hack, MUST be removed
+  if (plugin[0] === '.'){
+    // allows for external plugins with absolute paths to work
+    plugin = '.' + plugin;
+  }
+  
+  const pkg = await import(plugin);
   const result = await pkg.policyTarget(mainStore, policyStore, policy);
   logger.info(`..returned a ${result}`);
   return result;
@@ -90,7 +95,7 @@ function fetchMainSubject(store: N3.Store, logger: Logger) {
   const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 
   const mainSubject = storeGetPredicate(store, POL_MAIN_SUBJECT);
-
+  
   if (!mainSubject) {
     console.error(`no ${POL_MAIN_SUBJECT}?!`);
     logger.error(`no ${POL_MAIN_SUBJECT}?!`);

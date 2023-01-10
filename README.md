@@ -72,13 +72,12 @@ npm install
 Small javascript example to execute Koreografeye using [`demo.ttl`](./data/demo.ttl) and [`00_demo.n3`](./rules/00_demo.n3).
 
 ```javascript
-const { reason } = require('./dist/orchestrator/Reason');
+const { EyeJsReasoner } = require('./dist/orchestrator/reasoner/EyeJsReasoner')
 const { executePolicies } = require('./dist/policy/Executor');
 const { parseAsN3Store, readText, storeAddPredicate } = require('./dist/util');
 
 const store = await parseAsN3Store('./data/demo.ttl'); // input graph
 const rules = [readText('./rules/00_demo.n3')]; // array of n3 rules serialized as string
-const orchestratorConfig = './config.jsonld'; // orchestrator config -> these are the eye arguments
 
 // add main subject and origin for the reasoner
 const mainSubject = 'urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32';
@@ -86,7 +85,8 @@ storeAddPredicate(store, 'https://www.example.org/ns/policy#mainSubject', mainSu
 storeAddPredicate(store, 'https://www.example.org/ns/policy#origin', './data/demo.ttl');
 
 // execute reasoning (orchestration)
-const reasoningResult = await reason(store, orchestratorConfig, rules);
+const reasoner = new EyeJsReasoner([ "--quiet" , "--nope" , "--pass"])
+const reasoningResult = await reasoner.reason(store, rules);
 
 const plugins = loadConfig('./plugin.json'); // configuration for the policy executor
 
