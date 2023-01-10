@@ -1,6 +1,6 @@
 import { program } from 'commander';
 import * as log4js from 'log4js';
-import * as Reason from './orchestrator/Reason';
+import { instantiateReasoner, readRules } from './orchestrator/Reason';
 import { parseAsN3Store, rdfTransformStore, storeAddPredicate, topGraphIds } from './util';
 
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
@@ -77,8 +77,10 @@ async function reason(dataPath: string , rulePaths: string[]) {
         // Inject the file origin in the KG
         storeAddPredicate(store, POL_ORIGIN, dataPath);
 
-        const resultStore = await Reason.reasonRulePaths(store, orchConf, rulePaths, logger);
-       
+        const rules = await readRules(rulePaths);
+        const reasoner = await instantiateReasoner(orchConf);
+        const resultStore = await reasoner.reason(store, rules);
+        
         const result = await rdfTransformStore(resultStore, 'text/turtle');
         return resolve(result);
     });
