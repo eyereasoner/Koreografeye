@@ -1,5 +1,7 @@
 #!/bin/bash
-
+#
+# A command line orchestration run
+#
 PROJDIR=$(dirname $0)
 
 cd ${PROJDIR}/..

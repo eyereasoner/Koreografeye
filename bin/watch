@@ -1,0 +1,54 @@
+#!/bin/bash
+#
+# A command line watcher of an LDN container
+#
+WATCH=$1
+
+if [ "${WATCH}" == "" ]; then
+    WATCH=${KOREOGRAFEYE_WATCH}
+fi
+
+IN="in"
+BASHLIB=${BASHLIB_BIN:=npx solid-tools} # Path to your bashlib installation or 'npx solid-tools' by default
+PROJDIR=$(dirname $0)
+
+cd ${PROJDIR}/..
+
+for arg in "$@"; do
+    shift
+    case "$arg" in  
+        '--in')     set -- "$@" '-i' ;;
+        *)          set -- "$@" "$arg" ;;
+    esac
+done
+
+OPTIND=1
+while getopts "i:" opt
+do
+    case "$opt" in
+        'i') IN=$OPTARG ;;
+    esac
+done
+
+shift $(expr $OPTIND - 1) # remove options from positional parameter
+
+if [ "${WATCH}" == "" ]; then
+    cat <<EOF;
+usage: $0 [options] watch-resource
+
+options:
+    -i, --in  <directory>   : directory to write input notifications
+
+environent:
+    KOREOGRAFEYE_WATCH (load watch resource via environment)
+EOF
+    exit 1
+fi
+
+if [[ $IN =~ "/$" ]]; then
+    : # nope operation, we are okay
+else
+    IN="${IN}/"
+fi
+
+${BASHLIB} cp ${KOREOGRAFEYE_WATCH} ${IN}
