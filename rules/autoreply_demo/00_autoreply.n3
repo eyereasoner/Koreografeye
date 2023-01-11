@@ -1,0 +1,36 @@
+@prefix ex:   <http://example.org/> .
+@prefix as:   <https://www.w3.org/ns/activitystreams#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix pol:  <https://www.example.org/ns/policy#> .
+@prefix fno:  <https://w3id.org/function/ontology#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix ldp:  <http://www.w3.org/ns/ldp#> .
+
+{
+  # pol:mainSubject defines the top level identifier of the notification
+  [ pol:mainSubject ?id ] .
+  
+  ?id a as:Announce .
+  ?id as:actor ?actor .
+  ?actor ldp:inbox ?actor_inbox .
+  ?id as:target ?target .
+}
+=>
+{
+    ex:MyAutoReplyDemo pol:policy [
+        a fno:Execution ;
+        fno:executes ex:sendNotification ;
+        ex:to ?actor_inbox ;
+        ex:notification [
+                a as:Announce ;
+                as:inReplyTo ?id ;
+                as:actor     ?target ;
+                as:origin    <https://github.com/eyereasoner/Koreografeye/profile/card#me> ;
+                as:target    ?actor;
+                as:object    [
+                    a as:Note ;
+                    as:content "Thank you for the announce" 
+                ]
+        ]
+    ] .
+}.
