@@ -51,4 +51,4 @@ else
     IN="${IN}/"
 fi
 
-${BASHLIB} cp ${KOREOGRAFEYE_WATCH} ${IN}
+${BASHLIB} cp ${WATCH} ${IN}
