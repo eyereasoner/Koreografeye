@@ -9,8 +9,8 @@ import {
 } from '../util';
 
 export async function policyTarget(_: N3.Store, policyStore: N3.Store, policy: IPolicyType) : Promise<boolean> {
-    console.log('***Policy***');
-    console.log(JSON.stringify(policy,null,4));
+    // console.log('***Policy***');
+    // console.log(JSON.stringify(policy,null,4));
 
     // Read the arguments from the policy
     const to           = policy.args['http://example.org/to'];
@@ -55,6 +55,7 @@ export async function policyTarget(_: N3.Store, policyStore: N3.Store, policy: I
     );
 
     console.log(`Sending to ${to.value} a ${json['type']}`);
+    console.log(JSON.stringify(json, null, 2));
 
     const result = await fetch(to.value, {
             method: 'POST', 

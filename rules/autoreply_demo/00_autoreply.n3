@@ -22,7 +22,7 @@
         fno:executes ex:sendNotification ;
         ex:to ?actor_inbox ;
         ex:notification [
-                a as:Announce ;
+                a as:Accept ;
                 as:inReplyTo ?id ;
                 as:actor     ?target ;
                 as:origin    <https://github.com/eyereasoner/Koreografeye/profile/card#me> ;
