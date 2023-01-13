@@ -2,11 +2,6 @@
 #
 # A command line watcher of an LDN container
 #
-WATCH=$1
-
-if [ "${WATCH}" == "" ]; then
-    WATCH=${KOREOGRAFEYE_WATCH}
-fi
 
 IN="in"
 BASHLIB=${BASHLIB_BIN:=npx solid-tools} # Path to your bashlib installation or 'npx solid-tools' by default
@@ -31,6 +26,12 @@ do
 done
 
 shift $(expr $OPTIND - 1) # remove options from positional parameter
+
+WATCH=$1
+
+if [ "${WATCH}" == "" ]; then
+    WATCH=${KOREOGRAFEYE_WATCH}
+fi
 
 if [ "${WATCH}" == "" ]; then
     cat <<EOF;
