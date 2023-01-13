@@ -22,5 +22,5 @@ export async function instantiateReasoner(componentsPath: string): Promise<Reaso
 
   await manager.configRegistry.register(componentsPath);
 
-  return await manager.instantiate<Reasoner>('urn:mini-orchestator:reasonerInstance');
+  return await manager.instantiate<Reasoner>('urn:koreografeye:reasonerInstance');
 }
