@@ -17,12 +17,12 @@
     ex:MySendNotificationDemo pol:policy [
         a fno:Execution ;
         fno:executes ex:sendNotification ;
-        ex:to <http://patrickhochstenbach.net/inbox/> ;
+        ex:to <http://alice.net/inbox/> ;
         ex:notification [
                 a as:Accept ;
                 as:inReplyTo ?id ;
-                as:actor     <http://patrickhochstenbach.net/profile/card#me> ;
-                as:origin    <http://patrickhochstenbach.net/orchestrator/profile/card#me> ;
+                as:actor     <http://bob.net/profile/card#me> ;
+                as:origin    <http://bob.net/orchestrator/profile/card#me> ;
                 as:target    ?actor;
                 as:object    ?id
         ]

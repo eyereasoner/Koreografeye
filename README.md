@@ -1,6 +1,6 @@
 # Koreografeye
 
-This is a miniature implementation of an choreographer implementing the [Orchestrator for a decentralized Web network](https://mellonscholarlycommunication.github.io/spec-orchestrator/) specification using an N3 reaoner (such as [EYE](https://github.com/eyereasoner/eye)) as internal rule engine.
+This is a miniature implementation of an choreographer implementing the [Orchestrator for a decentralized Web network](...) specification using an N3 reasoner (such as [EYE](https://github.com/eyereasoner/eye)) as internal rule engine.
 
 Koreografeye was created to facilitate running automated processes against [Solid](https://solidproject.org/TR/protocol) pods. Our main use case is monitoring the [LDN](https://www.w3.org/TR/ldn/) Inbox of Solid Pods for new notifications and running scripts when new data arrives.
 

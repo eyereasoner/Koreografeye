@@ -17,8 +17,8 @@
   ex:MyEmailPolicy pol:policy [
       a fno:Execution ;
       fno:executes ex:sendEmail ;
-      ex:to "patrick.hochstenbach@gmail.com" ;
-      ex:from "patrick_hochstenbach@gmx.net" ;
+      ex:to "someone1@gmail.com" ;
+      ex:from "someone2@hotmail.com" ;
       ex:subject "A new resource was created!" ;
       ex:body "You got a new notification"
   ] .
