@@ -1,0 +1,37 @@
+@prefix ex:   <http://example.org/> .
+@prefix as:   <https://www.w3.org/ns/activitystreams#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix pol:  <https://www.example.org/ns/policy#> .
+@prefix fno:  <https://w3id.org/function/ontology#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<https://hochstenbach.solidcommunity.net/registrator/profile/service.ttl#me>
+    a foaf:Service ;
+    as:inbox <https://hochstenbach.inrupt.net/archivator/inbox/>;
+    as:name "Demo registrator" .
+
+{
+  # pol:mainSubject defines the top level identifier of the notification
+  [ pol:mainSubject ?id ] .
+  
+  ?id a as:Announce .
+  ?id as:object ?Object .
+
+  ?registrator a foaf:Service .
+}
+=>
+{
+    ex:MySendNotificationDemo pol:policy [
+        a fno:Execution ;
+        fno:executes ex:sendNotification ;
+        ex:to <https://hochstenbach.inrupt.net/archivator/inbox/> ;
+        ex:notification [
+                a as:Offer ;
+                as:actor     <http://bob.net/profile/card#me> ;
+                as:origin    <http://bob.net/orchestrator/profile/card#me> ;
+                as:target    ?registrator ;
+                as:object    ?id
+        ]
+    ] .
+}.
