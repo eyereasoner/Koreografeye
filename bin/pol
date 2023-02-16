@@ -4,8 +4,6 @@
 #
 PROJDIR=$(dirname $0)
 
-cd ${PROJDIR}/..
-
 if [ $# -eq 0 ]; then
     cat <<EOF;
 usage: $0 [options] orch-output-file

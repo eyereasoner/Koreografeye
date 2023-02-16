@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { program } from 'commander';
 import * as log4js from 'log4js';
 import { executePolicies } from './policy/Executor';

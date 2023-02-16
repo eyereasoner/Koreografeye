@@ -4,8 +4,6 @@
 #
 PROJDIR=$(dirname $0)
 
-cd ${PROJDIR}/..
-
 if [ $# -eq 0 ]; then
     cat <<EOF;
 usage: $0 [options] rule [rule ...]
@@ -14,7 +12,7 @@ options:
     -c, --config <file>    : orchestrator config file
     -i, --in  <directory>  : directory with input notifications
     -o, --out <directory>  : directory with orchestrator output
-    -r, --err <directory>  : directory with failed notifications
+    -e, --err <directory>  : directory with failed notifications
     -k, --keep             : keep --in data (don't delete after processing)
 EOF
     exit 1
