@@ -4,6 +4,7 @@ import * as jsonld from 'jsonld';
 import * as RDF from '@rdfjs/types';
 import rdfParser from 'rdf-parse';
 import rdfSerializer from 'rdf-serialize';
+import { posix, win32 } from 'path';
 import stringifyStream = require('stream-to-string');
 import streamifyString = require('streamify-string');
 import {v4 as uuidv4} from 'uuid';
@@ -288,3 +289,124 @@ export function renameSubjectInGraph(store: N3.Store, old_subject: RDF.Term, new
 export function generate_uuid(): N3.NamedNode<string>  {
     return N3.DataFactory.namedNode('urn:uuid:' + uuidv4());
 }
+
+/**
+ * Copied from https://raw.githubusercontent.com/CommunitySolidServer/CommunitySolidServer/main/src/util/PathUtil.ts
+ * Start->
+ */
+
+/**
+ * Changes a potential Windows path into a POSIX path.
+ *
+ * @param path - Path to check (POSIX or Windows).
+ *
+ * @returns The potentially changed path (POSIX).
+ */
+function windowsToPosixPath(path: string): string {
+    return path.replace(/\\+/gu, '/');
+}
+
+/**
+ * Resolves relative segments in the path.
+ *
+ * @param path - Path to check (POSIX or Windows).
+ *
+ * @returns The potentially changed path (POSIX).
+ */
+export function normalizeFilePath(path: string): string {
+    return posix.normalize(windowsToPosixPath(path));
+}
+
+/**
+ * Adds the paths to the base path.
+ *
+ * @param basePath - The base path (POSIX or Windows).
+ * @param paths - Subpaths to attach (POSIX).
+ *
+ * @returns The potentially changed path (POSIX).
+ */
+export function joinFilePath(basePath: string, ...paths: string[]): string {
+    return posix.join(windowsToPosixPath(basePath), ...paths);
+}
+
+/**
+ * Resolves a path to its absolute form.
+ * Absolute inputs will not be changed (except changing Windows to POSIX).
+ * Relative inputs will be interpreted relative to process.cwd().
+ *
+ * @param path - Path to check (POSIX or Windows).
+ *
+ * @returns The potentially changed path (POSIX).
+ */
+export function absoluteFilePath(path: string): string {
+    if (posix.isAbsolute(path)) {
+      return path;
+    }
+    if (win32.isAbsolute(path)) {
+      return windowsToPosixPath(path);
+    }
+  
+    return joinFilePath(process.cwd(), path);
+}
+  
+/**
+ * Makes sure the input path has exactly 1 slash at the end.
+ * Multiple slashes will get merged into one.
+ * If there is no slash it will be added.
+ *
+ * @param path - Path to check.
+ *
+ * @returns The potentially changed path.
+ */
+export function ensureTrailingSlash(path: string): string {
+    return path.replace(/\/*$/u, '/');
+}
+
+/**
+ * Makes sure the input path has no slashes at the end.
+ *
+ * @param path - Path to check.
+ *
+ * @returns The potentially changed path.
+ */
+export function trimTrailingSlashes(path: string): string {
+    return path.replace(/\/+$/u, '');
+}
+  
+/**
+ * Makes sure the input path has exactly 1 slash at the beginning.
+ * Multiple slashes will get merged into one.
+ * If there is no slash it will be added.
+ *
+ * @param path - Path to check.
+ *
+ * @returns The potentially changed path.
+ */
+export function ensureLeadingSlash(path: string): string {
+    return path.replace(/^\/*/u, '/');
+}
+  
+/**
+ * Makes sure the input path has no slashes at the beginning.
+ *
+ * @param path - Path to check.
+ *
+ * @returns The potentially changed path.
+ */
+export function trimLeadingSlashes(path: string): string {
+    return path.replace(/^\/+/u, '');
+}
+  
+/**
+ * Extracts the extension (without dot) from a path.
+ * Custom function since `path.extname` does not work on all cases (e.g. ".acl")
+ * @param path - Input path to parse.
+ */
+export function getExtension(path: string): string {
+    const extension = /\.([^./]+)$/u.exec(path);
+    return extension ? extension[1] : '';
+}
+
+/**
+ * <-End
+ */
