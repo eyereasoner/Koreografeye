@@ -48,6 +48,7 @@ The N3 above states: "If we find an AS2 notification of type `as:Announce`, then
 
 ```
 npm install
+npm build
 ```
 
 ## Usage
