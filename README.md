@@ -51,6 +51,9 @@ npm install
 npm build
 ```
 
+The experimental _blogic_ , _policy_ and _solid_ examples require the Prolog version of [EYE](https://github.com/eyereasoner/eye) installed. We refer to the install instructions of this project for more
+information.
+
 ## Usage
 
 ### Command line
