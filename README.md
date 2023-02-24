@@ -66,6 +66,9 @@ npm install
 - If you want to experiment with expressing N3 rules as [RDF Surfaces](https://josd.github.io/surface/) use the following commands:
     - run `npm run orch:blogic` : this will execute the [rules/blogic/00_demo.n3](rules/blogic/00_demo.n3) rule which is a direct translation of [rules/00_demo.n3](rules/00_demo.n3) in the RDF Surfaces language
     - run `npm run orch:policy` : this will read [rules/blogic/00_policy.n3](rules/blogic/00_policy.n3) (written in a small DSL language) and compile these rules into RDF Surfaces using a compiler available in [rules/blogic/policy](rules/blogic/policy) 
+- If you want to experiment with running N3 for montitoring resources on the web use the following commands:
+    - Copy `data/solid.jsonld` to the `in` directory
+    - run `npm run orch:solid` : this will check if a new resource actually exists on a backend server and send a Ntfy notifications (when running `npm pol`)
 
 ### Typescript/javascript
 
