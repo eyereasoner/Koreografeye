@@ -1,0 +1,33 @@
+@prefix ex:   <http://example.org/> .
+@prefix as:   <https://www.w3.org/ns/activitystreams#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix pol:  <https://www.example.org/ns/policy#> .
+@prefix fno:  <https://w3id.org/function/ontology#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+
+{
+  # pol:mainSubject defines the top level identifier of the notification
+  [ pol:mainSubject ?id ] .
+  
+  ?id a ?class .
+  ?class list:in (as:Announce as:Create) .
+
+  # if we have an N3/Turtle resource that exists...
+  ?id as:object ?resource .
+
+  [] log:trace ?resource .
+  ?resource log:content ?content .
+
+  # create a notification message
+  ( "Found the resource %s in your Pod" ?resource ) string:format ?message .
+}
+=>
+{
+  ex:MyNotifyPolicy pol:policy [
+      a fno:Execution ;
+      fno:executes ex:sendNtfy ;
+      ex:message ?message ;
+  ] .
+}.

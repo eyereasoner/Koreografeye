@@ -1,0 +1,11 @@
+{
+    "@context": "https://www.w3.org/ns/activitystreams",
+    "actor": {
+      "id": "https://patrickhochstenbach.net/profile/card#me",
+      "name": "Patrick Hochstenbach",
+      "type": "Person"
+    },
+    "id": "urn:uuid:19997628-16F9-4841-B8A0-72F0893E2B22",
+    "object": "https://patrickhochstenbach.net/test/koreografeye.n3",
+    "type": "Create"
+  }
