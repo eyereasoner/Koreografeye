@@ -31,6 +31,7 @@
     "commander": "^9.4.1",
     "componentsjs": "^5.3.2",
     "eyereasoner": "^2.0.0",
+    "is-hidden-file": "^1.1.2",
     "jsonld": "^8.1.0",
     "log4js": "^6.7.0",
     "n3": "^1.16.3",
@@ -43,6 +44,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/glob": "^8.1.0",
     "@types/jsonld": "^1.5.8",
     "@types/n3": "^1.10.4",
     "@types/nodemailer": "^6.4.6",
