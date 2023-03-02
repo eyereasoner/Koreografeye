@@ -63,10 +63,13 @@ for f in ${IN}/*; do
     TMPDATA=$(mktemp)
     TMPERROR=$(mktemp)
 
-    # echo "node dist/orch.js $f $@ > ${TMPDATA} 2> ${TMPERROR}" >&2
-
     echo -n "$f : "
-    node --no-warnings dist/orch.js --config ${CONF} $f "$@" > ${TMPDATA} 2> ${TMPERROR}
+
+    if [ $KEEP -eq 1 ]; then
+        node --no-warnings dist/orch.js --config ${CONF} --keep --single $f "$@" > ${TMPDATA} 2> ${TMPERROR}
+    else
+        node --no-warnings dist/orch.js --config ${CONF} --single $f "$@" > ${TMPDATA} 2> ${TMPERROR}
+    fi
 
     if [ $? -eq 0 ]; then
         echo "OK" 
@@ -78,9 +81,5 @@ for f in ${IN}/*; do
         rm ${TMPDATA}
         cat ${TMPERROR} >&2
         mv ${TMPERROR} ${ERR}/${BASENAME}.ttl
-    fi
-
-    if [ $KEEP -eq 0 ]; then 
-        rm $f
     fi
 done

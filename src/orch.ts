@@ -74,8 +74,13 @@ async function main() {
 
 async function single_file_run(data: string, rulePaths: string[]) {
     try {
-        await single_run(data, rulePaths);
-        process.exit(0);
+        let result = await single_run(data, rulePaths);
+        if (result) {
+            process.exit(0);
+        }
+        else {
+            process.exit(2);
+        }
     }
     catch (e) {
         console.error(e);
@@ -132,17 +137,21 @@ async function single_run(data: string, rulePaths: string[]) : Promise<boolean> 
 
         if (opts.err !== null && opts.err !== undefined) {
             const errFile = joinFilePath(opts.err, path.basename(data));
+            logger.info(`copy data to ${errFile}`);
             fs.copyFileSync(data,errFile);
+        }
+        else {
+            logger.info(`no --err path set`);
         }
 
         success = false;
     }
 
     if (opts.keep) {
-        // Do nothing we are fine..
+        logger.info(`keeping input data`);
     }
     else {
-        // Remove the input file
+        logger.info(`removing input data`);
         fs.unlinkSync(data);
     }
 

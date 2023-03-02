@@ -61,7 +61,12 @@ for f in ${IN}/*; do
     TMPERROR=$(mktemp)
 
     echo -n "$f : "
-    node dist/pol.js --config ${CONF} "$f" > ${TMPERROR} 2>&1
+
+    if [ $KEEP -eq 1 ]; then
+        node dist/pol.js --config ${CONF} --keep --single "$f" > ${TMPERROR} 2>&1
+    else
+        node dist/pol.js --config ${CONF} --single "$f" > ${TMPERROR} 2>&1
+    fi
 
     if [ $? -eq 0 ]; then
         echo "OK" 
@@ -71,9 +76,5 @@ for f in ${IN}/*; do
         echo "FAILED"
         cat ${TMPERROR} >&2
         mv ${TMPERROR} ${ERR}/${BASENAME}
-    fi
-
-    if [ $KEEP -eq 0 ]; then 
-        rm $f
     fi
 done

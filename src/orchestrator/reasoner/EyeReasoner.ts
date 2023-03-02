@@ -53,7 +53,9 @@ export class EyeReasoner extends Reasoner {
         return new Promise<string>(async (resolve, reject) => {
             let errorData = '';
             let resultData = '';
-        
+
+            this.logger.trace(`spawning ${this.eye} with ${all_args}`);
+            
             const ls = spawn(this.eye, all_args);
             ls.stdout.on('data', (data) => {
               resultData += data;
@@ -94,6 +96,7 @@ export class EyeReasoner extends Reasoner {
         this.logger.trace(`creating tmp file ${tmpobj.name}`);
         
         fs.writeFileSync(tmpobj.name, text);
+
         return tmpobj;
     }
 }
