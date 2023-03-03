@@ -22,9 +22,8 @@
     "clean:all": "npm run clean ; rm in/* out/* out/ok/*"
   },
   "bin": {
-    "orch": "bin/orch",
-    "orch.js": "dist/orch.js",
-    "pol": "bin/pol"
+    "orch": "dist/orch.js",
+    "pol": "dist/pol.js"
   },
   "dependencies": {
     "@comunica/query-sparql-rdfjs": "^2.5.1",
