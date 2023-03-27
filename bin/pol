@@ -33,7 +33,7 @@ done
 IN="out"
 OUT="out/ok"
 ERR="out/err"
-CONF="./plugin.json"
+CONF="./config.jsonld"
 KEEP=0
 
 OPTIND=1

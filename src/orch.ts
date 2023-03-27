@@ -2,17 +2,21 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { cwd } from 'process';
 import { isHiddenFile } from 'is-hidden-file';
 import { program } from 'commander';
 import * as log4js from 'log4js';
-import { instantiateReasoner, readRules } from './orchestrator/Reason';
 import { 
     parseAsN3Store, 
     rdfTransformStore, 
     storeAddPredicate, 
     topGraphIds,
-    joinFilePath
+    joinFilePath,
+    concatFiles,
+    makeComponentsManager
 } from './util';
+import { ComponentsManager } from 'componentsjs';
+import { Reasoner } from './orchestrator/Reasoner';
 
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
@@ -58,13 +62,15 @@ logger.info(`rules: ${rules}`);
 main();
 
 async function main() {
+    const componentsManager = await makeComponentsManager(orchConf,cwd());
+
     if (opts.single) {
         const data = opts.single;
-        await single_file_run(data,rules);
+        await single_file_run(data,rules,componentsManager);
     }
     else if (opts.in) {
         const indir  = opts.in;
-        await multiple_file_run(indir,rules);
+        await multiple_file_run(indir,rules,componentsManager);
     }
     else {
         console.error(`Need a --in <directory> or --single <file> input`);
@@ -72,9 +78,9 @@ async function main() {
     }
 }
 
-async function single_file_run(data: string, rulePaths: string[]) {
+async function single_file_run(data: string, rulePaths: string[], manager: ComponentsManager<unknown>) {
     try {
-        let result = await single_run(data, rulePaths);
+        let result = await single_run(data, rulePaths, manager);
         if (result) {
             process.exit(0);
         }
@@ -88,16 +94,16 @@ async function single_file_run(data: string, rulePaths: string[]) {
     }
 }
 
-async function multiple_file_run(indir: string, rulePaths: string[]) {
+async function multiple_file_run(indir: string, rulePaths: string[], manager: ComponentsManager<unknown>) {
     let promises : Promise<boolean>[] = [];
 
     fs.readdirSync(indir).forEach(async file => {
-        logger.info(`data: ${file}`);
 
         let inFile = joinFilePath(indir,file);
 
         if (fs.lstatSync(inFile).isFile() && ! isHiddenFile(inFile)) {
-            let p = single_run(inFile, rulePaths);
+            logger.info(`data: ${inFile}`);
+            let p = single_run(inFile, rulePaths, manager);
             promises.push(p);
         }
     });
@@ -111,23 +117,23 @@ async function multiple_file_run(indir: string, rulePaths: string[]) {
     process.exit(success);
 }
 
-async function single_run(data: string, rulePaths: string[]) : Promise<boolean> {
+async function single_run(data: string, rulePaths: string[], manager: ComponentsManager<unknown>) : Promise<boolean> {
     let success = true;
 
-    logger.info(`data: ${data}`);
+    logger.info(`single_run on: ${data}`);
 
     const dataFileName = path.basename(data).replaceAll(/\..*$/g,'.ttl');
 
     try {
-        const result = await reason(data,rulePaths);
+        const result = await reason(data,rulePaths, manager);
 
         if (opts.out !== null && opts.out !== undefined) {
             const outFile = joinFilePath(opts.out, dataFileName);
-            logger.info(`writing result to ${outFile}`);
+            logger.info(`writing result to: ${outFile}`);
             fs.writeFileSync(outFile,result);
         }
         else {
-            logger.info(`writing result to stdout`);
+            logger.info(`writing result to: stdout`);
             console.log(result);
         }
     }
@@ -158,7 +164,9 @@ async function single_run(data: string, rulePaths: string[]) : Promise<boolean> 
     return success;
 }
 
-async function reason(dataPath: string , rulePaths: string[]) {
+async function reason(dataPath: string , rulePaths: string[], manager: ComponentsManager<unknown>) {
+    const reasoner = await manager.instantiate<Reasoner>('urn:koreografeye:reasonerInstance');
+
     return new Promise<string>( async (resolve,reject) =>  {
         try {
             logger.debug(`parsing ${dataPath}...`);
@@ -180,8 +188,7 @@ async function reason(dataPath: string , rulePaths: string[]) {
             // Inject the file origin in the KG
             storeAddPredicate(store, POL_ORIGIN, dataPath);
 
-            const rules = await readRules(rulePaths);
-            const reasoner = await instantiateReasoner(orchConf);
+            const rules = await concatFiles(rulePaths);
             const resultStore = await reasoner.reason(store, rules);
             
             const result = await rdfTransformStore(resultStore, 'text/turtle');

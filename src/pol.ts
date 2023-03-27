@@ -4,18 +4,21 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { isHiddenFile } from 'is-hidden-file';
 import { program } from 'commander';
+import { cwd } from 'process';
 import * as log4js from 'log4js';
 import { executePolicies } from './policy/Executor';
 import { 
     loadConfig, 
     parseAsN3Store, 
     storeGetPredicate,
-    joinFilePath 
+    joinFilePath,
+    makeComponentsManager
 } from './util';
+import { ComponentsManager } from 'componentsjs';
 
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
-let   pluginConf = './plugin.json';
+let   pluginConf       = './config.jsonld';
 
 program.version('0.1.0')
        .option('-c,--config <file>', 'configuration file')
@@ -52,13 +55,15 @@ if (opts.trace) {
 main();
 
 async function main() {
+    const componentsManager = await makeComponentsManager(pluginConf,cwd());
+
     if (opts.single) {
         const data = opts.single;
-        await single_file_run(data);
+        await single_file_run(data, componentsManager);
     }
     else if (opts.in) {
         const indir  = opts.in;
-        await multiple_file_run(indir);
+        await multiple_file_run(indir, componentsManager);
     }
     else {
         console.error(`Need a --in <directory> or --single <file> input`);
@@ -66,9 +71,9 @@ async function main() {
     }
 }
 
-async function single_file_run(data: string) {
+async function single_file_run(data: string, manager: ComponentsManager<unknown>) {
     try {
-        let result = await single_run(data);
+        let result = await single_run(data, manager);
         if (result) {
             process.exit(0);
         }
@@ -82,7 +87,7 @@ async function single_file_run(data: string) {
     }
 }
 
-async function multiple_file_run(indir: string) {
+async function multiple_file_run(indir: string, manager: ComponentsManager<unknown>) {
     let promises : Promise<boolean>[] = [];
 
     fs.readdirSync(indir).forEach(async file => {
@@ -91,7 +96,7 @@ async function multiple_file_run(indir: string) {
         let inFile = joinFilePath(indir,file);
 
         if (fs.lstatSync(inFile).isFile() && ! isHiddenFile(inFile)) {
-            let p = single_run(inFile);
+            let p = single_run(inFile, manager);
             promises.push(p);
         }
     });
@@ -107,7 +112,7 @@ async function multiple_file_run(indir: string) {
     process.exit(success);
 }
 
-async function single_run(data: string) : Promise<boolean> {
+async function single_run(data: string, manager: ComponentsManager<unknown>) : Promise<boolean> {
     let   errors   = 0;
     const store    = await parseAsN3Store(data);
     const plugins  = loadConfig(pluginConf); 
@@ -141,7 +146,7 @@ async function single_run(data: string) : Promise<boolean> {
 
     let success = true;
 
-    errors = await executePolicies(plugins, store, logger);
+    errors = await executePolicies(manager, store, logger);
 
     if (errors == 0) {
         success = true;

@@ -1,7 +1,9 @@
+import { ComponentsManager } from 'componentsjs';
 import { getLogger, Logger } from 'log4js';
 import * as N3 from 'n3';
 import { extractGraph, storeGetPredicate } from '../util';
-import { extractPolicies, findPlugin, refinePolicy } from './Extractor';
+import { extractPolicies, refinePolicy } from './Extractor';
+import { PolicyPlugin } from './PolicyPlugin';
 
 /**
  * Executes a single policy and returns the result.
@@ -13,15 +15,9 @@ import { extractPolicies, findPlugin, refinePolicy } from './Extractor';
  * @param logger - Logger.
  * @returns the result of the policy when it was correctly executed.
  */
-async function callImplementation(plugin: string, mainStore: N3.Store, policyStore: N3.Store, policy: any, logger: Logger) {
+async function callImplementation(plugin: PolicyPlugin, mainStore: N3.Store, policyStore: N3.Store, policy: any, logger: Logger) {
   logger.info(`calling ${plugin}...`);
-  if (plugin[0] === '.'){
-    // allows for external plugins with absolute paths to work
-    plugin = '.' + plugin;
-  }
-  
-  const pkg = await import(plugin);
-  const result = await pkg.policyTarget(mainStore, policyStore, policy);
+  const result = await plugin.execute(mainStore, policyStore, policy);
   logger.info(`..returned a ${result}`);
   return result;
 }
@@ -35,7 +31,7 @@ async function callImplementation(plugin: string, mainStore: N3.Store, policySto
  * @param logger - Logger.
  * @returns {Promise<number>} Number of errors.
  */
-export async function executePolicies(plugins: any, reasoningResultStore: N3.Store, logger?: Logger): Promise<number> {
+export async function executePolicies(manager: ComponentsManager<unknown>, reasoningResultStore: N3.Store, logger?: Logger): Promise<number> {
   logger = logger ?? getLogger();
 
   const mainSubject = fetchMainSubject(reasoningResultStore, logger);
@@ -46,7 +42,7 @@ export async function executePolicies(plugins: any, reasoningResultStore: N3.Sto
   // refine policies
   for (const policy of Object.values(policies)) {
     // Add mainSubject, origin and config to the policy 
-    refinePolicy(plugins, policy, mainSubject.value, origin.value);
+    refinePolicy(policy, mainSubject.value, origin.value);
   }
 
   // execute policies
@@ -54,7 +50,7 @@ export async function executePolicies(plugins: any, reasoningResultStore: N3.Sto
     const idNode = policy['node'];
     const target = policy['target'];
 
-    const { implementation } = findPlugin(plugins, target)
+    const implementation = await manager.instantiate<PolicyPlugin>(target);
 
     const policyStore = extractGraph(reasoningResultStore, idNode);
     const mainStore = extractGraph(reasoningResultStore, mainSubject);

@@ -3,11 +3,40 @@
       "https://linkedsoftwaredependencies.org/bundles/npm/componentsjs/^5.0.0/components/context.jsonld",
       "https://linkedsoftwaredependencies.org/bundles/npm/koreografeye/^0.0.0/components/context.jsonld"
     ],
-    "@id": "urn:koreografeye:reasonerInstance",
-    "@type": "EyeJsReasoner",
-    "args": [ 
-      "--quiet" , 
-      "--nope" , 
-      "--pass"
+    "@graph": [
+      {
+        "@id": "urn:koreografeye:reasonerInstance",
+        "@type": "EyeJsReasoner",
+        "args": [ 
+          "--quiet" , 
+          "--nope" , 
+          "--pass"
+        ]
+      }
+      ,
+      {
+        "@id": "http://example.org/demoPlugin",
+        "@type": "DemoPlugin"
+      },
+      {
+        "@id": "http://example.org/sendEmail",
+        "@type": "SendEmailPlugin",
+        "host": "mail.gmx.com",
+        "port": 465,
+        "secure": true
+      },
+      {
+        "@id": "http://example.org/sendNotify",
+        "@type": "SendNotificationPlugin",
+        "context": [
+            "https://www.w3.org/ns/activitystreams" ,
+            "https://purl.org/coar/notify"
+        ]
+      },
+      {
+        "@id": "http://example.org/sendNtfy",
+        "@type": "SendNtfyPlugin",
+        "topic": "MiniOrchestrator12345" 
+      }
     ]
 }

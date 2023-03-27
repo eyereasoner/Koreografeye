@@ -12,7 +12,7 @@
 #   N - a numerable or variable
 # Find the cardinality of a pattern X in G as number N
 (_:Pat _:Graph _:L _:N) log:onNegativeSurface {
-    () log:onConstructSurface {
+    () log:onQuerySurface {
         (_:Pat _:Graph) util:cardinality _:N .
     } .
     (_:Pat _:L) util:collectAllIn _:Graph . 
@@ -28,7 +28,7 @@
 # Finds all occurenced of the triple X1 in G and creates
 # a list X2 of result
 (_:Pat _:List _:Graph _:GraphL) log:onNegativeSurface {
-    () log:onConstructSurface {
+    () log:onQuerySurface {
         (_:Pat _:List) util:collectAllIn _:Graph .
     } .
 
@@ -38,13 +38,13 @@
 } .
 
 (_:Pat _:Result) log:onNegativeSurface {
-    () log:onConstructSurface {
+    () log:onQuerySurface {
         (_:Pat _:Result _:Result) util:_collectAllIn () .
     } .
 } .
 
 (_:Pat _:List _:Result _:GraphL _:F _:R _:ResultNext _:T1 _:T2 _:N) log:onNegativeSurface {
-    () log:onConstructSurface {
+    () log:onQuerySurface {
         (_:Pat _:List _:Result) util:_collectAllIn _:GraphL .
     } .
 
@@ -58,7 +58,7 @@
 } .
 
 (_:Pat _:List _:Result _:GraphL _:F _:R) log:onNegativeSurface {
-    () log:onConstructSurface {
+    () log:onQuerySurface {
         (_:Pat _:List _:Result) util:_collectAllIn _:GraphL .
     } .
 
@@ -72,14 +72,14 @@
 ##################################################################
 
 (_:subject _:S _:P _:O) log:onNegativeSurface {
-    () log:onConstructSurface {
+    () log:onQuerySurface {
         _:subject util:walkGraph << _:subject _:P _:O >> .
     } .
     _:subject _:P _:O .
 } .
 
 (_:subject _:X _:Y _:S _:P _:O) log:onNegativeSurface {
-    () log:onConstructSurface {
+    () log:onQuerySurface {
         _:subject util:walkGraph << _:S _:P _:O >> .
     } .
     _:subject _:X _:Y .
