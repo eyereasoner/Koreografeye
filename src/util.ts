@@ -1,5 +1,6 @@
 import * as N3 from 'n3';
 import * as fs from 'fs';
+import * as path from 'path';
 import * as jsonld from 'jsonld';
 import * as RDF from '@rdfjs/types';
 import rdfParser from 'rdf-parse';
@@ -8,6 +9,7 @@ import { posix, win32 } from 'path';
 import stringifyStream = require('stream-to-string');
 import streamifyString = require('streamify-string');
 import {v4 as uuidv4} from 'uuid';
+import { ComponentsManager } from 'componentsjs';
 
 export type IPolicyType = {
     node:  N3.NamedNode | N3.BlankNode , 
@@ -405,6 +407,44 @@ export function trimLeadingSlashes(path: string): string {
 export function getExtension(path: string): string {
     const extension = /\.([^./]+)$/u.exec(path);
     return extension ? extension[1] : '';
+}
+
+/**
+ * Return a concatenation of all paths
+ * @param paths An array of file paths 
+ * @returns An array of concatenated file texts
+ */
+export async function concatFiles(paths: string[]): Promise<string[]>{
+    const data: string[] = [];
+    paths.filter(path => fs.lstatSync(path).isFile()).forEach(path => {
+      const text = readText(path)
+      if (text) {
+        data.push(text);
+      }
+    })
+    return data;
+}
+
+/**
+ * Create a componentsJs manager from a compontentsPath
+ * @param componentsPath The components confirguration
+ * @param modulePath The search path for a components configuration
+ * @returns Promise<CompontentsManager<unknown>>
+ */
+export async function makeComponentsManager(componentsPath: string, modulePath?: string) : Promise<ComponentsManager<unknown>> {
+    let mp = modulePath;
+
+    if (mp === undefined) {
+        mp = path.join(__dirname, '.');
+    }
+ 
+    const manager = await ComponentsManager.build({
+        mainModulePath: mp
+    });
+      
+    await manager.configRegistry.register(componentsPath);
+
+    return manager;
 }
 
 /**

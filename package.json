@@ -16,16 +16,21 @@
     "pol": "bin/pol --keep",
     "watch": "tsc --watch",
     "build": "npm run build:ts && npm run build:components",
-    "build:ts": "tsc",
+    "build:ts": "tsc ; chmod 755 dist/*js",
     "build:components": "componentsjs-generator -s dist",
     "clean": "rm err/* ; rm out/err/*",
     "clean:all": "npm run clean ; rm in/* out/* out/ok/*"
+  },
+  "bin": {
+    "orch": "dist/orch.js",
+    "pol": "dist/pol.js"
   },
   "dependencies": {
     "@comunica/query-sparql-rdfjs": "^2.5.1",
     "commander": "^9.4.1",
     "componentsjs": "^5.3.2",
     "eyereasoner": "^2.0.0",
+    "is-hidden-file": "^1.1.2",
     "jsonld": "^8.1.0",
     "log4js": "^6.7.0",
     "n3": "^1.16.3",
@@ -38,6 +43,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/glob": "^8.1.0",
     "@types/jsonld": "^1.5.8",
     "@types/n3": "^1.10.4",
     "@types/nodemailer": "^6.4.6",

@@ -11,31 +11,6 @@ const FNO = 'https://w3id.org/function/ontology#';
 const myEngine = new QueryEngine();
 
 /**
- * Extracts the plugin path and its possible extra parameters, given an object of plugins.
- * `implementation` contains the plugin path
- * `implementationConfiguration` contains extra parameters
- * 
- * @param plugins - Object that contains the configuration for the plugins.
- * @param target - FnO identifier
- * @returns an object containing `implementation` and `implementationConfiguration`
- */
-export function findPlugin(plugins: any, target: string): any {
-  let implementation;
-  let implementationConfiguration: any = {};
-
-  if (plugins[target]) {
-    if (typeof plugins[target] === 'string') {
-      implementation = plugins[target];
-    }
-    else {
-      implementation = plugins[target]['@id'];
-      implementationConfiguration = plugins[target];
-    }
-  }
-  return { implementation, implementationConfiguration }
-}
-
-/**
  * Extract policies from a graph.
  * 
  * Note that the output does not conform yet to {@link IPolicyType}
@@ -138,11 +113,7 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
 /**
  * Add main subject, origin and config to a policy as this is not done in {@link extractPolicies}
  */
-export function refinePolicy(plugins: any, policy: IPolicyType, mainSubject: string, origin: string): void {
-  const target = policy['target'];
-
-  const { implementationConfiguration } = findPlugin(plugins, target)
+export function refinePolicy(policy: IPolicyType, mainSubject: string, origin: string): void {
   policy['mainSubject'] = mainSubject;
   policy['origin'] = origin;
-  policy['config'] = implementationConfiguration;
 }

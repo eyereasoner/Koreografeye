@@ -4,8 +4,6 @@
 #
 PROJDIR=$(dirname $0)
 
-cd ${PROJDIR}/..
-
 if [ $# -eq 0 ]; then
     cat <<EOF;
 usage: $0 [options] orch-output-file
@@ -35,7 +33,7 @@ done
 IN="out"
 OUT="out/ok"
 ERR="out/err"
-CONF="./plugin.json"
+CONF="./config.jsonld"
 KEEP=0
 
 OPTIND=1
@@ -63,7 +61,12 @@ for f in ${IN}/*; do
     TMPERROR=$(mktemp)
 
     echo -n "$f : "
-    node dist/pol.js --config ${CONF} "$f" > ${TMPERROR} 2>&1
+
+    if [ $KEEP -eq 1 ]; then
+        node dist/pol.js --config ${CONF} --keep --single "$f" > ${TMPERROR} 2>&1
+    else
+        node dist/pol.js --config ${CONF} --single "$f" > ${TMPERROR} 2>&1
+    fi
 
     if [ $? -eq 0 ]; then
         echo "OK" 
@@ -73,9 +76,5 @@ for f in ${IN}/*; do
         echo "FAILED"
         cat ${TMPERROR} >&2
         mv ${TMPERROR} ${ERR}/${BASENAME}
-    fi
-
-    if [ $KEEP -eq 0 ]; then 
-        rm $f
     fi
 done
