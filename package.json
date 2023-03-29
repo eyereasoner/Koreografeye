@@ -16,7 +16,7 @@
     "pol": "bin/pol --keep",
     "watch": "tsc --watch",
     "build": "npm run build:ts && npm run build:components",
-    "build:ts": "tsc",
+    "build:ts": "tsc ; chmod 755 dist/*js",
     "build:components": "componentsjs-generator -s dist",
     "clean": "rm err/* ; rm out/err/*",
     "clean:all": "npm run clean ; rm in/* out/* out/ok/*"

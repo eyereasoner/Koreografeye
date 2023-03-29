@@ -156,23 +156,27 @@ async function single_run(data: string, manager: ComponentsManager<unknown>) : P
     }
 
     if (success) {
+        logger.info(`OK - errors : ${errors}`);
+
         if (opts.out !== null && opts.out !== undefined) {
             const outFile = joinFilePath(opts.out, path.basename(data));
-            logger.info(`copy data to ${outFile}`);
+            logger.info(`copy ${data} to ${outFile}`);
             fs.copyFileSync(data,outFile);
         }
         else {
-
+            // No futher actions required for the input file...
         } 
     }
     else {
+        logger.error(`OOPS - errors : ${errors}`);
+
         if (opts.err !== null && opts.err !== undefined) {
             const errFile = joinFilePath(opts.err, path.basename(data));
             logger.info(`copy data to ${errFile}`);
             fs.copyFileSync(data,errFile);
         }
         else {
-
+            // No furthe actions required for the input file...
         }
     }
 
