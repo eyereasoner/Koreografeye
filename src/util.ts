@@ -11,22 +11,6 @@ import streamifyString = require('streamify-string');
 import {v4 as uuidv4} from 'uuid';
 import { ComponentsManager } from 'componentsjs';
 
-export type IPolicyType = {
-    node:  N3.NamedNode | N3.BlankNode , 
-                          // Policy node
-    path: string ,        // Input file
-    policy: string ,      // Policy identifier
-    target: string ,      // Name of execution target (the idenfier of the policy function)
-    mainSubject: string , // Activity identifier
-    origin: string ,      // Path to original activity
-    args: {               // Name/Value pairs of policy arguments
-        [key : string]: RDF.Term | undefined 
-    } ,
-    config: {             // Name/Value pairs passed via a configuration setting
-        [key : string] : any    
-    }
-};
-
 /**
  * Load a JSON configuration file and returns the parsed content or undefined on error.
  * 

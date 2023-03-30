@@ -1,6 +1,6 @@
 import * as N3 from 'n3';
-import { rdfTransformStore , jsonldStrFrame , type IPolicyType} from '../../util';
-import { PolicyPlugin } from '../PolicyPlugin';
+import { rdfTransformStore , jsonldStrFrame } from '../../util';
+import { PolicyPlugin , type IPolicyType } from '../PolicyPlugin';
 
 export class DemoPlugin extends PolicyPlugin {
 

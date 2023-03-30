@@ -3,7 +3,7 @@ import { QueryEngine } from '@comunica/query-sparql-rdfjs';
 import { Logger } from 'log4js';
 import * as N3 from 'n3';
 import { DataFactory } from 'rdf-data-factory';
-import { type IPolicyType } from '../util';
+import { type IPolicyType } from '../policy/PolicyPlugin';
 
 const POL = 'https://www.example.org/ns/policy#';
 const FNO = 'https://w3id.org/function/ontology#';

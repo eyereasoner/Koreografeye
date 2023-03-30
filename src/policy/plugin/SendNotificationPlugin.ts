@@ -4,10 +4,9 @@ import {
     extractGraph , 
     renameSubjectInGraph ,
     generate_uuid ,
-    jsonldStrFrame , 
-    type IPolicyType
+    jsonldStrFrame 
 } from '../../util';
-import { PolicyPlugin } from '../PolicyPlugin';
+import { PolicyPlugin , type IPolicyType } from '../PolicyPlugin';
 
 export class SendNotificationPlugin extends PolicyPlugin {
     context : string[];

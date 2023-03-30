@@ -47,8 +47,7 @@ The N3 above states: "If we find an AS2 notification of type `as:Announce`, then
 ## Installation
 
 ```
-npm install
-npm build
+npm install koreografeye -g
 ```
 
 The experimental _blogic_ , _policy_ and _solid_ examples require the Prolog version of [EYE](https://github.com/eyereasoner/eye) installed. We refer to the install instructions of this project for more
@@ -162,9 +161,8 @@ where:
     - *policy* : `string` : identifier of the policy instance
     - *target* : `string` : identifier of the policy target
     - *mainSubject* : `string` : the activity identifier of the notification
-    - *origin* : `string` : path to the original notifiction input file
+    - *origin* : `string` : path to the original notification input file
     - *args*   : `any { [key: string] : RDF.Term | undefined }`  : key/value pairs of all arguments that were provided for the policy
-    - *config* : `any { [key: string] : any}` : configuration settings from plugin.json for the target
 
 An example `IPolicyType` contents (in JSON):
 
@@ -212,8 +210,7 @@ _After running rules/00_demo.n3 on data/demo.ttl_
         }
     },
     "mainSubject": "urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32",
-    "origin": "file:///var/folders/g8/czx2gjfs3_bbvvk1hjlcsj9m0000gn/T/in/demo.ttl",
-    "config": {}
+    "origin": "file:///var/folders/g8/czx2gjfs3_bbvvk1hjlcsj9m0000gn/T/in/demo.ttl"
 }
 ```
 
@@ -244,3 +241,8 @@ _After running rules/00_demo.n3 on data/demo.ttl_
       ex:body ?s 
   ] ] .
 ```
+
+## Examples
+
+- [KoreografeyeDemo](https://github.com/eyereasoner/KoreografeyeDemo) : A demonstration koreografeye project
+- [KoreografeyePluginDemo](https://github.com/eyereasoner/KoreografeyePluginDemo) : A demonstration how to create new plugins for koreografeye

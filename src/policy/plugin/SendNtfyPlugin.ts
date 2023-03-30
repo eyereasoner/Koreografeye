@@ -1,6 +1,5 @@
 import * as N3 from 'n3';
-import { type IPolicyType} from '../../util';
-import { PolicyPlugin } from '../PolicyPlugin';
+import { PolicyPlugin , type IPolicyType } from '../PolicyPlugin';
 
 export class SendNtfyPlugin extends PolicyPlugin {
     topic : string;

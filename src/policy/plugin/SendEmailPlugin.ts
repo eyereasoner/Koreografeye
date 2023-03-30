@@ -1,7 +1,6 @@
 import * as N3 from 'n3';
 import * as nodemailer from 'nodemailer';
-import { type IPolicyType} from '../../util';
-import { PolicyPlugin } from '../PolicyPlugin';
+import { PolicyPlugin , type IPolicyType } from '../PolicyPlugin';
 
 export class SendEmailPlugin extends PolicyPlugin {
     host: string;
