@@ -10,6 +10,9 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "orch": "bin/orch --keep rules/demo/*.n3",
+    "orch:demo": "node dist/orch.js --info --single in/demo.ttl --keep --out out rules/demo/00_demo.n3",
+    "orch:debug": "node dist/orch.js --info --single in/demo.ttl --keep --out out rules/demo/00_debug.n3",
+    "orch:ldn": "node dist/orch.js --info --single in/demo.ttl --keep --out out rules/demo/03_sendNotification.n3",
     "orch:blogic": "bin/orch --keep --config config-blogic.jsonld rules/blogic/00_demo.n3",
     "orch:policy": "bin/orch --keep --config config-blogic.jsonld rules/blogic/00_policy.n3 rules/blogic/policy/*.n3",
     "orch:solid": "bin/orch --keep --config config-solid.jsonld rules/solid/*.n3",

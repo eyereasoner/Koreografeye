@@ -9,7 +9,7 @@
   # pol:mainSubject defines the top level identifier of the notification
   [ pol:mainSubject ?id ] .
   
-  ?id a as:Offer .
+  ?id a as:Announce .
   ?id as:actor ?actor .
 }
 =>
@@ -17,7 +17,7 @@
     ex:MySendNotificationDemo pol:policy [
         a fno:Execution ;
         fno:executes ex:sendNotification ;
-        ex:to <http://patrickhochstenbach.net/inbox/> ;
+        ex:to <http://httpbin.org/post> ;
         ex:notification [
                 a as:Accept ;
                 as:inReplyTo ?id ;

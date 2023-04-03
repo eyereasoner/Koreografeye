@@ -18,6 +18,10 @@
             ]
         },
         {
+          "@id": "http://example.org/debugPlugin",
+          "@type": "DebugPlugin"
+        },
+        {
           "@id": "http://example.org/demoPlugin",
           "@type": "DemoPlugin"
         },
@@ -29,7 +33,7 @@
           "secure": true
         },
         {
-          "@id": "http://example.org/sendNotify",
+          "@id": "http://example.org/sendNotification",
           "@type": "SendNotificationPlugin",
           "context": [
               "https://www.w3.org/ns/activitystreams" ,
