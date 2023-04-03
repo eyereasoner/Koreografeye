@@ -1,7 +1,7 @@
 {
   "name": "koreografeye",
   "description": "A minimal orchestrator and policy executor component for the Mellon Researcher Pod project",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "",
   "license": "MIT",
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
@@ -25,6 +25,12 @@
     "orch": "dist/orch.js",
     "pol": "dist/pol.js"
   },
+  "files": [
+    "components",
+    "dist/**/*.d.ts",
+    "dist/**/*.js",
+    "dist/**/*.js.map"
+  ],
   "dependencies": {
     "@comunica/query-sparql-rdfjs": "^2.5.1",
     "commander": "^9.4.1",
