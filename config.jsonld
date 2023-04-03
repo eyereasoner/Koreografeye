@@ -25,7 +25,7 @@
         "secure": true
       },
       {
-        "@id": "http://example.org/sendNotify",
+        "@id": "http://example.org/sendNotification",
         "@type": "SendNotificationPlugin",
         "context": [
             "https://www.w3.org/ns/activitystreams" ,
