@@ -14,12 +14,11 @@
         ]
       },
       {
-        "@id": "http://example.org/debugPlugin",
-        "@type": "DebugPlugin"
-      },
-      {
         "@id": "http://example.org/demoPlugin",
-        "@type": "DemoPlugin"
+        "@type": "DemoPlugin",
+        "showMainStore" : false,
+        "showPolicyStore" : false ,
+        "showParameters" : false 
       },
       {
         "@id": "http://example.org/sendEmail",

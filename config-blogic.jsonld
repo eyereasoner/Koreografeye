@@ -18,10 +18,6 @@
             ]
         },
         {
-          "@id": "http://example.org/debugPlugin",
-          "@type": "DebugPlugin"
-        },
-        {
           "@id": "http://example.org/demoPlugin",
           "@type": "DemoPlugin"
         },
