@@ -1,7 +1,7 @@
 {
   "name": "koreografeye",
   "description": "A minimal orchestrator and policy executor component for the Mellon Researcher Pod project",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "",
   "license": "MIT",
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",

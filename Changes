@@ -1,3 +1,6 @@
+2023-04-05 0.2.2
+    - Adding more tunable DemoPlugin with friendly text output
+  
 2023-04-03 0.2.1
     - Adding components/ and dist/ to npm version
 
