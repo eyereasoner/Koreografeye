@@ -1,4 +1,7 @@
+2023-04-13 0.2.3
     - Fixing dependencies
+    - Adding support for multiple mainSubjects
+    - Fixing documentation
   
 2023-04-05 0.2.2
     - Adding more tunable DemoPlugin with friendly text output

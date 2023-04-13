@@ -18,6 +18,7 @@ import {
 import { ComponentsManager } from 'componentsjs';
 import { Reasoner } from './orchestrator/Reasoner';
 
+const DEFAULT_IN_DIR   = './in';
 const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
 let   orchConf         = './config.jsonld';
@@ -68,13 +69,9 @@ async function main() {
         const data = opts.single;
         await single_file_run(data,rules,componentsManager);
     }
-    else if (opts.in) {
-        const indir  = opts.in;
-        await multiple_file_run(indir,rules,componentsManager);
-    }
     else {
-        console.error(`Need a --in <directory> or --single <file> input`);
-        process.exit(2);
+        let indir = opts.in || DEFAULT_IN_DIR;
+        await multiple_file_run(indir,rules,componentsManager);
     }
 }
 
@@ -178,12 +175,14 @@ async function reason(dataPath: string , rulePaths: string[], manager: Component
 
             const topIds = topGraphIds(store);
 
-            if (topIds.length != 1) {
-                return reject(`document doesn't contain one main subject`);
+            if (topIds.length == 0) {
+                return reject(`can't find main subject?!`);
             }
 
-            // Inject a top graph indicator in the KG
-            storeAddPredicate(store, POL_MAIN_SUBJECT, topIds[0]);
+            // Inject all top graph indicators in the KG
+            topIds.forEach( (id) => {
+                storeAddPredicate(store, POL_MAIN_SUBJECT, id);
+            });
 
             // Inject the file origin in the KG
             storeAddPredicate(store, POL_ORIGIN, dataPath);

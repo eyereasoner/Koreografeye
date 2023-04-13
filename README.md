@@ -59,11 +59,12 @@ information.
 
 - Put ActivityStreams notifications in the `in` directory
 - Put N3 rules in the `rules` directory
-- Run `bin/orch --keep rules/*` to run the rules on alle in notification in the `in` directory
+- Run `npx orch --info --keep rules/* --in in --out out` to run the rules on alle in notification in the `in` directory
+    - Use the `--info` option to show informational messages
     - Use the `--keep` option if you don't want to automatic clean the `in` after processing notifications
     - The processed notifications will end up in the `out` directory
     - _Alternative_: run `npm run orch`
-- Run `bin/pol --keep` to run the policy executor with all the processed notifications from the `out` directory
+- Run `npx pol --info --keep --in out` to run the policy executor with all the processed notifications from the `out` directory
     - Use the `--keep` option if you don't want to automatic clean the `out` after processing notifications
     - _Alternative_: run `npm run pol`
 - If you want to experiment with expressing N3 rules as [RDF Surfaces](https://josd.github.io/surface/) use the following commands:
@@ -80,7 +81,7 @@ Small javascript example to execute Koreografeye using [`demo.ttl`](./data/demo.
 ```javascript
 const { EyeJsReasoner } = require('./dist/orchestrator/reasoner/EyeJsReasoner')
 const { executePolicies } = require('./dist/policy/Executor');
-const { parseAsN3Store, readText, storeAddPredicate } = require('./dist/util');
+const { parseAsN3Store, readText, storeAddPredicate, makeComponentsManager } = require('./dist/util');
 
 const store = await parseAsN3Store('./data/demo.ttl'); // input graph
 const rules = [readText('./rules/00_demo.n3')]; // array of n3 rules serialized as string
@@ -94,10 +95,10 @@ storeAddPredicate(store, 'https://www.example.org/ns/policy#origin', './data/dem
 const reasoner = new EyeJsReasoner([ "--quiet" , "--nope" , "--pass"])
 const reasoningResult = await reasoner.reason(store, rules);
 
-const plugins = loadConfig('./plugin.json'); // configuration for the policy executor
+const manager = await makeComponentsManager('./config.jsonld','.');
 
 // execute policies
-await executePolicies(plugins, reasoningResult);
+await executePolicies(manager, reasoningResult);
 ```
 
 Note: for this code to run, the project has to be compiled first (`npm run build`).
@@ -132,20 +133,15 @@ Options:
 - --debug : debug messages
 - --trace : trace messages
 
-Requires:
+### Plugins
 
-- `plugin.json` : configuration file with JavaScript plugin
+A Koreografeye implements the side-effects for the policy executor. These plugins handle sending
+emails, updating Solid Pod, sending notifications, start engines and fire rockets. The plugins
+require an entry in the `config.jsonld` Components.js configuration file and a JavaScript/Typescript
+implementation.
 
-Example configuration:
-
-```
-{
-    "http://example.org/sendEmail": "./plugin/sendEmail"
-}
-```
-
-Each plugin should implement a `policyTarget` function with the following
-signature:
+Each Koreografeye plugin is a javascript class that extends `PolicyPlugin` and should implement
+a `policyTarget` function with the following signature:
 
 ```
 export async function policyTarget(mainStore: N3.Store, policyStore: N3.Store , policy: IPolicyType) : Promise<boolean>;
@@ -246,3 +242,7 @@ _After running rules/00_demo.n3 on data/demo.ttl_
 
 - [KoreografeyeDemo](https://github.com/eyereasoner/KoreografeyeDemo) : A demonstration koreografeye project
 - [KoreografeyePluginDemo](https://github.com/eyereasoner/KoreografeyePluginDemo) : A demonstration how to create new plugins for koreografeye
+- [Koreografeye-Solid](https://github.com/eyereasoner/Koreografeye-Solid) : A plugin that can update a Solid pod
+- [Koreografeye-Mastodon](https://github.com/eyereasoner/Koreografeye-Mastodon) : A plugin that can send a toot to a Mastodon user
+- [OAI-Bridge](https://github.com/MellonScholarlyCommunication/OAI-Bridge) : A service that turns [OAI-PMH](https://www.openarchives.org/pmh/) services into [Event Notifications](https://www.eventnotifications.net) services
+- [Solid-Agent](https://github.com/woutslabbinck/Solid-Agent) : Koreografeye as part of a rule-based intelligent software agent for Solid pods.
