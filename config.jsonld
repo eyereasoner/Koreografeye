@@ -14,11 +14,18 @@
         ]
       },
       {
+        "@id": "http://example.org/debugPlugin",
+        "@type": "DemoPlugin",
+        "showMainStore" : true,
+        "showPolicyStore" : true,
+        "showParameters" : true 
+      },
+      {
         "@id": "http://example.org/demoPlugin",
         "@type": "DemoPlugin",
         "showMainStore" : false,
         "showPolicyStore" : false ,
-        "showParameters" : false 
+        "showParameters" : true
       },
       {
         "@id": "http://example.org/sendEmail",
