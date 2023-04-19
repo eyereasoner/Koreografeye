@@ -1,3 +1,7 @@
+2023-04-19 0.2.5
+    - Fixing dist output
+    - Adding npm batch
+  
 2023-04-19 0.2.4
     - Fixing reasoner state bug
   
