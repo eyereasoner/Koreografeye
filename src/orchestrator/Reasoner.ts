@@ -10,27 +10,10 @@ export abstract class Reasoner {
     }
 
     /**
-     * Abox appender
-     * @param data - A string containing N3 data
-     */
-    public abstract aboxAppend(data: string) : void;
-
-    /**
-     * Tbox appender
-     * @param data - A string containing N3 rules
-     */
-    public abstract tboxAppend(data: string) : void;
-
-    /**
      * Run the reasoner
      * @returns An N3 string containing the result of the inferences
      */
-    public abstract run() : Promise<string>;
-
-    /**
-     * Clean up memory, diskspace, ...
-     */
-    public abstract cleanup() : void;
+    public abstract run(abox: string[], tbox: string[]) : Promise<string>;
 
     /**
      * Reason on an N3 store of triples with zero or more N3 rules descriptions.
@@ -44,19 +27,18 @@ export abstract class Reasoner {
      * @returns An N3 Store with the reasoning result
      */
     public async reason(dataStore: Store, rules: string[]): Promise<Store>{
+        this.logger.debug(`start reasoner ${this.constructor.name}`);
+        
         const n3 = await rdfTransformStore(dataStore, 'text/turtle');
 
         if (!n3) {
             throw new Error(`failed to transform store to turtle`);
         }
-        this.aboxAppend(n3);
 
-        rules.map(n3 => this.tboxAppend(n3) );
-
-        const result = await this.run();
+        const result = await this.run([n3],rules);
 
         const resultStore = await parseStringAsN3Store(result);
-        this.cleanup();
+        
         return resultStore;
     }
 }

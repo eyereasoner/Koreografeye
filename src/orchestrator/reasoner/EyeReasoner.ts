@@ -1,4 +1,4 @@
-import { FileResult, fileSync } from "tmp";
+import { fileSync } from "tmp";
 import * as fs from 'fs';
 import { spawn } from 'node:child_process';
 import { Reasoner } from "../Reasoner";
@@ -10,8 +10,6 @@ import { Reasoner } from "../Reasoner";
 export class EyeReasoner extends Reasoner {
     private eye   : string;
     private args  : string[];
-    private xargs : string[] = [];
-    private files : FileResult[] = [];
 
     /**
      * Constructor
@@ -22,39 +20,31 @@ export class EyeReasoner extends Reasoner {
         super();
         this.eye = eye;
         this.args = args;
-    }
-
-    /**
-     * Abox appender
-     * @param data - A string containing N3 data
-     */
-    public aboxAppend(data: string) {
-        const tmpobj = this.createTmpFile(data);
-        // add data file path to eye args
-        this.xargs.push(tmpobj.name);
-        this.files.push(tmpobj);
-    }
-
-    /**
-     * Tbox appender
-     * @param data - A string containing N3 rules
-     */
-    public tboxAppend(data: string) {
-        this.aboxAppend(data);
+        this.logger.debug(`constructing EyeReasoner with %s`, args);
     }
 
     /**
      * Run the reasoner
      * @returns An N3 string containing the result of the inferences
      */
-    public async run() : Promise<string> {
-        const all_args = this.args.concat(this.xargs);
+    public async run(abox: string[], tbox: string[]) : Promise<string> {
+        const tmpobj = fileSync();
+
+        abox.forEach( (str) => {
+          fs.appendFileSync(tmpobj.name,str);
+        });
+
+        tbox.forEach( (str) => {
+          fs.appendFileSync(tmpobj.name,str);
+        });
+
+        const all_args = this.args.concat(tmpobj.name);
 
         return new Promise<string>(async (resolve, reject) => {
             let errorData = '';
             let resultData = '';
 
-            this.logger.trace(`spawning ${this.eye} with ${all_args}`);
+            this.logger.debug(`spawning ${this.eye} with ${all_args}`);
             
             const ls = spawn(this.eye, all_args);
             ls.stdout.on('data', (data) => {
@@ -65,38 +55,14 @@ export class EyeReasoner extends Reasoner {
             });
             ls.on('close', (code) => {
               if (code != 0) {
+                tmpobj.removeCallback();
                 return reject(errorData);
               }
               else {
+                tmpobj.removeCallback();
                 return resolve(resultData);
               }
             });
         });
-    }
-
-    /**
-     * Clean up memory and disk space
-     */
-    public cleanup() {
-        this.files.forEach(tmp => tmp.removeCallback());
-    }
-
-    /**
-     * Creates a temporary file. (execute `removeCallback()` on the {@link FileResult} return value)
-     * @param text - plain text to be put into a temporary file.
-     * @returns {FileResult}
-     */
-    private createTmpFile(text: string): FileResult {
-        const tmpobj = fileSync();
-    
-        if (!tmpobj) {
-            throw new Error(`failed to create tmp object`);
-        }
-    
-        this.logger.trace(`creating tmp file ${tmpobj.name}`);
-        
-        fs.writeFileSync(tmpobj.name, text);
-
-        return tmpobj;
     }
 }

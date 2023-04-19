@@ -7,34 +7,18 @@ import { SwiplEye, queryOnce } from 'eyereasoner';
  */
 export class EyeJsReasoner extends Reasoner {
     private args : string[] = [];
-    private data : string[] = []; 
 
     constructor(args: string[]) {
         super();
         this.args = args;
-    }
-
-    /**
-     * Abox appender
-     * @param data - A string containing N3 data
-     */
-    public aboxAppend(data: string) {
-        this.data.push(data);
-    }
-
-    /**
-     * Tbox appender
-     * @param data - A string containing N3 rules
-     */
-    public tboxAppend(data: string) {
-        this.aboxAppend(data);
+        this.logger.debug(`constructing EyeJsReasoner with %s`, args);
     }
 
     /**
      * Run the reasoner
      * @returns An N3 string containing the result of the inferences
      */
-    public async run() : Promise<string> {
+    public async run(abox: string[] , tbox: string[]) : Promise<string> {
         return new Promise(async (resolve) => {
             let res = '';
 
@@ -47,12 +31,18 @@ export class EyeJsReasoner extends Reasoner {
 
             const dataFiles = [];
 
-            for (let i = 0 ; i < this.data.length ; i++) {
-                const dataFile = `data${i}.n3`;
-                Module.FS.writeFile(dataFile, this.data[i]);
+            for (let i = 0 ; i < abox.length ; i++) {
+                const dataFile = `data_${i}.n3`;
+                Module.FS.writeFile(dataFile, abox[i]);
                 dataFiles.push(dataFile);
             }
 
+            for (let i = 0 ; i < tbox.length ; i++) {
+                const dataFile = `rules_${i}.n3`;
+                Module.FS.writeFile(dataFile, tbox[i]);
+                dataFiles.push(dataFile);
+            }
+            
             const xargs = this.args.concat(dataFiles);
 
             queryOnce(Module, 'main', xargs);
@@ -60,6 +50,4 @@ export class EyeJsReasoner extends Reasoner {
             resolve(res);
         });
     }
-
-    public cleanup(): void {}
 }

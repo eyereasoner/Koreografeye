@@ -1,3 +1,6 @@
+2023-04-19 0.2.4
+    - Fixing reasoner state bug
+  
 2023-04-13 0.2.3
     - Fixing dependencies
     - Adding support for multiple mainSubjects
