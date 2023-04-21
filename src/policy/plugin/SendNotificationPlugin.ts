@@ -66,7 +66,10 @@ export class SendNotificationPlugin extends PolicyPlugin {
 
         const result = await fetch(to.value, {
                 method: 'POST', 
-                body: JSON.stringify(json) 
+                body: JSON.stringify(json) ,
+                headers: {
+                    "Content-type" : "application/ld+json; charset=UTF-8"
+                }
             });
 
         if (result.ok) {
