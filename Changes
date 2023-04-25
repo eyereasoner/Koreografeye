@@ -1,3 +1,6 @@
+2023-04-25 
+    - Processing the main store only one time and passing it to all policy executors
+    
 2023-04-21 0.2.6
     - Fixing contentType bug in sendNotification
     

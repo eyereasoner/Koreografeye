@@ -16,7 +16,7 @@ import { PolicyPlugin } from './PolicyPlugin';
  * @returns the result of the policy when it was correctly executed.
  */
 async function callImplementation(plugin: PolicyPlugin, mainStore: N3.Store, policyStore: N3.Store, policy: any, logger: Logger) {
-  logger.info(`calling ${plugin}...`);
+  logger.info(`calling ${plugin.constructor.name}...`);
   const result = await plugin.execute(mainStore, policyStore, policy);
   logger.info(`..returned a ${result}`);
   return result;
@@ -46,14 +46,14 @@ export async function executePolicies(manager: ComponentsManager<unknown>, reaso
   }
 
   // execute policies
+  const mainStore = extractGraph(reasoningResultStore, mainSubject);
+
   for (const policy of Object.values(policies)) {
     const idNode = policy['node'];
     const target = policy['target'];
 
     const implementation = await manager.instantiate<PolicyPlugin>(target);
-
     const policyStore = extractGraph(reasoningResultStore, idNode);
-    const mainStore = extractGraph(reasoningResultStore, mainSubject);
 
     if (implementation) {
       logger.info(`${target} -> ${implementation}`);
