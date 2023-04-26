@@ -20,7 +20,7 @@ const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
 let   pluginConf       = './config.jsonld';
 
-program.version('0.2.6')
+program.version('0.2.7')
        .option('-c,--config <file>', 'configuration file')
        .option('-i,--in <directory>','input directory')
        .option('-e,--err <directory>','error directory')
