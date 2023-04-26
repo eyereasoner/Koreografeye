@@ -178,7 +178,7 @@ Options:
 
 Run a policy executor on one of the output files of the orchestrator
 
-*bin/pol [options] 
+*bin/pol [options]*
 
 Options:
 
