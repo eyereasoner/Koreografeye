@@ -168,6 +168,7 @@ Options:
 - --in *directory* : directory with input notifications
 - --out *directory* : directory with orchestrator output
 - --err *directory* : directory with failed notifications
+- --single *file* : process only a single file
 - --keep : keep the --in data (don't delete after processing)
 - --info : verbose messages
 - --debug : debug messages
@@ -177,7 +178,7 @@ Options:
 
 Run a policy executor on one of the output files of the orchestrator
 
-*bin/pol [options] file*
+*bin/pol [options] 
 
 Options:
 
@@ -185,6 +186,7 @@ Options:
 - --in *directory* : directory with input notifications
 - --out *directory* : directory with orchestrator output
 - --err *directory* : directory with failed notifications
+- --single *file* : process only a single file
 - --keep : keep the --in data (don't delete after processing)
 - --info : verbose messages
 - --debug : debug messages
