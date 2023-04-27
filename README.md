@@ -135,32 +135,56 @@ This assumes you have an authenticated Bashlib session. Use the bashlib `auth cr
 
 ### Typescript/javascript
 
-Small Javascript example to execute Koreografeye using [`demo.ttl`](./data/demo.ttl) and [`00_demo.n3`](./rules/00_demo.n3).
+One can also use JavaScript to execute the `orch` and `pol` commands:
 
 ```javascript
-const { EyeJsReasoner } = require('./dist/orchestrator/reasoner/EyeJsReasoner')
-const { executePolicies } = require('./dist/policy/Executor');
-const { parseAsN3Store, readText, storeAddPredicate, makeComponentsManager } = require('./dist/util');
+const { 
+    parseAsN3Store, 
+    readText, 
+    topGraphIds, 
+    storeAddPredicate, 
+    makeComponentsManager,
+    executePolicies
+} = require('koreografeye');
 
-const store = await parseAsN3Store('./data/demo.ttl'); // input graph
-const rules = [readText('./rules/00_demo.n3')]; // array of n3 rules serialized as string
+main();
 
-// add main subject and origin for the reasoner
-const mainSubject = 'urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32';
-storeAddPredicate(store, 'https://www.example.org/ns/policy#mainSubject', mainSubject);
-storeAddPredicate(store, 'https://www.example.org/ns/policy#origin', './data/demo.ttl');
+async function main() {
+    const inputData  = './input/demo.jsonld';
+    const inputRules = './rules/demo.n3';
 
-// execute reasoning (orchestration)
-const reasoner = new EyeJsReasoner([ "--quiet" , "--nope" , "--pass"])
-const reasoningResult = await reasoner.reason(store, rules);
+    // Read the input graph as an N3 store
+    const store  = await parseAsN3Store(inputData); 
+    // Read the N3 rules as an array of strings
+    const rules  = [readText(inputRules)]; 
+    // Discover the main subjects of the graph
+    const topIds = topGraphIds(store);
 
-const manager = await makeComponentsManager('./config.jsonld','.');
+    // Add some extra metadata to the store
+    storeAddPredicate(store, 'https://www.example.org/ns/policy#mainSubject',topIds[0]);
+    storeAddPredicate(store, 'https://www.example.org/ns/policy#origin', inputData);
 
-// execute policies
-await executePolicies(manager, reasoningResult);
+    // Load the components we need for reasoning
+    const manager = await makeComponentsManager('./config.jsonld','.');
+
+    // Get a reasoner
+    const reasoner = await manager.instantiate('urn:koreografeye:reasonerInstance');
+
+    // Execute the reasoner (orch)
+    const resultStore = await reasoner.reason(store, rules);
+
+    // Execute the policies (pol)
+    const numOfErrors = await executePolicies(manager, resultStore);
+
+    console.log(`found ${numOfErrors} errors`);
+}
 ```
 
-Note: for this code to run, the project has to be compiled first (`npm run build`).
+Run this code with:
+
+```
+node demo.js
+```
 
 ## Commands
 
