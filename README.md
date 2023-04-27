@@ -123,7 +123,7 @@ Using Koreografeye plugins you can experiment with:
 
 Check the Git repository https://github.com/eyereasoner/Koreografeye for more examples.
 
-We use the [Bashlib](https://solidlabresearch.github.io/Bashlib/) to monitor remote Solid LDN inboxes for new notification.
+We use the [Bashlib](https://github.com/SolidLabResearch/Bashlib) to monitor remote Solid LDN inboxes for new notification.
 
 E.g. move the contents of your inbox to the `input` directory.
 
