@@ -23,6 +23,7 @@ Add the koreografeye dependency
 
 ```
 npm install koreografeye
+npm install solid-bashlib
 ```
 
 Create input, output and rules directories
@@ -123,6 +124,14 @@ Using Koreografeye plugins you can experiment with:
 Check the Git repository https://github.com/eyereasoner/Koreografeye for more examples.
 
 We use the [Bashlib](https://solidlabresearch.github.io/Bashlib/) to monitor remote Solid LDN inboxes for new notification.
+
+E.g. move the contents of your inbox to the `input` directory.
+
+```
+npx sld mv https://yourpod.org/inbox/ input/
+```
+
+This assumes you have an authenticated Bashlib session. Use the bashlib `auth create-token` command to create a token for the CSS Solid pod.
 
 ### Typescript/javascript
 
