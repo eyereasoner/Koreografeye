@@ -6,5 +6,4 @@ export * from "./policy/Executor";
 export * from "./policy/Extractor";
 export * from "./policy/plugin/DemoPlugin";
 export * from "./policy/plugin/SendNotificationPlugin";
-export * from "./policy/plugin/SendNtfyPlugin";
 export * from "./util";
