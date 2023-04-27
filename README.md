@@ -160,10 +160,6 @@ async function main() {
     // Discover the main subjects of the graph
     const topIds = topGraphIds(store);
 
-    // Add some extra metadata to the store
-    storeAddPredicate(store, 'https://www.example.org/ns/policy#mainSubject',topIds[0]);
-    storeAddPredicate(store, 'https://www.example.org/ns/policy#origin', inputData);
-
     // Load the components we need for reasoning
     const manager = await makeComponentsManager('./config.jsonld','.');
 
