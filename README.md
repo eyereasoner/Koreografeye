@@ -12,21 +12,21 @@ Koreografeye was created to facilitate automated processes against [Solid](https
 
 ### Configuration
 
-Create a project directory
+Create a project directory.
 
 ```
 mkdir demo
 cd demo
 ```
 
-Add the koreografeye dependency
+Add the `koreografeye` dependency (and `solid-bashlib` in case you want to monitor private Solid resources).
 
 ```
 npm install koreografeye
 npm install solid-bashlib
 ```
 
-Create input, output and rules directories
+Create input, output and rules directories.
 
 ```
 mkdir input output rules
@@ -40,7 +40,7 @@ wget https://raw.githubusercontent.com/eyereasoner/Koreografeye/main/config.json
 
 ### Prepare some input data
 
-Put a `demo.jsonld` AS2 notification in the `input` directory
+Put a `demo.jsonld` AS2 notification in the `input` directory.
 
 ```
 {
@@ -59,7 +59,7 @@ Put a `demo.jsonld` AS2 notification in the `input` directory
 }
 ```
 
-Create a `demo.n3` N3 rule file in the `rules` directory
+Create a `demo.n3` N3 rule file in the `rules` directory.
 
 ```
 @prefix ex:   <http://example.org/> .
