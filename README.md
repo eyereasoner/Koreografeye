@@ -224,9 +224,7 @@ Options:
 ## Examples implementations
 
 - [KoreografeyeDemo](https://github.com/eyereasoner/KoreografeyeDemo) : A demonstration koreografeye project
-- [KoreografeyePluginDemo](https://github.com/eyereasoner/KoreografeyePluginDemo) : A demonstration how to create new plugins for koreografeye
-- [Koreografeye-Solid](https://github.com/eyereasoner/Koreografeye-Solid) : A plugin that can update a Solid pod
-- [Koreografeye-Mastodon](https://github.com/eyereasoner/Koreografeye-Mastodon) : A plugin that can send a toot to a Mastodon user
+- [Koreografeye-Plugin](https://github.com/eyereasoner/Koreografeye-Plugin) : A collection of Koreografeye plugins to send emails, update Solid pods, send Mastodon toots, etc...
 - [OAI-Bridge](https://github.com/MellonScholarlyCommunication/OAI-Bridge) : A service that turns [OAI-PMH](https://www.openarchives.org/pmh/) services into [Event Notifications](https://www.eventnotifications.net) services
 - [CitationExtractorService](https://github.com/MellonScholarlyCommunication/CitationExtractorService) : A service node that extracts citations from PDFs
 - [Solid-Agent](https://github.com/woutslabbinck/Solid-Agent) : Koreografeye as part of a rule-based intelligent software agent for Solid pods.

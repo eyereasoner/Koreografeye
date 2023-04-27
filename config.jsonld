@@ -28,13 +28,6 @@
         "showParameters" : true
       },
       {
-        "@id": "http://example.org/sendEmail",
-        "@type": "SendEmailPlugin",
-        "host": "mail.gmx.com",
-        "port": 465,
-        "secure": true
-      },
-      {
         "@id": "http://example.org/sendNotification",
         "@type": "SendNotificationPlugin",
         "context": [
