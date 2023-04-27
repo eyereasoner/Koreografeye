@@ -68,9 +68,6 @@ Create a `demo.n3` N3 rule file in the `rules` directory.
 @prefix fno:  <https://w3id.org/function/ontology#> .
 
 {
-  # pol:mainSubject defines the top level identifier of the notification
-  [ pol:mainSubject ?id ] .
- 
   # if we get an offer 
   ?id a as:Offer .
   ?id as:actor ?actor .
