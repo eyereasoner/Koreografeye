@@ -1,3 +1,7 @@
+2023-04-27 0.2.8
+    - Exporting all Executor and Extractor functions
+    - Simplifying the README
+    
 2023-04-26 0.2.7
     - Fixing error output
     
