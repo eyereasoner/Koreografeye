@@ -13,7 +13,7 @@
     "orch:demo": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_demo.n3",
     "orch:debug": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_debug.n3",
     "orch:ldn": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_sendNotification.n3",
-    "pol": "node dist/pol.js --keep --in out",
+    "pol": "node dist/pol.js --info --keep --in out",
     "watch": "tsc --watch",
     "build": "npm run build:ts && npm run build:components",
     "build:ts": "tsc ; chmod 755 dist/*js",

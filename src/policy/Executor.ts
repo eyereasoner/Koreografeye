@@ -56,7 +56,7 @@ export async function executePolicies(manager: ComponentsManager<unknown>, reaso
     const policyStore = extractGraph(reasoningResultStore, idNode);
 
     if (implementation) {
-      logger.info(`${target} -> ${implementation}`);
+      logger.info(`${target} -> ${implementation.constructor.name}`);
 
       try {
         const isOk = await callImplementation(implementation, mainStore, policyStore, policy, logger);
