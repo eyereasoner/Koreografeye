@@ -1,0 +1,18 @@
+#!/bin/bash
+
+FILE=$1
+
+if [ "${FILE}" == "" ]; then
+    echo "usage: $0 file"
+    exit 1
+fi
+
+eye --nope --quiet --pass ${FILE} > /dev/null
+
+if [ $? -eq 0 ]; then
+    echo "${FILE} is valid"
+    exit 0
+else
+    echo "${FILE} is invalid"
+    exit 2
+fi
