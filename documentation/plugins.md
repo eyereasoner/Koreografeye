@@ -1,4 +1,4 @@
-# Plugins
+- # Plugins
 
 Koreografeye plugins implement the side-effects for the policy executor. These plugins handle sending emails, updating Solid Pod, sending notifications, start engines and fire rockets. The plugins require an entry in the `config.jsonld` Components.js configuration file and a JavaScript/Typescript implementation.
 
@@ -20,6 +20,7 @@ where:
     - *target* : `string` : identifier of the policy target
     - *mainSubject* : `string` : the activity identifier of the notification
     - *origin* : `string` : path to the original notification input file
+    - *order*  : `integer` : the execution order of the policy (default : 1)
     - *args*   : `any { [key: string] : RDF.Term | undefined }`  : key/value pairs of all arguments that were provided for the policy
 
 An example `IPolicyType` contents (in JSON):

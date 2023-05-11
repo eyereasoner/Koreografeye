@@ -7,6 +7,7 @@ import { type IPolicyType } from '../policy/PolicyPlugin';
 
 const POL = 'https://www.example.org/ns/policy#';
 const FNO = 'https://w3id.org/function/ontology#';
+const SH  = 'http://www.w3.org/ns/shacl#';
 
 const myEngine = new QueryEngine();
 
@@ -24,12 +25,14 @@ export async function extractPolicies(store: N3.Store, path: string, xtra: any, 
   const sql = `
 PREFIX pol: <${POL}> 
 PREFIX fno: <${FNO}>
+PREFIX sh: <${SH}>
 
-SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
+SELECT ?id ?policy ?executionTarget ?order ?name ?value WHERE {
   ?id pol:policy ?policy .
   ?policy a fno:Execution .
   ?policy fno:executes ?executionTarget .
   OPTIONAL { ?policy ?name ?value . } .
+  OPTIONAL { ?policy sh:order ?order . } .
 }
 `;
   logger.trace(sql);
@@ -44,19 +47,22 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
   const DF = new DataFactory();
 
   bindings.forEach((binding) => {
-    const id = binding.get('id')?.value;
+    const id     = binding.get('id')?.value;
+    const policy = binding.get('policy')?.value;
+    const idType = binding.get('id')?.termType;
+    const policyType = binding.get('policy')?.termType;
 
     let idNode: N3.NamedNode | N3.BlankNode;
 
     if (id) {
-      if (binding.get('id')?.termType == 'BlankNode') {
+      if (id === 'BlankNode') {
         idNode = N3.DataFactory.blankNode(id);
       }
-      else if (binding.get('id')?.termType == 'NamedNode') {
+      else if (idType === 'NamedNode') {
         idNode = N3.DataFactory.namedNode(id);
       }
       else {
-        logger.error(`wrong termType for policy ${binding.get('id')?.termType}`);
+        logger.error(`wrong termType for policy identifier ${idType}`);
         return;
       }
     }
@@ -65,13 +71,28 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
       return;
     }
 
-    const policy = binding.get('policy')?.value.toString();
-    const executionTarget = binding.get('executionTarget')?.value.toString();
-    const name = binding.get('name')?.value.toString() ?? '<undef>';
-    const value = binding.get('value');
+    if (policy) {
+      if (policyType === 'BlankNode' || policyType === 'NamedNode') {
+        // We are ok
+      }
+      else {
+        logger.error(`wrong termType for policy ${idType}`);
+        return;
+      }
+    }
+    else {
+      logger.error(`no policy defined`);
+      return;
+    }
 
-    if (id && policy && executionTarget) {
-      logger.info(`found policy ${id} with target ${executionTarget}`);
+    const executionTarget = binding.get('executionTarget')?.value.toString();
+    const order = binding.get('order')?.value;
+    const name  = binding.get('name')?.value.toString() ?? '<undef>';
+    const value = binding.get('value');
+    const orderInt = order ? parseInt(order) : 1 ;
+
+    if (id && executionTarget) {
+      // We are ok
     }
     else {
       logger.error('failed to find pol:policy or a fno:Executes with fno:executes');
@@ -92,11 +113,14 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
       }
     }
     else {
+      logger.info(`found policy ${id} with target ${executionTarget} (order ${orderInt})`);
+
       policies[id] = {
         'node': idNode,
         'path': path,
         'policy': policy,
         'target': executionTarget,
+        'order': orderInt,
         'args': {},
         ...xtra
       };

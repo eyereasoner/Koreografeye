@@ -3,7 +3,7 @@ import { getLogger, Logger } from 'log4js';
 import * as N3 from 'n3';
 import { extractGraph, storeGetPredicate } from '../util';
 import { extractPolicies, refinePolicy } from './Extractor';
-import { PolicyPlugin } from './PolicyPlugin';
+import { IPolicyType, PolicyPlugin } from './PolicyPlugin';
 
 /**
  * Executes a single policy and returns the result.
@@ -16,7 +16,7 @@ import { PolicyPlugin } from './PolicyPlugin';
  * @returns the result of the policy when it was correctly executed.
  */
 async function callImplementation(plugin: PolicyPlugin, mainStore: N3.Store, policyStore: N3.Store, policy: any, logger: Logger) {
-  logger.info(`calling ${plugin.constructor.name}...`);
+  logger.info(`calling ${plugin.constructor.name} (order ${policy.order})...`);
   const result = await plugin.execute(mainStore, policyStore, policy);
   logger.info(`..returned a ${result}`);
   return result;
@@ -45,10 +45,14 @@ export async function executePolicies(manager: ComponentsManager<unknown>, reaso
     refinePolicy(policy, mainSubject.value, origin.value);
   }
 
+  const orderedPolicies = Object.values(policies).sort( (a: IPolicyType, b: IPolicyType) => {
+    return a.order - b.order;
+  });
+
   // execute policies
   const mainStore = extractGraph(reasoningResultStore, mainSubject);
 
-  for (const policy of Object.values(policies)) {
+  for (const policy of orderedPolicies) {
     const idNode = policy['node'];
     const target = policy['target'];
 
