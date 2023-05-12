@@ -14,11 +14,15 @@
 }
 =>
 {
-  ex:MyDebugPolicy pol:policy ex:MyDebugPolicyExecution .
-  ex:MyDebugPolicyExecution 
+  # Using blank nodes to define policy is possible but not advisable.
+  # N3 rules can be fired multiple times when the premise has multiple
+  # bidings. For every binding the rule could generate new blank nodes
+  # and this will result in more executions than expected.
+  [ pol:policy [
       a fno:Execution ;
-      fno:executes ex:debugPlugin ;
+      fno:executes ex:demoPlugin ;
       ex:param1 "my@myself.and.i" ;
       ex:param2 "you@yourself.edu" ;
-      ex:body ?id .
+      ex:body ?id
+  ] ] .
 }.

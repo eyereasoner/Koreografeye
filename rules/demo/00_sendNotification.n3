@@ -14,17 +14,18 @@
 }
 =>
 {
-    ex:MySendNotificationDemo pol:policy [
+    ex:MySendNotificationDemo pol:policy ex:MySendNotificationDemoExecution .
+    ex:MySendNotificationDemoExecution
         a fno:Execution ;
         fno:executes ex:sendNotification ;
         ex:to <http://httpbin.org/post> ;
-        ex:notification [
-                a as:Accept ;
-                as:inReplyTo ?id ;
-                as:actor     <http://patrickhochstenbach.net/profile/card#me> ;
-                as:origin    <http://patrickhochstenbach.net/orchestrator/profile/card#me> ;
-                as:target    ?actor;
-                as:object    ?id
-        ]
-    ] .
+        ex:notification ex:DemoNotification .
+
+    ex:DemoNotification 
+        a as:Accept ;
+        as:inReplyTo ?id ;
+        as:actor     <http://patrickhochstenbach.net/profile/card#me> ;
+        as:origin    <http://patrickhochstenbach.net/orchestrator/profile/card#me> ;
+        as:target    ?actor;
+        as:object    ?id.
 }.

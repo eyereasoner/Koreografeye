@@ -14,11 +14,11 @@
 }
 =>
 {
-  ex:MyDemoPolicy pol:policy [
+  ex:MyDemoPolicy pol:policy ex:MyDemoPlicyExecution .
+  ex:MyDemoPlicyExecution 
       a fno:Execution ;
       fno:executes ex:demoPlugin ;
       ex:param1 "my@myself.and.i" ;
       ex:param2 "you@yourself.edu" ;
-      ex:body ?id
-  ] .
+      ex:body ?id.
 }.

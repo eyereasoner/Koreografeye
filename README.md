@@ -68,24 +68,25 @@ Create a `demo.n3` N3 rule file in the `rules` directory.
 @prefix fno:  <https://w3id.org/function/ontology#> .
 
 {
-  # if we get an offer 
-  ?id a as:Offer .
-  ?id as:actor ?actor .
+    # if we get an offer 
+    ?id a as:Offer .
+    ?id as:actor ?actor .
 }
 =>
 {
     # Send an accept notification to an LDN inbox
-    ex:MySendNotificationDemo pol:policy [
+    ex:MySendNotificationDemo pol:policy ex:MySendNotificationDemoExecution.
+    ex:MySendNotificationDemoExecution 
         a fno:Execution ;
         fno:executes ex:sendNotification ;
         ex:to <http://httpbin.org/post> ;
-        ex:notification [
-                a as:Accept ;
-                as:inReplyTo ?id ;
-                as:actor     <http://my.service.edu/profile/card#me> ;
-                as:object    ?id
-        ]
-    ] .
+        ex:notification ex:MyNotification .
+    
+    ex:MyNotification 
+        a as:Accept ;
+        as:inReplyTo ?id ;
+        as:actor     <http://my.service.edu/profile/card#me> ;
+        as:object    ?id .
 }.
 ```
 
@@ -117,6 +118,8 @@ Using Koreografeye plugins you can experiment with:
 - Sending emails
 - Sending notifications
 - Sending push messages to your phone
+- Updating Solid Pods
+- Sending toot messages to a Mastodon account
 
 Check the Git repository https://github.com/eyereasoner/Koreografeye for more examples.
 

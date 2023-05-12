@@ -20,18 +20,31 @@
 }
 =>
 {
-  ?policyId pol:policy [
-      a fno:Execution ;
-      fno:executes ex:demoPlugin ;
-      ex:param1 ?policyString 
-  ] .
+  # Encapsulate the policies in an empty rule to force generating only
+  # on blank node for every binding in the premise.
+  #
+  # An alternative strategy is to ground all blank nodes as in:
+  #   :MyPolicy1 pol:policy :MyPolicy1Execution .
+  #   :MyPolicy1Execution 
+  #        a fno:Execution ;
+  #        fno:executes ex:demoPlugin ;
+  #        ex:param1 "Hello Word!" .
+  {} => {
+    ?policyId pol:policy [
+        a fno:Execution ;
+        fno:executes ex:demoPlugin ;
+        ex:param1 ?policyString 
+    ] .
+  } .
 
-  ex:DemoLast pol:policy [
-      a fno:Execution ;
-      # Add an experimental sh:order so that is executes last
-      # the default sh:order = 1
-      sh:order 1000;
-      fno:executes ex:demoPlugin ;
-      ex:param1 "Last Demo!" ;
-  ] .
+  {} => {
+    ex:DemoLast pol:policy [ 
+        a fno:Execution ;
+        # Add an experimental sh:order hint so that this policy is executed last
+        # The default sh:order = 1
+        sh:order 1000;
+        fno:executes ex:demoPlugin ;
+        ex:param1 "Last Demo!" ;
+    ] .
+  } .
 }.

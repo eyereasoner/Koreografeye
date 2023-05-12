@@ -55,7 +55,7 @@ SELECT ?id ?policy ?executionTarget ?order ?name ?value WHERE {
     let idNode: N3.NamedNode | N3.BlankNode;
 
     if (id) {
-      if (id === 'BlankNode') {
+      if (idType === 'BlankNode') {
         idNode = N3.DataFactory.blankNode(id);
       }
       else if (idType === 'NamedNode') {
@@ -100,6 +100,11 @@ SELECT ?id ?policy ?executionTarget ?order ?name ?value WHERE {
     }
 
     if (policies[id]) {
+      if (policies[id]['policy'] && policies[id]['policy'] !== policy ) {
+        // This is triggered when a policy has multiple pol:policies
+        // Probably because the consequent of a rule is executed multiple times...
+        logger.warn(`${id} overwriting ${name} of ${policy}`);
+      }
       if (value?.termType === 'BlankNode' && value instanceof BlankNodeScoped) {
         // Comunica makes skolemnized values out of blank nodes...
         // We need the original blank node id so that N3.Store in other 
