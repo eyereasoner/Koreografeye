@@ -14,8 +14,8 @@
 }
 =>
 {
-  ex:MyDemoPolicy pol:policy ex:MyDemoPlicyExecution .
-  ex:MyDemoPlicyExecution 
+  ex:MyDemoPolicy pol:policy ex:MyDemoPolicyExecution .
+  ex:MyDemoPolicyExecution 
       a fno:Execution ;
       fno:executes ex:demoPlugin ;
       ex:param1 "my@myself.and.i" ;
