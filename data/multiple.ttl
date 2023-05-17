@@ -1,0 +1,6 @@
+@prefix ex: <http://example.org/>.
+@prefix as: <https://www.w3.org/ns/activitystreams#>.
+
+ex:sample1 a as:Announce .
+
+ex:sample2 a as:Announce , as:Create .

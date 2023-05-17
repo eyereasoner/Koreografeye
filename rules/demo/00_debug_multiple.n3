@@ -1,0 +1,46 @@
+@prefix ex:   <http://example.org/> .
+@prefix as:   <https://www.w3.org/ns/activitystreams#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix pol:  <https://www.example.org/ns/policy#> .
+@prefix fno:  <https://w3id.org/function/ontology#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+
+{
+  # pol:mainSubject defines the top level identifier of the notification
+  [ pol:mainSubject ?id ] .
+  
+  ?id a ?class .
+  ?class list:in (as:Announce as:Create) .
+}
+=>
+{
+  # In this example for each binding a new policy will be 
+  # for each binding in the premise that is used in the
+  # conclusion. 
+  
+  # In this example the number of debugPlugin
+  # policies that will be suggested are based on the number
+  # of bindings for ?id
+  # See: 00_debug.n3 how to suggest only one policy
+  [ pol:policy [ 
+      a fno:Execution ;
+      fno:executes ex:debugPlugin ;
+      ex:param "demo1" ;
+      ex:body ?id 
+    ] 
+   ] .
+
+
+   # In this example the number of debugPlugin
+   # policies that will be suggested are based on the number
+   # of bindings for ?id and ?class
+  # See: 00_debug.n3 how to suggest only one policy
+  [ pol:policy [ 
+      a fno:Execution ;
+      fno:executes ex:debugPlugin ;
+      ex:param "demo2" ;
+      ex:body ?id ;
+      ex:class ?class 
+    ] 
+   ] .
+}.

@@ -36,7 +36,7 @@
     "@comunica/query-sparql-rdfjs": "^2.5.1",
     "commander": "^9.4.1",
     "componentsjs": "^5.3.2",
-    "eyereasoner": "4.21.7",
+    "eyereasoner": "4.22.0",
     "is-hidden-file": "^1.1.2",
     "jsonld": "^8.1.0",
     "log4js": "^6.7.0",
@@ -51,7 +51,6 @@
   },
   "devDependencies": {
     "@rdfjs/types": "^1.1.0",
-    "@types/emscripten": "^1.39.6",
     "@types/glob": "^8.1.0",
     "@types/jsonld": "^1.5.8",
     "@types/n3": "^1.10.4",

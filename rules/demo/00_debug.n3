@@ -14,6 +14,9 @@
 }
 =>
 {
+  # In this example only one policy will be suggested regardless 
+  # of the number of bindings in the premise in the rule.
+  # See: 00_debug_multipe.n3 how to suggest policies for each binding
   ex:MyDebugPolicy pol:policy ex:MyDebugPolicyExecution .
   ex:MyDebugPolicyExecution 
       a fno:Execution ;

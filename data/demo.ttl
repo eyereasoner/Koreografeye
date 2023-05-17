@@ -1,9 +1,5 @@
 @prefix ex: <http://example.org/>.
 @prefix as: <https://www.w3.org/ns/activitystreams#>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix pol: <https://www.example.org/ns/policy#>.
-@prefix fno: <https://w3id.org/function/ontology#>.
-@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 
 <urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32> a as:Announce.
 <urn:uuid:42D2F3DC-0770-4F47-BF37-4F01E0382E32> a <https://schema.org/EndorseAction>.
