@@ -20,7 +20,7 @@ const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
 let   pluginConf       = './config.jsonld';
 
-program.version('0.3.0')
+program.version('0.3.1')
        .option('-c,--config <file>', 'configuration file')
        .option('-i,--in <directory>','input directory')
        .option('-e,--err <directory>','error directory')
@@ -88,26 +88,28 @@ async function single_file_run(data: string, manager: ComponentsManager<unknown>
 }
 
 async function multiple_file_run(indir: string, manager: ComponentsManager<unknown>) {
-    let promises : Promise<boolean>[] = [];
+    const fileArray : string[] = [];
 
     fs.readdirSync(indir).forEach(async file => {
-        logger.info(`data: ${file}`);
-
         let inFile = joinFilePath(indir,file);
-
         if (fs.lstatSync(inFile).isFile() && ! isHiddenFile(inFile)) {
-            let p = single_run(inFile, manager);
-            promises.push(p);
+            fileArray.push(inFile);
         }
     });
 
     let success = 0;
 
-    await Promise.all<boolean>(promises).then(values => {
-        values.forEach( v => {
-            if (!v) { success == 2} 
-        });
-    });
+    for (let i = 0 ; i < fileArray.length ; i++) {
+        logger.info(`data: ${fileArray[i]}`);
+
+        let p = await single_run(fileArray[i], manager);
+        if (p) {
+            // All is ok
+        }
+        else {
+            success = 2;
+        }
+    }
 
     process.exit(success);
 }
