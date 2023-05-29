@@ -2,9 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/koreografeye)](https://www.npmjs.com/package/koreografeye)
 
-Koreografeye is a choreography / orchestration engine for linked data services using
-[Notation3](https://w3c.github.io/N3/spec/) (N3) rule engines such 
-as [EYE](https://github.com/eyereasoner/eye). 
+Koreografeye is a choreography / orchestration engine for linked data services using [Notation3](https://w3c.github.io/N3/spec/) (N3) rule engines such as [EYE](https://github.com/eyereasoner/eye). 
 
 Koreografeye was created to facilitate automated processes against [Solid](https://solidproject.org/TR/protocol) pods. Our main use case is monitoring the [LDN](https://www.w3.org/TR/ldn/) Inbox of Solid Pods for new notifications and running scripts when new data arrives.
 
