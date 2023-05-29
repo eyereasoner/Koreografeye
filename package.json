@@ -1,6 +1,6 @@
 {
   "name": "koreografeye",
-  "description": "A minimal orchestrator and policy executor component for the Mellon Researcher Pod project",
+  "description": "A Solid choreography / orchestrator agent with a reasoning component",
   "version": "0.3.1",
   "homepage": "",
   "license": "MIT",

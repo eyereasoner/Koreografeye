@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/koreografeye)](https://www.npmjs.com/package/koreografeye)
 
-Koreografeye is a choreography engine for linked data services using
+Koreografeye is a choreography / orchestration engine for linked data services using
 [Notation3](https://w3c.github.io/N3/spec/) (N3) rule engines such 
 as [EYE](https://github.com/eyereasoner/eye). 
 
