@@ -8,6 +8,14 @@
   "lsd:module": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "keywords": [ 
+    "choreography", 
+    "orchestration", 
+    "solid", 
+    "reasoning", 
+    "solid-agent",
+    "notation3"
+  ],
   "scripts": {
     "orch": "node dist/orch.js --info --keep --in in --out out --err err rules/demo/*.n3",
     "orch:demo": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_demo.n3",
