@@ -25,12 +25,12 @@ export class SendNotificationPlugin extends PolicyPlugin {
         const notification = policy.args['http://example.org/notification'];
 
         if (! to) {
-            console.error('no http://example.org/to in policy');
+            this.logger.error('no http://example.org/to in policy');
             return false;
         }
 
         if (! notification) {
-            console.error('no http://example.org/notification in policy');
+            this.logger.error('no http://example.org/notification in policy');
             return false;
         }
 
@@ -41,7 +41,7 @@ export class SendNotificationPlugin extends PolicyPlugin {
             // We are ok
         }
         else {
-            console.error(`searching for http://example.org/notification ${notification.value} resulted in an empty graph`);
+            this.logger.error(`searching for http://example.org/notification ${notification.value} resulted in an empty graph`);
             return false;
         }
 
@@ -61,8 +61,8 @@ export class SendNotificationPlugin extends PolicyPlugin {
                 }
         );
 
-        console.log(`Sending to ${to.value} a ${json['type']}`);
-        console.log(JSON.stringify(json, null, 2));
+        this.logger.info(`Sending to ${to.value} a ${json['type']}`);
+        this.logger.debug(JSON.stringify(json, null, 2));
 
         const result = await fetch(to.value, {
                 method: 'POST', 
@@ -76,7 +76,7 @@ export class SendNotificationPlugin extends PolicyPlugin {
             return true;
         }
         else {
-            console.error(`${to.value} failed with: ${result.status} - ${result.statusText}`);
+            this.logger.error(`${to.value} failed with: ${result.status} - ${result.statusText}`);
             return false;
         }
     }
