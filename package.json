@@ -22,13 +22,14 @@
     "orch:multiple": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_demo_multiple.n3",
     "orch:debug": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_debug.n3",
     "orch:ldn": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_sendNotification.n3",
+    "orch:benchmark": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/benchmark/00_benchmark.n3",
     "pol": "node dist/pol.js --info --keep --in out",
     "watch": "tsc --watch",
     "build": "npm run build:ts && npm run build:components",
     "build:ts": "tsc ; chmod 755 dist/*js",
     "build:components": "componentsjs-generator -s dist",
     "clean": "rm err/* ; rm out/err/*",
-    "clean:all": "npm run clean ; rm in/* out/* out/ok/*"
+    "clean:all": "npm run clean ; rm in/* out/*"
   },
   "bin": {
     "orch": "dist/orch.js",
