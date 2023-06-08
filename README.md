@@ -93,7 +93,7 @@ Create a `demo.n3` N3 rule file in the `rules` directory.
 The `orch` command will take the input data and use the N3 rules to decide what to do with the data. No actions are taken yet. These will be done by the `pol` command.
 
 ```
-npx orch --info --keep --in input --out output rules/*
+npx orch --info --keep --in input --out output rules/demo.n3
 ```
 
 The processed notifications will end up in the `output` directory
