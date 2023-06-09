@@ -8,11 +8,11 @@
   "lsd:module": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "keywords": [ 
-    "choreography", 
-    "orchestration", 
-    "solid", 
-    "reasoning", 
+  "keywords": [
+    "choreography",
+    "orchestration",
+    "solid",
+    "reasoning",
     "solid-agent",
     "notation3"
   ],
@@ -45,7 +45,7 @@
     "@comunica/query-sparql-rdfjs": "^2.5.1",
     "commander": "^9.4.1",
     "componentsjs": "^5.3.2",
-    "eyereasoner": "4.25.2",
+    "eyereasoner": "5.0.6",
     "is-hidden-file": "^1.1.2",
     "jsonld": "^8.1.0",
     "log4js": "^6.7.0",
