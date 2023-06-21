@@ -195,7 +195,7 @@ export function storeGetPredicate(store: N3.Store, predicate: string) : N3.Blank
 }
 
 /**
- * Add a new predicate with a Named Node value to the store
+ * Add a blank node with predicate/object with a Named Node value to the store
  * 
  * @param store - a N3.Store
  * @param predicate - a predicate URL string
@@ -208,6 +208,36 @@ export function storeAddPredicate(store: N3.Store, predicate: string, object: st
         N3.DataFactory.namedNode(object) ,
         N3.DataFactory.defaultGraph()
     );
+}
+
+export function groundStore(store: N3.Store) : N3.Store {
+    const result = new N3.Store();
+    const genpref = uuidv4();
+    const DF = N3.DataFactory;
+    const GROUND_URL = 
+        'https://github.com/eyereasoner/Koreografeye/.well-known/genid/' + genpref + '/';
+
+    const makeGenId = (str:string) => {
+        return DF.namedNode(GROUND_URL + '#' + str);
+    };
+    store.forEach( (quad) => {
+        const subject   = quad.subject.termType.toString() === 'BlankNode' ?
+                        makeGenId(quad.subject.value) :
+                        quad.subject;
+
+        const predicate = quad.predicate.termType.toString() === 'BlankNode' ?
+                        makeGenId(quad.predicate.value) :
+                        quad.predicate;
+
+        const object    = quad.object.termType.toString() === 'BlankNode' ?
+                        makeGenId(quad.object.value) :
+                        quad.object;
+        result.addQuad(
+            subject, predicate, object, quad.graph  
+        );
+    },null,null,null,null);
+
+    return result;
 }
 
 /**

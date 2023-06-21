@@ -29,7 +29,8 @@
     "build:ts": "tsc ; chmod 755 dist/*js",
     "build:components": "componentsjs-generator -s dist",
     "clean": "rm err/* ; rm out/err/*",
-    "clean:all": "npm run clean ; rm in/* out/*"
+    "clean:all": "npm run clean ; rm in/* out/*",
+    "test": "yarn exec -- ts-mocha test/**/*.spec.ts"
   },
   "bin": {
     "orch": "dist/orch.js",
@@ -60,12 +61,17 @@
   },
   "devDependencies": {
     "@rdfjs/types": "^1.1.0",
+    "@types/chai": "^4.3.5",
     "@types/glob": "^8.1.0",
     "@types/jsonld": "^1.5.8",
+    "@types/mocha": "^10.0.1",
     "@types/n3": "^1.10.4",
     "@types/streamify-string": "^1.0.0",
     "@types/tmp": "^0.2.3",
+    "chai": "^4.3.7",
     "componentsjs-generator": "^3.1.0",
+    "mocha": "^10.2.0",
+    "ts-mocha": "^10.0.0",
     "tsconfig.json": "^1.0.11",
     "typescript": "^5.0.4"
   }
