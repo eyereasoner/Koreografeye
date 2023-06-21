@@ -22,21 +22,20 @@ const myEngine = new QueryEngine();
  * @returns All policies from the graph as an Object of {@link IPolicyType}s.
  */
 export async function extractPolicies(store: N3.Store, path: string, xtra: any, logger: Logger): Promise<{ [id: string]: IPolicyType }> {
-  const sql = `
+  const sparql = `
 PREFIX pol: <${POL}> 
 PREFIX fno: <${FNO}>
-PREFIX sh: <${SH}>
 
-SELECT ?id ?policy ?executionTarget ?order ?name ?value WHERE {
-  ?id pol:policy ?policy .
+SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
   ?policy a fno:Execution .
   ?policy fno:executes ?executionTarget .
+  OPTIONAL { ?id pol:policy ?policy } .
   OPTIONAL { ?policy ?name ?value . } .
-  OPTIONAL { ?policy sh:order ?order . } .
 }
 `;
-  logger.trace(sql);
-  const bindingStream = await myEngine.queryBindings(sql, {
+  logger.trace(sparql);
+
+  const bindingStream = await myEngine.queryBindings(sparql, {
     sources: [store]
   });
 
@@ -47,42 +46,26 @@ SELECT ?id ?policy ?executionTarget ?order ?name ?value WHERE {
   const DF = new DataFactory();
 
   bindings.forEach((binding) => {
-    const id     = binding.get('id')?.value;
     const policy = binding.get('policy')?.value;
-    const idType = binding.get('id')?.termType;
     const policyType = binding.get('policy')?.termType;
 
-    let idNode: N3.NamedNode | N3.BlankNode;
+    let policyNode: N3.NamedNode | N3.BlankNode;
 
-    if (id) {
-      if (idType === 'BlankNode') {
-        idNode = N3.DataFactory.blankNode(id);
-      }
-      else if (idType === 'NamedNode') {
-        idNode = N3.DataFactory.namedNode(id);
-      }
-      else {
-        logger.error(`wrong termType for policy identifier ${idType}`);
-        return;
-      }
-    }
-    else {
-      logger.error(`no policy found`);
-      return;
+    if (! policy) {
+      logger.error(`no policy found!`);
+      return; 
     }
 
-    if (policy) {
-      if (policyType === 'BlankNode' || policyType === 'NamedNode') {
-        // We are ok
-      }
-      else {
-        logger.error(`wrong termType for policy ${idType}`);
+    switch(policyType) {
+      case 'BlankNode':
+        policyNode = N3.DataFactory.blankNode(policy);
+        break;
+      case 'NamedNode':
+        policyNode = N3.DataFactory.namedNode(policy);
+        break;
+      default:
+        logger.error(`wrong termType ${policyType} for policy ${policy}`); 
         return;
-      }
-    }
-    else {
-      logger.error(`no policy defined`);
-      return;
     }
 
     const executionTarget = binding.get('executionTarget')?.value.toString();
@@ -91,45 +74,43 @@ SELECT ?id ?policy ?executionTarget ?order ?name ?value WHERE {
     const value = binding.get('value');
     const orderInt = order ? parseInt(order) : 1 ;
 
-    if (id && executionTarget) {
+    if (executionTarget) {
       // We are ok
     }
     else {
-      logger.error('failed to find pol:policy or a fno:Executes with fno:executes');
+      logger.error(`failed to find a fno:Executes/fno:executes execution target for ${policy}`);
       return;
     }
 
-    if (policies[id]) {
-      if (policies[id]['policy'] && policies[id]['policy'] !== policy ) {
-        // This is triggered when a policy has multiple pol:policies
-        // Probably because the consequent of a rule is executed multiple times...
-        logger.warn(`${id} overwriting ${name} of ${policy}`);
-      }
-      if (value?.termType === 'BlankNode' && value instanceof BlankNodeScoped) {
-        // Comunica makes skolemnized values out of blank nodes...
-        // We need the original blank node id so that N3.Store in other 
-        // part of our code can make use of that
-        const skolemizedName = (<BlankNodeScoped>value).skolemized.value;
-        const unSkolemizedName = skolemizedName.replace(/urn:comunica_skolem:source[^:]+:/, "");
-        policies[id]['args'][name] = DF.blankNode(unSkolemizedName);
-      }
-      else {
-        policies[id]['args'][name] = value;
-      }
+    let valueTerm; 
+
+    if (value?.termType === 'BlankNode' && value instanceof BlankNodeScoped) {
+      // Comunica makes skolemnized values out of blank nodes...
+      // We need the original blank node id so that N3.Store in other 
+      // part of our code can make use of that
+      const skolemizedName = (<BlankNodeScoped>value).skolemized.value;
+      const unSkolemizedName = skolemizedName.replace(/urn:comunica_skolem:source[^:]+:/, "");
+      valueTerm = DF.blankNode(unSkolemizedName);
     }
     else {
-      logger.info(`found policy ${id} with target ${executionTarget} (order ${orderInt})`);
+      valueTerm = value;
+    }
 
-      policies[id] = {
-        'node': idNode,
+    if (policies[policy]) {
+      policies[policy]['args'][name] = valueTerm;
+    }
+    else {
+      logger.info(`found policy ${policy} with target ${executionTarget} (order ${orderInt})`);
+
+      policies[policy] = {
+        'node': policyNode,
         'path': path,
-        'policy': policy,
         'target': executionTarget,
         'order': orderInt,
         'args': {},
         ...xtra
       };
-      policies[id]['args'][name] = value;
+      policies[policy]['args'][name] = value;
     }
   });
 
