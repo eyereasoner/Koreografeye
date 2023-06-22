@@ -8,8 +8,6 @@ export type IPolicyType = {
     path: string ,        // Input file
     policy: string ,      // Policy identifier
     target: string ,      // Name of execution target (the idenfier of the policy function)
-    mainSubject: string , // Activity identifier
-    origin: string ,      // Path to original activity
     order: number ,       // Execution order of policy
     args: {               // Name/Value pairs of policy arguments
         [key : string]: RDF.Term | undefined 

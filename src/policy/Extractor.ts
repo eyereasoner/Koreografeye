@@ -138,11 +138,3 @@ SELECT ?id ?policy ?executionTarget ?order ?name ?value WHERE {
 
   return policies;
 }
-
-/**
- * Add main subject, origin and config to a policy as this is not done in {@link extractPolicies}
- */
-export function refinePolicy(policy: IPolicyType, mainSubject: string, origin: string): void {
-  policy['mainSubject'] = mainSubject;
-  policy['origin'] = origin;
-}

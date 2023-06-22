@@ -155,8 +155,6 @@ async function main() {
     const store  = await parseAsN3Store(inputData); 
     // Read the N3 rules as an array of strings
     const rules  = [readText(inputRules)]; 
-    // Discover the main subjects of the graph
-    const topIds = topGraphIds(store);
 
     // Load the components we need for reasoning
     const manager = await makeComponentsManager('./config.jsonld','.');

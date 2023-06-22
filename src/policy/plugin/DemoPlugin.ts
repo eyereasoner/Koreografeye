@@ -17,7 +17,7 @@ export class DemoPlugin extends PolicyPlugin {
     public async execute (mainStore: N3.Store, policyStore: N3.Store, policy: IPolicyType) : Promise<boolean> {
 
         console.log("*** BOOM ! All rockets are starting :P ***");
-        console.log(`This is your ${policy.target} and it works well with ${policy.mainSubject}`);
+        console.log(`This is your ${policy.target}`);
         
         if (this.showMainStore) {
             console.log("*** Main store contents ***");

@@ -1,11 +1,11 @@
 import * as N3 from 'n3';
 import { 
   extractGraph,
-    groundStore,
-    parseStringAsN3Store, 
-    storeAddPredicate, 
-    storeGetPredicate, 
-    topGraphIds
+  groundStore,
+  parseStringAsN3Store, 
+  storeAddPredicate, 
+  storeGetPredicate, 
+  topGraphIds
 } from "../src/util";
 import { QueryEngine } from '@comunica/query-sparql-rdfjs';
 import { assert } from "chai";

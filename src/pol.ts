@@ -8,17 +8,13 @@ import { cwd } from 'process';
 import * as log4js from 'log4js';
 import { executePolicies } from './policy/Executor';
 import { 
-    loadConfig, 
     parseAsN3Store, 
-    storeGetPredicate,
     joinFilePath,
     makeComponentsManager
 } from './util';
 import { ComponentsManager } from 'componentsjs';
 
-const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
-const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
-let   pluginConf       = './config.jsonld';
+let pluginConf = './config.jsonld';
 
 program.version('0.3.2')
        .option('-c,--config <file>', 'configuration file')
@@ -117,34 +113,6 @@ async function multiple_file_run(indir: string, manager: ComponentsManager<unkno
 async function single_run(data: string, manager: ComponentsManager<unknown>) : Promise<boolean> {
     let   errors   = 0;
     const store    = await parseAsN3Store(data);
-    const plugins  = loadConfig(pluginConf); 
-    
-    if (! plugins) {
-        console.error(`no ${pluginConf} found`);
-        logger.error(`no ${pluginConf} found`);
-        return false;
-    }
-
-    const mainSubject = storeGetPredicate(store, POL_MAIN_SUBJECT);
-
-    if (! mainSubject) {
-        console.error(`no ${POL_MAIN_SUBJECT}?!`);
-        logger.error(`no ${POL_MAIN_SUBJECT}?!`);
-        return false;
-    }
-    else {
-        logger.debug(`main subject: ${mainSubject.value}`);
-    }
-
-    const origin = storeGetPredicate(store, POL_ORIGIN);
-
-    if (! origin) {
-        logger.error(`no ${POL_ORIGIN}?!`);
-        return false;
-    }
-    else {
-        logger.debug(`origin: ${origin.value}`);
-    }
 
     let success = true;
 

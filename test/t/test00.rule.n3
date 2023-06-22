@@ -1,0 +1,10 @@
+@prefix ex:   <http://example.org/> .
+@prefix as:   <https://www.w3.org/ns/activitystreams#> .
+
+{
+    ?X a as:Announce .
+}
+=> 
+{
+    ?X ex:valid true .
+} .

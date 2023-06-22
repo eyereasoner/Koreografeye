@@ -1,8 +1,8 @@
 import { ComponentsManager } from 'componentsjs';
 import { getLogger, Logger } from 'log4js';
 import * as N3 from 'n3';
-import { extractGraph, storeGetPredicate } from '../util';
-import { extractPolicies, refinePolicy } from './Extractor';
+import { extractGraph } from '../util';
+import { extractPolicies } from './Extractor';
 import { IPolicyType, PolicyPlugin } from './PolicyPlugin';
 
 /**
@@ -34,23 +34,13 @@ async function callImplementation(plugin: PolicyPlugin, mainStore: N3.Store, pol
 export async function executePolicies(manager: ComponentsManager<unknown>, reasoningResultStore: N3.Store, logger?: Logger): Promise<number> {
   logger = logger ?? getLogger();
 
-  const mainSubject = fetchMainSubject(reasoningResultStore, logger);
-  const origin = fetchOrigin(reasoningResultStore, logger);
   const policies = await extractPolicies(reasoningResultStore, "none", {}, logger);
 
   let errors = 0
-  // refine policies
-  for (const policy of Object.values(policies)) {
-    // Add mainSubject, origin and config to the policy 
-    refinePolicy(policy, mainSubject.value, origin.value);
-  }
 
   const orderedPolicies = Object.values(policies).sort( (a: IPolicyType, b: IPolicyType) => {
     return a.order - b.order;
   });
-
-  // execute policies
-  const mainStore = extractGraph(reasoningResultStore, mainSubject);
 
   for (const policy of orderedPolicies) {
     const idNode = policy['node'];
@@ -63,7 +53,7 @@ export async function executePolicies(manager: ComponentsManager<unknown>, reaso
       logger.info(`${target} -> ${implementation.constructor.name}`);
 
       try {
-        const isOk = await callImplementation(implementation, mainStore, policyStore, policy, logger);
+        const isOk = await callImplementation(implementation, reasoningResultStore, policyStore, policy, logger);
         if (isOk) {
           // All is well
         }
@@ -82,48 +72,4 @@ export async function executePolicies(manager: ComponentsManager<unknown>, reaso
     }
   }
   return errors
-}
-
-/**
- * Retrieve the main Policy Subject from the input data graph.
- * 
- * @param store - N3 Store data store.
- * @param logger - Logger.
- * @returns The main subject for the policy.
- */
-function fetchMainSubject(store: N3.Store, logger: Logger) {
-  const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
-
-  const mainSubject = storeGetPredicate(store, POL_MAIN_SUBJECT);
-  
-  if (!mainSubject) {
-    console.error(`no ${POL_MAIN_SUBJECT}?!`);
-    logger.error(`no ${POL_MAIN_SUBJECT}?!`);
-    process.exit(2);
-  }
-  else {
-    logger.debug(`main subject: ${mainSubject.value}`);
-  }
-  return mainSubject
-}
-
-/**
- * Retrieve the origin input file from the input data graph.
- * 
- * @param store - N3 Store data store.
- * @param logger - Logger.
- * @returns The origin for the policy.
- */
-function fetchOrigin(store: N3.Store, logger: Logger) {
-  const POL_ORIGIN = 'https://www.example.org/ns/policy#origin';
-  const origin = storeGetPredicate(store, POL_ORIGIN);
-
-  if (!origin) {
-    logger.error(`no ${POL_ORIGIN}?!`);
-    process.exit(2);
-  }
-  else {
-    logger.debug(`origin: ${origin.value}`);
-  }
-  return origin;
 }

@@ -12,20 +12,6 @@ import {v4 as uuidv4} from 'uuid';
 import { ComponentsManager } from 'componentsjs';
 
 /**
- * Load a JSON configuration file and returns the parsed content or undefined on error.
- * 
- * @param path - the location off the configuration file
- * @returns JSON object | undefined
- */
-export function loadConfig(path:string): any | undefined {
-    if (! fs.existsSync(path)) {
-        return undefined;
-    }
-    const cfg = fs.readFileSync(path,{encoding:'utf8', flag:'r'});
-    return JSON.parse(cfg);
-}
-
-/**
  * Load a text file and return it as a string.
  * If the file does not exist, return undefined.
  * 
