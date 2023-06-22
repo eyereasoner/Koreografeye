@@ -5,19 +5,38 @@ import { assert } from "chai";
 import { Reasoner } from '../src/orchestrator/Reasoner';
 import { parseAsN3Store } from '../src/util';
 import { QueryEngine } from '@comunica/query-sparql-rdfjs';
+import { ComponentsManager } from 'componentsjs';
 
 const myEngine = new QueryEngine();
 
+let manager : ComponentsManager<unknown>;
+
 describe("orch", () => {
-    it("can do test00", async () => {
+    before( async() => {
+        manager = await makeComponentsManager('./config.jsonld',cwd());
+    });
+    
+    it("can do test00.n3 with test00.rule.n3", async () => {
         const result = await doReason('test/t/test00.n3','test/t/test00.rule.n3');
         const expected = await getStore('test/t/test00.out.n3');
         assert.deepEqual(result,expected);
     });
+
+    it("can do test00.n3 with test01.rule.n3", async () => {
+        const result = await doReason('test/t/test00.n3','test/t/test01.rule.n3');
+        const test = `
+        PREFIX fno: <https://w3id.org/function/ontology#>
+        PREFIX ex: <http://example.org/>
+        ASK {
+            ?x a fno:Execution ;
+               fno:executes ex:demoPlugin .
+        } 
+        `;
+        assert.isTrue(await storeContains(result, test));
+    });
 });
 
 async function doReason(dataPath: string, rulePath: string) {
-    const manager = await makeComponentsManager('./config.jsonld',cwd());
     const reasoner = await manager.instantiate<Reasoner>('urn:koreografeye:reasonerInstance');
     const store = await parseAsN3Store(dataPath);
     const rules = await concatFiles([rulePath]);

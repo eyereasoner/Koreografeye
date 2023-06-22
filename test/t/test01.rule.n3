@@ -1,0 +1,15 @@
+@prefix ex:   <http://example.org/> .
+@prefix as:   <https://www.w3.org/ns/activitystreams#> .
+@prefix pol:  <https://www.example.org/ns/policy#> .
+@prefix fno:  <https://w3id.org/function/ontology#> .
+
+{
+    ?X a as:Announce .
+}
+=> 
+{
+  ex:DemoPolicy pol:policy [
+      a fno:Execution ;
+      fno:executes ex:demoPlugin 
+      ] .
+} .
