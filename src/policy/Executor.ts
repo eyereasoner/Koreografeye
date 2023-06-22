@@ -15,7 +15,7 @@ import { IPolicyType, PolicyPlugin } from './PolicyPlugin';
  * @param logger - Logger.
  * @returns the result of the policy when it was correctly executed.
  */
-async function callImplementation(plugin: PolicyPlugin, mainStore: N3.Store, policyStore: N3.Store, policy: any, logger: Logger) {
+async function callImplementation(plugin: PolicyPlugin, mainStore: N3.Store, policyStore: N3.Store, policy: any, logger: Logger) : Promise<boolean> {
   logger.info(`calling ${plugin.constructor.name} (order ${policy.order})...`);
   const result = await plugin.execute(mainStore, policyStore, policy);
   logger.info(`..returned a ${result}`);
@@ -71,5 +71,5 @@ export async function executePolicies(manager: ComponentsManager<unknown>, reaso
       errors += 1;
     }
   }
-  return errors
+  return errors;
 }

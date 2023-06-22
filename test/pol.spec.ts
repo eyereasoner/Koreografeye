@@ -35,6 +35,11 @@ describe("pol", () => {
         const result = await doPolicy('test/t/test01.out.n3');
         assert.equal(result,0);
     });
+
+    it("can do test02.out.n3", async () => {
+        const result = await doPolicy('test/t/test02.out.n3');
+        assert.equal(result,0);
+    });
 });
 
 async function doPolicy(path: string) {

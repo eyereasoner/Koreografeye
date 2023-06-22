@@ -8,5 +8,11 @@ ex:Test
 
  ex:DemoPolicy pol:policy [
       a fno:Execution ;
-      fno:executes ex:demoPlugin 
+      fno:executes ex:demoPlugin ;
+      ex:count 1 
+      ] ,
+      [
+      a fno:Execution ;
+      fno:executes ex:demoPlugin ;
+      ex:count 2 
       ] .

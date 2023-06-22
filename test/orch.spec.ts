@@ -34,6 +34,27 @@ describe("orch", () => {
         `;
         assert.isTrue(await storeContains(result, test));
     });
+
+    it("can do test00.n3 with test02.rule.n3", async () => {
+        const result = await doReason('test/t/test00.n3','test/t/test02.rule.n3');
+        const test = `
+        PREFIX fno: <https://w3id.org/function/ontology#>
+        PREFIX ex: <http://example.org/>
+        ASK WHERE {
+            {
+                SELECT ?x ?y  WHERE {
+                    ?x a fno:Execution ;
+                        fno:executes ex:demoPlugin .
+                    
+                    ?y a fno:Execution ;
+                        fno:executes ex:demoPlugin .
+                }
+            }
+            FILTER (?x != ?y)
+        } 
+        `;
+        assert.isTrue(await storeContains(result, test));
+    });
 });
 
 async function doReason(dataPath: string, rulePath: string) {
