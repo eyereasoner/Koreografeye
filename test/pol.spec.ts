@@ -41,7 +41,7 @@ describe("pol", () => {
     it("can do test02.out.n3", async () => {
         const result = await doPolicy('test/t/test02.out.n3');
         const runs = result.filter( (ex: IPolicyExecution) => ex.result).length;
-        assert.equal(runs,1);
+        assert.equal(runs,2);
     });
 });
 

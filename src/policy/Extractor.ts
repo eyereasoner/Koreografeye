@@ -7,7 +7,6 @@ import { type IPolicyType } from '../policy/PolicyPlugin';
 
 const POL = 'https://www.example.org/ns/policy#';
 const FNO = 'https://w3id.org/function/ontology#';
-const SH  = 'http://www.w3.org/ns/shacl#';
 
 const myEngine = new QueryEngine();
 
