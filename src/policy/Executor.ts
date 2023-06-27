@@ -5,6 +5,11 @@ import { extractGraph } from '../util';
 import { extractPolicies } from './Extractor';
 import { IPolicyType, PolicyPlugin } from './PolicyPlugin';
 
+export type IPolicyExecution = {
+  policy: IPolicyType ,
+  result: boolean
+};
+
 /**
  * Executes a single policy and returns the result.
  * 
@@ -31,18 +36,19 @@ async function callImplementation(plugin: PolicyPlugin, mainStore: N3.Store, pol
  * @param logger - Logger.
  * @returns {Promise<number>} Number of errors.
  */
-export async function executePolicies(manager: ComponentsManager<unknown>, reasoningResultStore: N3.Store, logger?: Logger): Promise<number> {
+export async function executePolicies(manager: ComponentsManager<unknown>, reasoningResultStore: N3.Store, logger?: Logger): Promise<IPolicyExecution[]> {
   logger = logger ?? getLogger();
 
-  const policies = await extractPolicies(reasoningResultStore, "none", {}, logger);
+  const policyExecution : IPolicyExecution[] = [];
 
-  let errors = 0
+  const policies = await extractPolicies(reasoningResultStore, "none", {}, logger);
 
   const orderedPolicies = Object.values(policies).sort( (a: IPolicyType, b: IPolicyType) => {
     return a.order - b.order;
   });
 
   for (const policy of orderedPolicies) {
+    let result = false;
     const idNode = policy['node'];
     const target = policy['target'];
 
@@ -55,21 +61,26 @@ export async function executePolicies(manager: ComponentsManager<unknown>, reaso
       try {
         const isOk = await callImplementation(implementation, reasoningResultStore, policyStore, policy, logger);
         if (isOk) {
-          // All is well
+          result = true;
         }
         else {
-          errors += 1;
+          result = false;
         }
       }
       catch (e) {
         console.error(`Target ${target} (${implementation}) threw error ${e}`);
-        errors += 1;
+        result = false;
       }
     }
     else {
       logger.error(`${target} has no implementation`);
-      errors += 1;
+      result = false;
     }
+
+    policyExecution.push({
+      policy: policy,
+      result : result
+    });
   }
-  return errors;
+  return policyExecution;
 }

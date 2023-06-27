@@ -6,7 +6,7 @@ import { isHiddenFile } from 'is-hidden-file';
 import { program } from 'commander';
 import { cwd } from 'process';
 import * as log4js from 'log4js';
-import { executePolicies } from './policy/Executor';
+import { IPolicyExecution, executePolicies } from './policy/Executor';
 import { 
     parseAsN3Store, 
     joinFilePath,
@@ -111,12 +111,13 @@ async function multiple_file_run(indir: string, manager: ComponentsManager<unkno
 }
 
 async function single_run(data: string, manager: ComponentsManager<unknown>) : Promise<boolean> {
-    let   errors   = 0;
     const store    = await parseAsN3Store(data);
 
     let success = true;
 
-    errors = await executePolicies(manager, store, logger);
+    const execution = await executePolicies(manager, store, logger);
+
+    const errors = execution.filter( (ex : IPolicyExecution) => ! ex.result).length;
 
     if (errors == 0) {
         success = true;

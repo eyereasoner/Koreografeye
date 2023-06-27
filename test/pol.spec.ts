@@ -2,7 +2,7 @@ import { cwd } from 'process';
 import { assert } from "chai";
 import { makeComponentsManager } from '../src/util';
 import { parseAsN3Store } from '../src/util';
-import { executePolicies } from '../src/policy/Executor';
+import { IPolicyExecution, executePolicies } from '../src/policy/Executor';
 import { ComponentsManager } from 'componentsjs';
 import * as sinon from 'sinon';
 
@@ -28,17 +28,20 @@ describe("pol", () => {
 
     it("can do test00.out.n3", async () => {
         const result = await doPolicy('test/t/test00.out.n3');
-        assert.equal(result,0);
+        const errors = result.filter( (ex: IPolicyExecution) => ! ex.result).length;
+        assert.equal(errors,0);
     });
 
     it("can do test01.out.n3", async () => {
         const result = await doPolicy('test/t/test01.out.n3');
-        assert.equal(result,0);
+        const errors = result.filter( (ex: IPolicyExecution) => ! ex.result).length;
+        assert.equal(errors,0);
     });
 
     it("can do test02.out.n3", async () => {
         const result = await doPolicy('test/t/test02.out.n3');
-        assert.equal(result,0);
+        const runs = result.filter( (ex: IPolicyExecution) => ex.result).length;
+        assert.equal(runs,1);
     });
 });
 
