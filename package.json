@@ -1,7 +1,7 @@
 {
   "name": "koreografeye",
   "description": "A Solid choreography / orchestrator agent with a reasoning component",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "homepage": "",
   "license": "MIT",
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
@@ -19,8 +19,7 @@
   "scripts": {
     "orch": "node dist/orch.js --info --keep --in in --out out --err err rules/demo/*.n3",
     "orch:demo": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_demo.n3",
-    "orch:multiple": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_demo_multiple.n3",
-    "orch:mfire": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_demo_mfire.n3",
+    "orch:multiple": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_debug_multiple.n3",
     "orch:debug": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_debug.n3",
     "orch:ldn": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/demo/00_sendNotification.n3",
     "orch:benchmark": "node dist/orch.js --info --single data/demo.ttl --keep --out out rules/benchmark/00_benchmark.n3",

@@ -30,7 +30,6 @@
     ] 
    ] .
 
-
    # In this example the number of debugPlugin
    # policies that will be suggested are based on the number
    # of bindings for ?id and ?class
