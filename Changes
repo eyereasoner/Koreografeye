@@ -1,4 +1,4 @@
-2023-06-28
+2023-06-28 0.4.0
     - Breaking change: policy arguments are now RDF.Terms[]
   
 2023-06-27 
