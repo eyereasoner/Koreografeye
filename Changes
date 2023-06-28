@@ -1,3 +1,6 @@
+2023-06-28
+    - Breaking change: policy arguments are now RDF.Terms[]
+  
 2023-06-27 
     - Adding mocha tests
     - Breaking change: policy/Executor.ts/executePolicies now returns Promise<IPolicyExecution[]>

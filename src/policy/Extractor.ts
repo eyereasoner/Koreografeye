@@ -96,7 +96,15 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
     }
 
     if (policies[policy]) {
-      policies[policy]['args'][name] = valueTerm;
+      if (name && valueTerm) {
+        logger.info(`${name} %s`,valueTerm);
+        if (policies[policy]['args'][name]) {
+          policies[policy]['args'][name].push(valueTerm);
+        }
+        else {
+          policies[policy]['args'][name] = [valueTerm];
+        }
+      }
     }
     else {
       logger.info(`found policy ${policy} with target ${executionTarget} (order ${orderInt})`);
@@ -109,7 +117,11 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
         'args': {},
         ...xtra
       };
-      policies[policy]['args'][name] = value;
+     
+      if (name && valueTerm) {
+        logger.info(`${name} %s`,valueTerm);
+        policies[policy]['args'][name] = [valueTerm];
+      }
     }
   });
 

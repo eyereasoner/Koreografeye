@@ -24,24 +24,27 @@ export class SendNotificationPlugin extends PolicyPlugin {
         const to           = policy.args['http://example.org/to'];
         const notification = policy.args['http://example.org/notification'];
 
-        if (! to) {
+        if (to.length == 0) {
             this.logger.error('no http://example.org/to in policy');
             return false;
         }
 
-        if (! notification) {
+        if (notification.length == 0) {
             this.logger.error('no http://example.org/notification in policy');
             return false;
         }
 
+        const thisTo = to[0];
+        const thisNotification = notification[0];
+
         // Extract the sub graph containing the notifiction body
-        const notificationStore = extractGraph(policyStore,notification);
+        const notificationStore = extractGraph(policyStore,thisNotification);
 
         if (notificationStore.size) {
             // We are ok
         }
         else {
-            this.logger.error(`searching for http://example.org/notification ${notification.value} resulted in an empty graph`);
+            this.logger.error(`searching for http://example.org/notification ${thisNotification.value} resulted in an empty graph`);
             return false;
         }
 
@@ -49,7 +52,7 @@ export class SendNotificationPlugin extends PolicyPlugin {
         const uuid = generate_uuid();
 
         // Create a new graph with using the uuid()
-        const newNotificationStore = renameSubjectInGraph(notificationStore, notification, uuid);
+        const newNotificationStore = renameSubjectInGraph(notificationStore, thisNotification, uuid);
 
         // Transform into JSON-LD and frame it
         const notificationRdf = await rdfTransformStore(newNotificationStore,'application/ld+json');
@@ -61,10 +64,10 @@ export class SendNotificationPlugin extends PolicyPlugin {
                 }
         );
 
-        this.logger.info(`Sending to ${to.value} a ${json['type']}`);
+        this.logger.info(`Sending to ${thisTo.value} a ${json['type']}`);
         this.logger.debug(JSON.stringify(json, null, 2));
 
-        const result = await fetch(to.value, {
+        const result = await fetch(thisTo.value, {
                 method: 'POST', 
                 body: JSON.stringify(json) ,
                 headers: {
@@ -76,7 +79,7 @@ export class SendNotificationPlugin extends PolicyPlugin {
             return true;
         }
         else {
-            this.logger.error(`${to.value} failed with: ${result.status} - ${result.statusText}`);
+            this.logger.error(`${thisTo.value} failed with: ${result.status} - ${result.statusText}`);
             return false;
         }
     }

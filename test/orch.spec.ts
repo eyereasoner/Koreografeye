@@ -55,6 +55,24 @@ describe("orch", () => {
         `;
         assert.isTrue(await storeContains(result, test));
     });
+
+    it("can do test00.n3 with test03.rule.n3", async () => {
+        const result = await doReason('test/t/test00.n3','test/t/test03.rule.n3');
+        const test = `
+        PREFIX fno: <https://w3id.org/function/ontology#>
+        PREFIX ex: <http://example.org/>
+        PREFIX as:   <https://www.w3.org/ns/activitystreams#>
+        ASK WHERE {
+            ?x a fno:Execution ;
+               fno:executes ex:sendNotification ;
+               ex:notification [
+                 as:object ex:Test
+               ].
+        } 
+        `;
+        assert.isTrue(await storeContains(result, test));
+    });
+
 });
 
 async function doReason(dataPath: string, rulePath: string) {

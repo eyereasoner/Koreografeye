@@ -10,7 +10,7 @@ export type IPolicyType = {
     target: string ,      // Name of execution target (the idenfier of the policy function)
     order: number ,       // Execution order of policy
     args: {               // Name/Value pairs of policy arguments
-        [key : string]: RDF.Term | undefined 
+        [key : string]: RDF.Term[]
     }
 };
 
