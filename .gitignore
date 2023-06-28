@@ -5,6 +5,7 @@ dist/**
 node_modules/**
 components/**
 package-lock.json
+yarn.lock
 tsconfig.tsbuildinfo
 componentsjs-error-state.json
 RELEASE
