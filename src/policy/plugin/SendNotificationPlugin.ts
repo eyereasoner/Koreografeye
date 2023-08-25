@@ -40,8 +40,6 @@ export class SendNotificationPlugin extends PolicyPlugin {
         // Extract the sub graph containing the notifiction body
         const notificationStore = extractGraph(policyStore,thisNotification);
 
-        console.log(`:::::::::::::::${policyStore.size}`);
-
         if (notificationStore.size) {
             // We are ok
         }
