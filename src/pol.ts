@@ -16,7 +16,7 @@ import { ComponentsManager } from 'componentsjs';
 
 let pluginConf = './config.jsonld';
 
-program.version('0.4.0')
+program.version('0.4.2')
        .option('-c,--config <file>', 'configuration file')
        .option('-i,--in <directory>','input directory')
        .option('-e,--err <directory>','error directory')

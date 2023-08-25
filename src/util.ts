@@ -131,12 +131,28 @@ export async function n3TransformStore(store: N3.Store): Promise<string> {
  * 
  * @param jsonstr - a JSON-LD string
  * @param frame - a JSON-LD frame object
+ * @param cache - an optional cached version of a JSON-LD frame
  * @returns The framed JSON
  */
-export async function jsonldStrFrame(jsonstr:string, frame: any): Promise<jsonld.NodeObject> {
+export async function jsonldStrFrame(jsonstr:string, frame: any, cache: string|null = null): Promise<jsonld.NodeObject> {
     const doc = JSON.parse(jsonstr);
     
-    const framed =  await jsonld.frame(doc, frame);
+    let framed;
+    let cached_frame;
+    if (cache && (cached_frame = readText(cache))) {
+        const parsed_cached_frame = JSON.parse(cached_frame);
+        const copy_frame = {...frame};
+        copy_frame['@context'] = parsed_cached_frame['@context'];
+        framed = await jsonld.frame(doc, copy_frame);
+
+        // Put the intented context back
+        if (frame['@context']) {
+            framed['@context'] = frame['@context'];
+        }
+    }
+    else {
+        framed = await jsonld.frame(doc, frame);
+    }
 
     return framed;
 }

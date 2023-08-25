@@ -9,11 +9,19 @@ import {
 import { PolicyPlugin , type IPolicyType } from '../PolicyPlugin';
 
 export class SendNotificationPlugin extends PolicyPlugin {
-    context : string[];
+    context : string[] = [];
+    context_cache : string | null = null;
 
-    constructor(context: string[]) {
+    constructor(context: string[], context_cache?: string) {
         super();
-        this.context = context;
+
+        if (context) {
+            this.context = context;
+        }
+            
+        if (context_cache) {
+            this.context_cache = context_cache;
+        }
     }
 
     public async execute(_: N3.Store, policyStore: N3.Store, policy: IPolicyType) : Promise<boolean> {
@@ -62,6 +70,7 @@ export class SendNotificationPlugin extends PolicyPlugin {
                     "@context": this.context,
                     "@id": uuid.value
                 }
+                , this.context_cache
         );
 
         this.logger.info(`Sending to ${thisTo.value} a ${json['type']}`);
