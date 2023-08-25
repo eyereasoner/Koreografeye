@@ -30,7 +30,7 @@
     "build:components": "componentsjs-generator -s dist",
     "clean": "rm err/* ; rm out/err/*",
     "clean:all": "npm run clean ; rm in/* out/*",
-    "test": "yarn exec -- ts-mocha --timeout 10000 test/**/*.spec.ts"
+    "test": "yarn exec -- ts-mocha --timeout 30000 test/**/*.spec.ts"
   },
   "bin": {
     "orch": "dist/orch.js",

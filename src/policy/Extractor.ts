@@ -2,8 +2,8 @@ import { BlankNodeScoped } from '@comunica/data-factory';
 import { QueryEngine } from '@comunica/query-sparql-rdfjs';
 import { Logger } from 'log4js';
 import * as N3 from 'n3';
-import { DataFactory } from 'rdf-data-factory';
 import { type IPolicyType } from '../policy/PolicyPlugin';
+import { BlankNode } from '@rdfjs/types';
 
 const POL = 'https://www.example.org/ns/policy#';
 const FNO = 'https://w3id.org/function/ontology#';
@@ -42,11 +42,10 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
 
   const policies: { [id: string]: IPolicyType } = {};
 
-  const DF = new DataFactory();
-
   bindings.forEach((binding) => {
-    const policy = binding.get('policy')?.value;
-    const policyType = binding.get('policy')?.termType;
+    const policyTerm = binding.get('policy');
+    const policy = policyTerm?.value;
+    const policyType = policyTerm?.termType;
 
     let policyNode: N3.NamedNode | N3.BlankNode;
 
@@ -57,7 +56,7 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
 
     switch(policyType) {
       case 'BlankNode':
-        policyNode = N3.DataFactory.blankNode(policy);
+        policyNode = unSkolemizedName(policyTerm);
         break;
       case 'NamedNode':
         policyNode = N3.DataFactory.namedNode(policy);
@@ -84,12 +83,7 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
     let valueTerm; 
 
     if (value?.termType === 'BlankNode' && value instanceof BlankNodeScoped) {
-      // Comunica makes skolemnized values out of blank nodes...
-      // We need the original blank node id so that N3.Store in other 
-      // part of our code can make use of that
-      const skolemizedName = (<BlankNodeScoped>value).skolemized.value;
-      const unSkolemizedName = skolemizedName.replace(/urn:comunica_skolem:source[^:]+:/, "");
-      valueTerm = DF.blankNode(unSkolemizedName);
+      valueTerm = unSkolemizedName(value);
     }
     else {
       valueTerm = value;
@@ -129,4 +123,13 @@ SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
   logger.debug(policies);
 
   return policies;
+}
+
+// Comunica makes skolemnized values out of blank nodes...
+// We need the original blank node id so that N3.Store in other 
+// part of our code can make use of that
+function unSkolemizedName(term: BlankNode) {
+    const skolemizedName = (<BlankNodeScoped>term).skolemized.value;
+    const unSkolemizedName = skolemizedName.replace(/urn:comunica_skolem:source[^:]+:/, "");
+    return new N3.BlankNode(unSkolemizedName);
 }

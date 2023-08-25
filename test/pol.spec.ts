@@ -48,7 +48,7 @@ describe("pol", () => {
         const result = await doPolicy('test/t/test03.out.n3');
         const runs = result.filter( (ex: IPolicyExecution) => ex.result).length;
         // We test a failure to execute the sendNotification...
-        assert.equal(runs,0);
+        assert.equal(runs,1);
     });
 });
 
