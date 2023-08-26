@@ -119,9 +119,11 @@ export async function rdfTransformStore(store: N3.Store, outType: string): Promi
     if (outType === 'text/n3') {
         return n3TransformStore(store);
     }
+    
     const outStream = rdfSerializer.serialize(
-                store.match(undefined,undefined,undefined,undefined), { contentType: outType } 
+        store.match(undefined,undefined,undefined,undefined), { contentType: outType } 
     );
+
     return await stringifyStream(outStream);
 }
 

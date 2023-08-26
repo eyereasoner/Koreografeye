@@ -1,0 +1,11 @@
+[
+   {
+      "@type" : [
+         "https://www.w3.org/ns/activitystreams#Announce"
+      ],
+      "@id" : "http://example.org/Test"
+   },
+   {
+      "@id" : "https://www.w3.org/ns/activitystreams#Announce"
+   }
+]

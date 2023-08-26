@@ -3,6 +3,7 @@ import {
   extractGraph,
   groundStore,
   jsonldStrFrame,
+  parseAsN3Store,
   parseStringAsN3Store, 
   rdfTransformString, 
   readText, 
@@ -14,6 +15,24 @@ import { QueryEngine } from '@comunica/query-sparql-rdfjs';
 import { assert } from "chai";
 
 const myEngine = new QueryEngine();
+
+describe("readText", () => {
+  it("can read test00.n3", () => {
+      const text = "foo bar";
+      const result = readText('test/t/test00.txt') || '';
+
+      assert.equal(text,result);
+  });
+});
+
+describe("parseAsN3Store", () => {
+  it("can parse test00.jsonld", async () => {
+    const expect = await testStore(`<http://example.org/Test> a <https://www.w3.org/ns/activitystreams#Announce> .`);
+    const result = await parseAsN3Store("test/t/test00.jsonld");
+
+    assert.deepEqual(result,expect);
+  });
+})
 
 describe("parseStringAsN3Store", () => {
   it("parse an {<a> <b> <c>}", async () => {
