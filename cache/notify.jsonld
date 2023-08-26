@@ -1,0 +1,16 @@
+{
+  "@context" : {
+    "@vocab": "https://purl.org/coar/notify_vocabulary/" ,
+    "ietf": "http://www.iana.org/assignments/relation/",
+    "coar-notify": "https://purl.org/coar/notify_vocabulary/",
+    "sorg": "http://schema.org/",
+
+    "ReviewAction": "coar-notify:ReviewAction",
+    "EndorsementAction": "coar-notify:EndorsementAction",
+    "IngestAction": "coar-notify:IngestAction",
+    "RelationshipAction": "coar-notify:RelationshipAction",
+    "ietf:cite-as": {
+        "@type" : "@id"
+    }
+  }
+}

@@ -43,12 +43,14 @@
     "dist/**/*.js.map"
   ],
   "dependencies": {
+    "@comunica/context-entries": "^2.8.2",
     "@comunica/query-sparql-rdfjs": "^2.5.1",
     "commander": "^9.4.1",
     "componentsjs": "^5.3.2",
     "eyereasoner": "5.0.6",
+    "fs-extra": "^11.1.1",
     "is-hidden-file": "^1.1.2",
-    "jsonld": "^8.1.0",
+    "jsonld": "^5.x.x",
     "log4js": "^6.7.0",
     "n3": "^1.16.4",
     "node-fetch": "^3.3.0",
@@ -62,6 +64,7 @@
   "devDependencies": {
     "@rdfjs/types": "^1.1.0",
     "@types/chai": "^4.3.5",
+    "@types/fs-extra": "^11.0.1",
     "@types/glob": "^8.1.0",
     "@types/jsonld": "^1.5.8",
     "@types/mocha": "^10.0.1",

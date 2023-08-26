@@ -10,6 +10,8 @@ import stringifyStream = require('stream-to-string');
 import streamifyString = require('streamify-string');
 import {v4 as uuidv4} from 'uuid';
 import { ComponentsManager } from 'componentsjs';
+import { KeysRdfParseJsonLd } from '@comunica/context-entries';
+import { jsonldContextDocumentLoader , frameContext } from './contextloader';
 
 /**
  * Load a text file and return it as a string.
@@ -91,8 +93,12 @@ export async function parseStringAsN3Store(n3Data: string, options:any ={}): Pro
  */
 export async function rdfTransformString(data: string, fileName: string, outType: string ): Promise<string> {
     const inStream = streamifyString(data);
+
     // Guess the content-type from the path name
-    const quadStream = rdfParser.parse(inStream, { path:fileName });
+    const quadStream = rdfParser.parse(inStream, { 
+        path:fileName ,
+        [KeysRdfParseJsonLd.documentLoader.name]: jsonldContextDocumentLoader()
+    });
     const outStream = rdfSerializer.serialize(quadStream, { contentType: outType });
     return await stringifyStream(outStream);
 }
@@ -134,24 +140,39 @@ export async function n3TransformStore(store: N3.Store): Promise<string> {
  * @param cache - an optional cached version of a JSON-LD frame
  * @returns The framed JSON
  */
-export async function jsonldStrFrame(jsonstr:string, frame: any, cache: string|null = null): Promise<jsonld.NodeObject> {
+export async function jsonldStrFrame(jsonstr:string, frame: any): Promise<jsonld.NodeObject> {
     const doc = JSON.parse(jsonstr);
-    
-    let framed;
-    let cached_frame;
-    if (cache && (cached_frame = readText(cache))) {
-        const parsed_cached_frame = JSON.parse(cached_frame);
-        const copy_frame = {...frame};
-        copy_frame['@context'] = parsed_cached_frame['@context'];
-        framed = await jsonld.frame(doc, copy_frame);
 
-        // Put the intented context back
-        if (frame['@context']) {
-            framed['@context'] = frame['@context'];
+    // Some logic to match remote @context documents against local cached versions
+    const tmpFrame = {...frame};
+
+    if ('@context' in tmpFrame) {
+        const context = tmpFrame['@context'];
+        const contextMap = frameContext();
+
+        if (typeof context === 'string' && context in contextMap) {
+            tmpFrame['@context'] = contextMap[context];
+        }
+        else if (Array.isArray(context)) {
+            tmpFrame['@context'] = context.map( (item) => {
+                if (typeof item === 'string' && item in contextMap) {
+                    return contextMap[item];
+                }
+                else {
+                    return item;
+                }
+            });
+        }
+        else {
+            // We are happy keep the context as is...
         }
     }
-    else {
-        framed = await jsonld.frame(doc, frame);
+
+    const framed = await jsonld.frame(doc, tmpFrame);
+
+    // Set the @context back what it was
+    if (frame["@context"]) {
+        framed['@context'] = frame["@context"];
     }
 
     return framed;
