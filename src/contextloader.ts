@@ -1,17 +1,28 @@
 import { readJsonSync } from 'fs-extra';
 import type { IJsonLdContext } from 'jsonld-context-parser';
 import { FetchDocumentLoader } from 'jsonld-context-parser';
+import * as path from 'path';
 
-const CONTEXTS = {
-    'https://www.w3.org/ns/activitystreams': './cache/activitystreams.jsonld',
-    'https://purl.org/coar/notify': './cache/notify.jsonld'
+export const CONTEXTS = {
+    'https://www.w3.org/ns/activitystreams': path.join(__dirname,'../cache/activitystreams.jsonld'),
+    'https://purl.org/coar/notify': path.join(__dirname,'../cache/notify.jsonld')
 };
 
-export function jsonldContextDocumentLoader() {
+/**
+ * A custom context document loader for the rdf-parse library.
+ * This will prevent network access for accessing the context documents
+ * that are cached in the CONTEXTS hash.
+ * @returns FetchDocumentLoader
+ */
+export function jsonldContextDocumentLoader() : FetchDocumentLoader {
     return new ContextDocumentLoader(CONTEXTS);
 }
 
-export function frameContext() {
+/**
+ * A custom context document loader for the jsonld library
+ * @returns any
+ */
+export function frameContext() : any {
     let contexts : any = {};
 
     for (const [ key, path ] of Object.entries(CONTEXTS)) {

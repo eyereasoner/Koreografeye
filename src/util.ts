@@ -97,9 +97,13 @@ export async function rdfTransformString(data: string, fileName: string, outType
     // Guess the content-type from the path name
     const quadStream = rdfParser.parse(inStream, { 
         path:fileName ,
+        // Use a custom document loader to be not dependent on the
+        // network for downloading context documents
         [KeysRdfParseJsonLd.documentLoader.name]: jsonldContextDocumentLoader()
     });
+
     const outStream = rdfSerializer.serialize(quadStream, { contentType: outType });
+
     return await stringifyStream(outStream);
 }
 

@@ -40,7 +40,8 @@
     "components",
     "dist/**/*.d.ts",
     "dist/**/*.js",
-    "dist/**/*.js.map"
+    "dist/**/*.js.map",
+    "cache/**"
   ],
   "dependencies": {
     "@comunica/context-entries": "^2.8.2",
