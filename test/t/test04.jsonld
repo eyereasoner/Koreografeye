@@ -1,0 +1,11 @@
+{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "actor": {
+    "id": "https://overlay-journal.com",
+    "name": "Overlay Journal",
+    "type": "Service"
+  },
+  "id": "urn:uuid:0370c0fb-bb78-4a9b-87f5-bed307a509dd",
+  "object": "https://research-organisation.org/repository/preprint/201203/421/",
+  "type": "Offer"
+}

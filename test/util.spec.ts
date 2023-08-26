@@ -2,7 +2,10 @@ import * as N3 from 'n3';
 import { 
   extractGraph,
   groundStore,
+  jsonldStrFrame,
   parseStringAsN3Store, 
+  rdfTransformString, 
+  readText, 
   storeAddPredicate, 
   storeGetPredicate, 
   topGraphIds
@@ -96,8 +99,36 @@ describe("extractGraph", () => {
   });
 });
 
+describe("rdfTransformString", () => {
+  it("should parse test04.jsonld", async () => {
+    const json = readText('test/t/test04.jsonld') || '';
+    const n3   = readText('test/t/test04.n3') || '';
+    const output = await rdfTransformString(json,'test04.jsonld','text/n3');
+
+    const n3Store = await testStore(n3);
+    const outputStore = await testStore(output);
+
+    assert.deepEqual(n3Store,outputStore);
+  });
+});
+
+describe("jsonldStrFrame", () => {
+  it("should parse test05.jsonld with a frame to match test04.jsonld", async () => {
+    const input    = readText('test/t/test05.jsonld') || '';
+    const expected = readText('test/t/test04.jsonld') || '';
+    const result   = await jsonldStrFrame(input,{
+      "@context": "https://www.w3.org/ns/activitystreams",
+      "@id": "urn:uuid:0370c0fb-bb78-4a9b-87f5-bed307a509dd"
+    })
+
+    const json = JSON.parse(expected);
+
+    assert.deepEqual(json,result);
+  });
+});
+
 async function testStore(n3:string) {
-  return await parseStringAsN3Store(n3, { format: 'text/n3'});
+  return await parseStringAsN3Store(n3, { format: 'text/n3'} );
 }
 
 function makeNode(id: string) {

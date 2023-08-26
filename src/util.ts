@@ -59,9 +59,11 @@ export async function parseRulesAsN3Store(path: string) : Promise<N3.Store> {
     return store;
 }
 /**
- * Parse an RDF string and return the parsed N3.Store
+ * Parse an RDF string and return the parsed N3.Store.
+ * Requires formats supported by the n3 parser (Turtle, TriG, N-Triples, N3, N-Quads, RDF*)
  * 
  * @param n3Data - the RDF data as string
+ * @param options - format options (e.g. { format: 'N-Triples' })
  * @returns The parsed N3.Store
  */
 export async function parseStringAsN3Store(n3Data: string, options:any ={}): Promise<N3.Store> {

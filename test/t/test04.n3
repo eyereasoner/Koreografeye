@@ -1,0 +1,5 @@
+<https://overlay-journal.com> <https://www.w3.org/ns/activitystreams#name> "Overlay Journal";
+    a <https://www.w3.org/ns/activitystreams#Service>.
+<urn:uuid:0370c0fb-bb78-4a9b-87f5-bed307a509dd> <https://www.w3.org/ns/activitystreams#object> <https://research-organisation.org/repository/preprint/201203/421/>;
+    a <https://www.w3.org/ns/activitystreams#Offer>;
+    <https://www.w3.org/ns/activitystreams#actor> <https://overlay-journal.com>.
