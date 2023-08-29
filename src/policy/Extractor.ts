@@ -7,6 +7,7 @@ import { BlankNode } from '@rdfjs/types';
 
 const POL = 'https://www.example.org/ns/policy#';
 const FNO = 'https://w3id.org/function/ontology#';
+const SH  = 'http://www.w3.org/ns/shacl#';
 
 const myEngine = new QueryEngine();
 
@@ -24,12 +25,14 @@ export async function extractPolicies(store: N3.Store, path: string, xtra: any, 
   const sparql = `
 PREFIX pol: <${POL}> 
 PREFIX fno: <${FNO}>
+PREFIX sh: <${SH}>
 
 SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
   ?policy a fno:Execution .
   ?policy fno:executes ?executionTarget .
   OPTIONAL { ?id pol:policy ?policy } .
   OPTIONAL { ?policy ?name ?value . } .
+  OPTIONAL { ?policy sh:order ?order . } .
 }
 `;
   logger.trace(sparql);
