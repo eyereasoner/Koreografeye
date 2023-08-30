@@ -27,7 +27,7 @@ PREFIX pol: <${POL}>
 PREFIX fno: <${FNO}>
 PREFIX sh: <${SH}>
 
-SELECT ?id ?policy ?executionTarget ?name ?value WHERE {
+SELECT ?id ?policy ?executionTarget ?name ?value ?order WHERE {
   ?policy a fno:Execution .
   ?policy fno:executes ?executionTarget .
   OPTIONAL { ?id pol:policy ?policy } .

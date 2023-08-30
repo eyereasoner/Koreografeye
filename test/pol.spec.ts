@@ -44,15 +44,13 @@ describe("pol", () => {
         assert.equal(runs,2);
     });
 
-    //it("can do test03.out.n3", async () => {
-    //    const result = await doPolicy('test/t/test03.out.n3');
-    //    const runs = result.filter( (ex: IPolicyExecution) => ex.result).length;
-    //    // We test a failure to execute the sendNotification...
-    //    assert.equal(runs,1);
-    //});
+    it("can do test03.out.n3", async () => {
+        const result = await doPolicy('test/t/test03.out.n3');
+        assert.equal(result[0].policy.order,1900);
+    });
 });
 
-async function doPolicy(path: string) {
+async function doPolicy(path: string) : Promise<IPolicyExecution[]> {
     const store = await parseAsN3Store(path);
     return await executePolicies(manager,store);
 }
