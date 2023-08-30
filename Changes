@@ -1,3 +1,6 @@
+2023-08-30 0.4.5
+    - Fixing ordering bug
+  
 2023-08-30 0.4.4
     - Adding missing experimental support for ordering
   

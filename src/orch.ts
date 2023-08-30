@@ -23,7 +23,7 @@ const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
 let   orchConf         = './config.jsonld';
 
-program.version('0.4.4')
+program.version('0.4.5')
        .argument('<rules>')
        .option('-c,--config <file>','config file')
        .option('-i,--in <directory>','input directory')
