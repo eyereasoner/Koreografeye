@@ -4,7 +4,6 @@
 #
 
 IN="in"
-BASHLIB=${BASHLIB_BIN:=npx solid-tools} # Path to your bashlib installation or 'npx solid-tools' by default
 PROJDIR=$(dirname $0)
 
 cd ${PROJDIR}/..
@@ -52,4 +51,4 @@ else
     IN="${IN}/"
 fi
 
-${BASHLIB} cp ${WATCH} ${IN}
+npx sld cp ${WATCH} ${IN}

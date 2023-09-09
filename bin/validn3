@@ -1,5 +1,7 @@
 #!/bin/bash
-
+#
+# Check if an Notation3 rule file is valid
+#
 FILE=$1
 
 if [ "${FILE}" == "" ]; then

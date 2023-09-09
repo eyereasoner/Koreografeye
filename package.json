@@ -5,7 +5,7 @@
   "homepage": "",
   "license": "MIT",
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/eyereasoner/Koreografeye.git"
   },
