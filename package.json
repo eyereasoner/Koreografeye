@@ -41,11 +41,10 @@
     "pol": "dist/pol.js"
   },
   "files": [
+    "cache",
+    "config",
     "components",
-    "dist/**/*.d.ts",
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "cache/**"
+    "dist"
   ],
   "dependencies": {
     "@comunica/context-entries": "^2.8.2",

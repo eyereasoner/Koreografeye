@@ -30,12 +30,6 @@ Create input, output and rules directories.
 mkdir input output rules
 ```
 
-Copy a version of `config.jsonld` to this directory
-
-```
-wget https://raw.githubusercontent.com/eyereasoner/Koreografeye/main/config.jsonld
-```
-
 ### Prepare some input data
 
 Put a `demo.jsonld` AS2 notification in the `input` directory.
@@ -157,7 +151,7 @@ async function main() {
     const rules  = [readText(inputRules)]; 
 
     // Load the components we need for reasoning
-    const manager = await makeComponentsManager('./config.jsonld','.');
+    const manager = await makeComponentsManager(undefined,'.');
 
     // Get a reasoner
     const reasoner = await manager.instantiate('urn:koreografeye:reasonerInstance');

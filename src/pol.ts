@@ -14,7 +14,7 @@ import {
 } from './util';
 import { ComponentsManager } from 'componentsjs';
 
-let pluginConf = './config.jsonld';
+let pluginConf : string | undefined = undefined;
 
 program.version('0.4.5')
        .option('-c,--config <file>', 'configuration file')

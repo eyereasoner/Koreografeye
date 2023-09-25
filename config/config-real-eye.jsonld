@@ -1,0 +1,40 @@
+{
+    "@context": [
+      "https://linkedsoftwaredependencies.org/bundles/npm/componentsjs/^5.0.0/components/context.jsonld",
+      "https://linkedsoftwaredependencies.org/bundles/npm/koreografeye/^0.0.0/components/context.jsonld"
+    ],
+    "@graph": [
+      {
+        "@id": "urn:koreografeye:reasonerInstance",
+        "@type": "EyeReasoner",
+        "eye": "/usr/local/bin/eye" ,
+        "args": [ 
+          "--quiet" , 
+          "--nope" , 
+          "--pass"
+        ]
+      },
+      {
+        "@id": "http://example.org/debugPlugin",
+        "@type": "DemoPlugin",
+        "showMainStore" : true,
+        "showPolicyStore" : true,
+        "showParameters" : true 
+      },
+      {
+        "@id": "http://example.org/demoPlugin",
+        "@type": "DemoPlugin",
+        "showMainStore" : false,
+        "showPolicyStore" : false ,
+        "showParameters" : true
+      },
+      {
+        "@id": "http://example.org/sendNotification",
+        "@type": "SendNotificationPlugin",
+        "context": [
+            "https://www.w3.org/ns/activitystreams" ,
+            "https://purl.org/coar/notify"
+        ]
+      }
+    ]
+}

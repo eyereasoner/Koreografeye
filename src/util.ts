@@ -476,7 +476,7 @@ export async function concatFiles(paths: string[]): Promise<string[]>{
  * @param modulePath The search path for a components configuration
  * @returns Promise<CompontentsManager<unknown>>
  */
-export async function makeComponentsManager(componentsPath: string, modulePath?: string) : Promise<ComponentsManager<unknown>> {
+export async function makeComponentsManager(componentsPath: string | undefined, modulePath?: string) : Promise<ComponentsManager<unknown>> {
     let mp = modulePath;
 
     if (mp === undefined) {
@@ -486,8 +486,13 @@ export async function makeComponentsManager(componentsPath: string, modulePath?:
     const manager = await ComponentsManager.build({
         mainModulePath: mp
     });
-      
-    await manager.configRegistry.register(componentsPath);
+     
+    if (componentsPath) {
+        await manager.configRegistry.register(componentsPath);
+    }
+    else {
+        await manager.configRegistry.register(path.join(__dirname,'..','config','config.jsonld'));
+    }
 
     return manager;
 }
