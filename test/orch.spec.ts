@@ -13,7 +13,7 @@ let manager : ComponentsManager<unknown>;
 
 describe("orch", () => {
     before( async() => {
-        manager = await makeComponentsManager('./config.jsonld',cwd());
+        manager = await makeComponentsManager('./config/config.jsonld',cwd());
     });
     
     it("can do test00.n3 with test00.rule.n3", async () => {
