@@ -13,7 +13,7 @@ let manager : ComponentsManager<unknown>;
 describe("pol", () => {
 
     before( async() => {
-        manager = await makeComponentsManager('./config.jsonld',cwd());
+        manager = await makeComponentsManager('./config/config.jsonld',cwd());
     });
 
     beforeEach(() => {
