@@ -1861,9 +1861,9 @@
     rdf-js "^4.0.2"
 
 "@types/streamify-string@^1.0.0":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/streamify-string/-/streamify-string-1.0.3.tgz#dd58b6fd1e7e435fd8d4bf343fcf60685e06ad3f"
-  integrity sha512-VBzzYj+5aXs91W45GFX5wsNMe7oUDraJK2O/v6HMR3xcTew+PEM6isJADk3Ue9/cNFcjaQNrISs7mspaLSy8eQ==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@types/streamify-string/-/streamify-string-1.0.4.tgz#93254a61c44e2760b450ccec520ef9c4de5247f2"
+  integrity sha512-lFME26GYMkG5C9ydkqaIZ9Jnylk0yhEO2MYpKCf1CifCq32alaXfhi3HcquydYnOGM/VTb9S++JRFZ44rBvRZQ==
   dependencies:
     "@types/node" "*"
 
