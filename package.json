@@ -51,7 +51,7 @@
     "@comunica/query-sparql-rdfjs": "^2.5.1",
     "commander": "^11.1.0",
     "componentsjs": "^5.3.2",
-    "eyereasoner": "11.0.10",
+    "eyereasoner": "11.0.12",
     "fs-extra": "^11.1.1",
     "is-hidden-file": "^1.1.2",
     "jsonld": "^8.x.x",
