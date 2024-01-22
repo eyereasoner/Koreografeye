@@ -23,7 +23,7 @@ const POL_MAIN_SUBJECT = 'https://www.example.org/ns/policy#mainSubject';
 const POL_ORIGIN       = 'https://www.example.org/ns/policy#origin';
 let   orchConf : string | undefined = undefined;
 
-program.version('0.4.6')
+program.version('0.4.7')
        .argument('<rules>')
        .option('-c,--config <file>','config file')
        .option('-i,--in <directory>','input directory')
