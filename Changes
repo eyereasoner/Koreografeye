@@ -1,3 +1,10 @@
+2024-02-05 0.4.8
+    - Maintenance release
+    - Fixing dependencies (@woutermont)
+
+2024-01-22 0.4.7
+    - Maintenance release
+
 2023-09-25 0.4.6
     - Support default config file
   
