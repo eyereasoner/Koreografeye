@@ -1292,16 +1292,7 @@
     asynciterator "^3.8.1"
     sparqlalgebrajs "^4.2.0"
 
-"@comunica/bus-rdf-serialize@^2.0.1":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@comunica/bus-rdf-serialize/-/bus-rdf-serialize-2.8.2.tgz#77660f0c66a935f926fd0633389a726255eb940d"
-  integrity sha512-HAmDo3p1uw7WM/oUERa+1/UKcoATIHk6DCJgzXBWocwniCLb7b2sHQJR/SteFyH0U01JIgIn7cYyQsFkmfewHg==
-  dependencies:
-    "@comunica/actor-abstract-mediatyped" "^2.8.2"
-    "@comunica/core" "^2.8.2"
-    "@rdfjs/types" "*"
-
-"@comunica/bus-rdf-serialize@^2.10.0":
+"@comunica/bus-rdf-serialize@^2.0.1", "@comunica/bus-rdf-serialize@^2.10.0":
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/@comunica/bus-rdf-serialize/-/bus-rdf-serialize-2.10.0.tgz#ce84f56630e8429f50269aca88db70805b295378"
   integrity sha512-AmbN9MUgw6B6AfrIqR1u7PWHZFgbJz+j1SFJVtnHQ51hEpG+Ig9nNG2IWjHOsFK0xBBQ/wXgNmt/cufEMRM1SQ==
@@ -3323,9 +3314,9 @@ rdf-quad@^1.5.0:
     rdf-string "^1.5.0"
 
 rdf-serialize@^2.0.1:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/rdf-serialize/-/rdf-serialize-2.2.2.tgz#9e91faec392a281c435f8864c9ee300594825aa2"
-  integrity sha512-zzWQMMMmDzocuFLEOcdz8U5AxbdjBvknwFEHXCyw2lklcEjd2OtsvD5NgWQc+zbsWZKxewvDYEXuzhkNAHRv1g==
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/rdf-serialize/-/rdf-serialize-2.2.3.tgz#11ad0e0504b53768111585cc8e8da426b303394a"
+  integrity sha512-t3AvH3lw1NUufCUjf6/pxOyU/cPBJ0J3TkMP+FuUJKMmsJ1FzFdNkpsIMp9QFmWtqUYijyhYpVfJ4Tqprl+1RA==
   dependencies:
     "@comunica/actor-rdf-serialize-jsonld" "^2.6.6"
     "@comunica/actor-rdf-serialize-n3" "^2.6.6"
