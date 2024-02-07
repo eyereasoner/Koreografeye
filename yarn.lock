@@ -86,17 +86,7 @@
     abort-controller "^3.0.0"
     cross-fetch "^4.0.0"
 
-"@comunica/actor-http-proxy@^2.0.1":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@comunica/actor-http-proxy/-/actor-http-proxy-2.8.2.tgz#aec3147132934649c969c7e586db390014e66b35"
-  integrity sha512-OOFWfWVdi5mpRRgrNIqFx+C1wv3ulcDaBYojzbQdktwl6Vsz79Hlh3EHsgyTVxKHLjuhGeb/3aNbj2cFMVlF+A==
-  dependencies:
-    "@comunica/bus-http" "^2.8.2"
-    "@comunica/context-entries" "^2.8.2"
-    "@comunica/mediatortype-time" "^2.8.2"
-    "@comunica/types" "^2.8.2"
-
-"@comunica/actor-http-proxy@^2.10.2":
+"@comunica/actor-http-proxy@^2.0.1", "@comunica/actor-http-proxy@^2.10.2":
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/@comunica/actor-http-proxy/-/actor-http-proxy-2.10.2.tgz#d7816b61d49383178a7d8d48867f48180b932b70"
   integrity sha512-3yUF8BCh4nwq8J6NRILEsyNrQNStkE9ggJ7hYwRfA1XcMgz1pANNaWJ2P2TEKH1jNinr23bL3JeuUZCm9Kz9dA==
@@ -1169,18 +1159,7 @@
   dependencies:
     "@comunica/core" "^2.10.0"
 
-"@comunica/bus-http@^2.0.1", "@comunica/bus-http@^2.8.2":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@comunica/bus-http/-/bus-http-2.8.2.tgz#b51b237383db1bda2b0f0315d84ecb53cc0981d3"
-  integrity sha512-Seh7NXgTCuXbExJYgMKQDNSl8tdxaQWg5GtNiZAePE0aUwaosa2SsLifex1DJN7P1dW2OAaGzZhTB6+v9dKX4Q==
-  dependencies:
-    "@comunica/core" "^2.8.2"
-    is-stream "^2.0.1"
-    readable-stream-node-to-web "^1.0.1"
-    readable-web-to-node-stream "^3.0.2"
-    web-streams-ponyfill "^1.4.2"
-
-"@comunica/bus-http@^2.10.2":
+"@comunica/bus-http@^2.0.1", "@comunica/bus-http@^2.10.2", "@comunica/bus-http@^2.8.2":
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/@comunica/bus-http/-/bus-http-2.10.2.tgz#d46c22983b358830bbbbf58dee8173b42d9f1779"
   integrity sha512-MAYRF6uEBAuJ9dCPW2Uyne7w3lNwXFXKfa14XuPG5DFTDpgo/Z2pWupPrBsA1eIWMNJ6WOG6QyEv4rllSIBqlg==
@@ -1191,15 +1170,7 @@
     readable-stream-node-to-web "^1.0.1"
     web-streams-ponyfill "^1.4.2"
 
-"@comunica/bus-init@^2.0.1":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@comunica/bus-init/-/bus-init-2.8.2.tgz#8fb8225531de05b55008b5ac470dfd204ce00b3e"
-  integrity sha512-KvRHO0j7Z4YS1Czxm985US7/fa7aL8jUlmS1AyJnw9jcl1+gYhtDRbopyJ4DGBgfV1fxve+UFXs7gpROrrh3Ow==
-  dependencies:
-    "@comunica/core" "^2.8.2"
-    readable-stream "^4.2.0"
-
-"@comunica/bus-init@^2.10.0":
+"@comunica/bus-init@^2.0.1", "@comunica/bus-init@^2.10.0":
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/@comunica/bus-init/-/bus-init-2.10.0.tgz#9ce88843482cc48e0fb35b6ca40e8f74795d55a5"
   integrity sha512-hJejHa8sLVhQLFlduCVnhOd5aW3FCEz8wmWjyeLI3kiHFaQibnGVMhUuuNRX5f8bnnPuTdEiHc1nnYHuSi+j8A==
@@ -3313,9 +3284,9 @@ rdf-object@^1.13.1, rdf-object@^1.14.0:
     streamify-array "^1.0.1"
 
 rdf-parse@^2.0.0, rdf-parse@^2.1.1:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/rdf-parse/-/rdf-parse-2.3.2.tgz#83539491f7e348f34d314c585a18f0ba707e2368"
-  integrity sha512-TOeI7FKlyr/GupfGaXZvpMLzvByOrtwt4zHLMuuy3deNGse9QyhHsspVraZam491sIgBogdchzcUqkf2WXnAsg==
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/rdf-parse/-/rdf-parse-2.3.3.tgz#749015e03a7763433f7871daebb33156bf1214da"
+  integrity sha512-N5XEHm+ajFzwo/vVNzB4tDtvqMwBosbVJmZl5DlzplQM9ejlJBlN/43i0ImAb/NMtJJgQPC3jYnkCKGA7wdo/w==
   dependencies:
     "@comunica/actor-http-fetch" "^2.0.1"
     "@comunica/actor-http-proxy" "^2.0.1"
@@ -3434,18 +3405,7 @@ readable-stream@^3.4.0, readable-stream@^3.6.0:
     string_decoder "^1.1.1"
     util-deprecate "^1.0.1"
 
-readable-stream@^4.0.0, readable-stream@^4.1.0, readable-stream@^4.2.0, readable-stream@^4.3.0, readable-stream@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-4.4.2.tgz#e6aced27ad3b9d726d8308515b9a1b98dc1b9d13"
-  integrity sha512-Lk/fICSyIhodxy1IDK2HazkeGjSmezAWX2egdtJnYhtzKEsBPJowlI6F6LPb5tqIQILrMbx22S5o3GuJavPusA==
-  dependencies:
-    abort-controller "^3.0.0"
-    buffer "^6.0.3"
-    events "^3.3.0"
-    process "^0.11.10"
-    string_decoder "^1.3.0"
-
-readable-stream@^4.5.1:
+readable-stream@^4.0.0, readable-stream@^4.1.0, readable-stream@^4.2.0, readable-stream@^4.3.0, readable-stream@^4.4.2, readable-stream@^4.5.1:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-4.5.2.tgz#9e7fc4c45099baeed934bff6eb97ba6cf2729e09"
   integrity sha512-yjavECdqeZ3GLXNgRXgeQEdz9fvDDkNKyHnbHRFtOr7/LcfgBcmct7t/ET+HaCTqfh06OzoAxrkN/IfjJBVe+g==
