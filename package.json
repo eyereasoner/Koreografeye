@@ -1,7 +1,7 @@
 {
   "name": "koreografeye",
   "description": "A Solid choreography / orchestrator agent with a reasoning component",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "homepage": "",
   "license": "MIT",
   "author": "Patrick Hochstenbach <Patrick.Hochstenbach@UGent.be>",

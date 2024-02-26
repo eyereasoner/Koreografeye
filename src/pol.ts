@@ -16,7 +16,7 @@ import { ComponentsManager } from 'componentsjs';
 
 let pluginConf : string | undefined = undefined;
 
-program.version('0.4.8')
+program.version('0.4.9')
        .option('-c,--config <file>', 'configuration file')
        .option('-i,--in <directory>','input directory')
        .option('-e,--err <directory>','error directory')
