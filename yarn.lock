@@ -2234,6 +2234,26 @@ componentsjs@^5.0.1, componentsjs@^5.3.2:
     semver "^7.3.2"
     winston "^3.3.3"
 
+componentsjs@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/componentsjs/-/componentsjs-6.0.0.tgz#d3f2356e655a9275bd486637aef0ea2284e2fecb"
+  integrity sha512-/WMvtnK5u0kZ9xaXSMHuS7IKdGS1tlBXIGZlAfR6i2KWYWRSc4O3laLBNuSeSUBc59gsrolGrTNySm9liCqKbA==
+  dependencies:
+    "@rdfjs/types" "*"
+    "@types/minimist" "^1.2.0"
+    "@types/node" "^18.0.0"
+    "@types/semver" "^7.3.4"
+    jsonld-context-parser "^2.1.1"
+    minimist "^1.2.0"
+    rdf-data-factory "^1.1.0"
+    rdf-object "^1.14.0"
+    rdf-parse "^2.0.0"
+    rdf-quad "^1.5.0"
+    rdf-string "^1.6.0"
+    rdf-terms "^1.7.0"
+    semver "^7.3.2"
+    winston "^3.3.3"
+
 cross-fetch@^3.0.6, cross-fetch@^3.1.5:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.8.tgz#0327eba65fd68a7d119f8fb2bf9334a1a7956f82"
