@@ -2235,9 +2235,9 @@ componentsjs@^5.0.1, componentsjs@^5.3.2:
     winston "^3.3.3"
 
 componentsjs@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/componentsjs/-/componentsjs-6.0.0.tgz#d3f2356e655a9275bd486637aef0ea2284e2fecb"
-  integrity sha512-/WMvtnK5u0kZ9xaXSMHuS7IKdGS1tlBXIGZlAfR6i2KWYWRSc4O3laLBNuSeSUBc59gsrolGrTNySm9liCqKbA==
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/componentsjs/-/componentsjs-6.0.1.tgz#f34cbd37195ec232dbcbad5426efab74d352a14d"
+  integrity sha512-8ylkwrS0WJCTkkp2dOamE4yLkkdFd9xZQQ8dGzaY22TdntLR9V/SH+dZ+GQ+im9/2KgrKtcEu0UHMY+cpE0LYw==
   dependencies:
     "@rdfjs/types" "*"
     "@types/minimist" "^1.2.0"
