@@ -47,7 +47,7 @@
     "dist"
   ],
   "dependencies": {
-    "@comunica/context-entries": "^2.8.2",
+    "@comunica/context-entries": "^3.0.1",
     "@comunica/query-sparql-rdfjs": "^3.0.1",
     "@types/jsonld": "^1.5.8",
     "commander": "^12.0.0",
