@@ -142,6 +142,7 @@ const {
 main();
 
 async function main() {
+    const config = './config/config.jsonld';
     const inputData  = './input/demo.jsonld';
     const inputRules = './rules/demo.n3';
 
@@ -151,7 +152,7 @@ async function main() {
     const rules  = [readText(inputRules)]; 
 
     // Load the components we need for reasoning
-    const manager = await makeComponentsManager(undefined,'.');
+    const manager = await makeComponentsManager(config,'.');
 
     // Get a reasoner
     const reasoner = await manager.instantiate('urn:koreografeye:reasonerInstance');
@@ -160,9 +161,20 @@ async function main() {
     const resultStore = await reasoner.reason(store, rules);
 
     // Execute the policies (pol)
-    const numOfErrors = await executePolicies(manager, resultStore);
+    const results = await executePolicies(manager, resultStore);
 
-    console.log(`found ${numOfErrors} errors`);
+    if (results) {
+        let success = 0;
+        let errors = 0;
+      	results?.forEach( (r) => { 
+        	if (r.result) { success += 1; }
+        	else { errors += 1; }
+    	});  
+    	console.log(`success: ${success} ; errors: ${errors}`);
+	}
+	else {
+		console.log(`no policies executed`);
+	}
 }
 ```
 
