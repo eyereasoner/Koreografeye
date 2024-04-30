@@ -2858,10 +2858,10 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-eyereasoner@16.2.5:
-  version "16.2.5"
-  resolved "https://registry.yarnpkg.com/eyereasoner/-/eyereasoner-16.2.5.tgz#83ffe78e592da2c1823e091f54cc0b406efab28b"
-  integrity sha512-SnLTCHtvMuT3L9W2bUgXzpGDwhl/0u8MaGRv9EJ5L5dQWCVDe9vhsQgfmAZBHF9UYtgBKUNgbDFxNpXMkinb8w==
+eyereasoner@16.2.7:
+  version "16.2.7"
+  resolved "https://registry.yarnpkg.com/eyereasoner/-/eyereasoner-16.2.7.tgz#83a12dc4c5f639788f31eaa5093c900d94a5d8ef"
+  integrity sha512-9yqDMMv76QeQmM2ELhYbittMStjXVHW8MIm4pFwdsicweKAmRzhPHp9zhJK/aqcZjoMCG2S5oa4KLX0EzlUC1Q==
   dependencies:
     n3 "^1.16.3"
     swipl-wasm "3.7.9"
