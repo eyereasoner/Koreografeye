@@ -2218,9 +2218,9 @@
     "@types/node" "*"
 
 "@types/jsonld@^1.5.8":
-  version "1.5.13"
-  resolved "https://registry.yarnpkg.com/@types/jsonld/-/jsonld-1.5.13.tgz#32cb7bf8893ff811036b5025edaf626593a6f36f"
-  integrity sha512-n7fUU6W4kSYK8VQlf/LsE9kddBHPKhODoVOjsZswmve+2qLwBy6naWxs/EiuSZN9NU0N06Ra01FR+j87C62T0A==
+  version "1.5.14"
+  resolved "https://registry.yarnpkg.com/@types/jsonld/-/jsonld-1.5.14.tgz#ad3f89a05eb51187be2ef9fd680d53508852e87f"
+  integrity sha512-z4IRf5oRgjPTkazDDv94sjzI5iK3DrDEW7Y5Gk4VO4+ANymgtHtNaXWi93+BmiAoG3PB9QTv5DgSpKWGYVvysA==
 
 "@types/lru-cache@^5.1.0":
   version "5.1.1"
