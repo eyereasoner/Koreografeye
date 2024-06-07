@@ -76,7 +76,7 @@
     "@types/n3": "^1.10.4",
     "@types/streamify-string": "^1.0.0",
     "@types/tmp": "^0.2.3",
-    "chai": "^4.3.7",
+    "chai": "^5.1.1",
     "componentsjs-generator": "^4.0.1",
     "mocha": "^10.2.0",
     "sinon": "^18.0.0",
