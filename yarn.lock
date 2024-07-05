@@ -1734,18 +1734,7 @@
     jsonld-context-parser "^2.2.2"
     sparqlalgebrajs "^4.2.0"
 
-"@comunica/context-entries@^3.0.1":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@comunica/context-entries/-/context-entries-3.1.0.tgz#2708faa30cdac4b9fdb9e6d71ecf416ecf7a6d4d"
-  integrity sha512-ExgFIY7DtEsg/FIMesGcpY7Gkvi4qT2/jC7CL/sugQ1YtNuACD3Gkackbmx7Mr2uEBqP0fMWrkcUghzZ2D6Teg==
-  dependencies:
-    "@comunica/core" "^3.1.0"
-    "@comunica/types" "^3.1.0"
-    "@rdfjs/types" "*"
-    jsonld-context-parser "^2.2.2"
-    sparqlalgebrajs "^4.3.3"
-
-"@comunica/context-entries@^3.2.0":
+"@comunica/context-entries@^3.0.1", "@comunica/context-entries@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@comunica/context-entries/-/context-entries-3.2.0.tgz#2e97bf5f9c62daccb79d151f2878afd3385b44f6"
   integrity sha512-c97CoVmptgvkFZyIX6d7zU1lTtc2jl+zwm49HGQEK2fbiimR8jK7cMimWu5AFDICAR1VYh1lTIBIoI+72QZZ+w==
@@ -1764,7 +1753,7 @@
     "@comunica/types" "^2.10.0"
     immutable "^4.1.0"
 
-"@comunica/core@^3.1.0", "@comunica/core@^3.2.0":
+"@comunica/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@comunica/core/-/core-3.2.0.tgz#a987956f3f6e4933397f28c117bcc99108f7373b"
   integrity sha512-rfLWrbVISt2TXWu++dJa3F/mK+B2vCPL+KfIlzGTOyFPuYzDO303rh9FVs8XnViY7cTw6ph+PcZjWiO7qDDz6A==
@@ -2069,7 +2058,7 @@
     asynciterator "^3.8.1"
     sparqlalgebrajs "^4.2.0"
 
-"@comunica/types@^3.1.0", "@comunica/types@^3.2.0":
+"@comunica/types@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@comunica/types/-/types-3.2.0.tgz#8928eef255f77b0cbba18b191d79d7af03658efb"
   integrity sha512-UHKvAqu8giOjgon978P+mlg8RkzUBLJY2c9d9Kcyzjln6uBI5Cjp+ek8f79tR+ZADPCQpV6hkjJK3v3myanq2g==
