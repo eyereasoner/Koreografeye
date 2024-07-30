@@ -3519,9 +3519,9 @@ mute-stream@0.0.7:
   integrity sha512-r65nCZhrbXXb6dXOACihYApHw2Q6pV0M3V0PSxd74N0+D8nzAdEAITq2oAjA1jVnKI+tGvEBUpqiMh0+rW6zDQ==
 
 n3@^1.16.3, n3@^1.16.4, n3@^1.17.0, n3@^1.6.3:
-  version "1.17.4"
-  resolved "https://registry.yarnpkg.com/n3/-/n3-1.17.4.tgz#4eea7ec0b8ac9e4a61183e5cf8ea8a99f5b71d37"
-  integrity sha512-G5RR9PKLJXQU1uDJ2cZq+zp23V5XruqWhAGlCpF2/8kLiPbqEKOXDXgOLuoMqFwdxO/oBE2h4KNGQUp0aQ0OLA==
+  version "1.20.3"
+  resolved "https://registry.yarnpkg.com/n3/-/n3-1.20.3.tgz#4acc1664c74d07ed2f582d1c3e714980d715fe05"
+  integrity sha512-XBoBuF2WKOzoFqeJHjF5WFlouh97euTJeEXNbndjDrZiJgHSlOXaBWh42a9ieaFvlv8dfjOak4ojHxVCZe4sxQ==
   dependencies:
     buffer "^6.0.3"
     queue-microtask "^1.1.2"
