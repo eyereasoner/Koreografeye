@@ -6,6 +6,7 @@ import { Reasoner } from '../src/orchestrator/Reasoner';
 import { parseAsN3Store } from '../src/util';
 import { QueryEngine } from '@comunica/query-sparql-rdfjs';
 import { ComponentsManager } from 'componentsjs';
+import { isomorphic } from "rdf-isomorphic";
 
 const myEngine = new QueryEngine();
 
@@ -19,7 +20,7 @@ describe("orch", () => {
     it("can do test00.n3 with test00.rule.n3", async () => {
         const result = await doReason('test/t/test00.n3','test/t/test00.rule.n3');
         const expected = await getStore('test/t/test00.out.n3');
-        assert.deepEqual(result,expected);
+        assert.isTrue(isomorphic([...result], [...expected]));
     });
 
     it("can do test00.n3 with test01.rule.n3", async () => {
