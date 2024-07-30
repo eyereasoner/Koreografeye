@@ -13,6 +13,7 @@ import {
 } from "../src/util";
 import { QueryEngine } from '@comunica/query-sparql-rdfjs';
 import { assert } from "chai";
+import { isomorphic } from "rdf-isomorphic";
 
 const myEngine = new QueryEngine();
 
@@ -30,7 +31,7 @@ describe("parseAsN3Store", () => {
     const expect = await testStore(`<http://example.org/Test> a <https://www.w3.org/ns/activitystreams#Announce> .`);
     const result = await parseAsN3Store("test/t/test00.jsonld");
 
-    assert.deepEqual(result,expect);
+    assert.isTrue(isomorphic([...result], [...expect]));
   });
 })
 
@@ -114,7 +115,7 @@ describe("extractGraph", () => {
     const store2 = extractGraph(store1,nn);
     const store3 = await testStore(`<x> <y> <z>.`);
 
-    assert.deepEqual(store2,store3);
+    assert.isTrue(isomorphic([...store2], [...store3]));
   });
 });
 
@@ -127,7 +128,7 @@ describe("rdfTransformString", () => {
     const n3Store = await testStore(n3);
     const outputStore = await testStore(output);
 
-    assert.deepEqual(n3Store,outputStore);
+    assert.isTrue(isomorphic([...n3Store], [...outputStore]));
   });
 });
 
