@@ -2091,14 +2091,6 @@
   resolved "https://registry.yarnpkg.com/@fastify/busboy/-/busboy-2.0.0.tgz#f22824caff3ae506b18207bad4126dbc6ccdb6b8"
   integrity sha512-JUFJad5lv7jxj926GPgymrWQxxjPYuJNiNjNMzqT+HiuP6Vl3dk5xzG+8sTX96np0ZAluvaMzPsjhHZ5rNuNQQ==
 
-"@inrupt/universal-fetch@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@inrupt/universal-fetch/-/universal-fetch-1.0.3.tgz#b13cedc95e6e7adbd6b749846ab0c7e49e918f9c"
-  integrity sha512-AP/nMOuuKvR2YoQkdS77ntuuq5ZYDGStI8Uirp1MCsyPSoBLyNnRjMLjlGqIlaC+5Xp7TYZJ9z/Kl2uUEpXUFw==
-  dependencies:
-    node-fetch "^2.6.7"
-    undici "^5.19.1"
-
 "@jeswr/prefixcc@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@jeswr/prefixcc/-/prefixcc-1.2.1.tgz#db4290930fd8f623204199075c6c710c47637faa"
@@ -2877,13 +2869,13 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-eyereasoner@16.16.1:
-  version "16.16.1"
-  resolved "https://registry.yarnpkg.com/eyereasoner/-/eyereasoner-16.16.1.tgz#644c89b7e8dfe8f8679804c1e99b40e670beead8"
-  integrity sha512-U7Z8J8sHuuSw3kbweWlwdkDbFS3AKuK4ma4mZvBVVZbHZL+riPo18C/Zzi30rykrSW2myKP7WwP+N5XoUXfCzw==
+eyereasoner@16.16.3:
+  version "16.16.3"
+  resolved "https://registry.yarnpkg.com/eyereasoner/-/eyereasoner-16.16.3.tgz#32b79e6935c77dcba4a6e8d8e066729c077ed953"
+  integrity sha512-1yv4YM/cmXRv7Yw+L7U+o/OHcopRfAfEgLcJEhJhTsTc+Ya7r6WW7yyzhBKpfPfSTS/EB4DncIyXAgvujgtyOg==
   dependencies:
     n3 "^1.16.3"
-    swipl-wasm "3.8.2"
+    swipl-wasm "4.0.0"
 
 fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -3548,7 +3540,7 @@ node-domexception@^1.0.0:
   resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
   integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
 
-node-fetch@^2.6.12, node-fetch@^2.6.7:
+node-fetch@^2.6.12:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
@@ -4206,12 +4198,11 @@ supports-color@^8.1.1:
   dependencies:
     has-flag "^4.0.0"
 
-swipl-wasm@3.8.2:
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/swipl-wasm/-/swipl-wasm-3.8.2.tgz#4cd1bd8e409a68cd02dfca7af44d9c5b6a01b030"
-  integrity sha512-anGHNZ+i0iUiIeDPley14Jx4+S68V+UKH+NnNPCnNlxVPApGQiYaEsLDpBpHv+O1E5Fc6Igvov5OXq7vT605EA==
+swipl-wasm@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/swipl-wasm/-/swipl-wasm-4.0.0.tgz#e523a9b28bf954d5c2c93951cba22b77fd98b312"
+  integrity sha512-IdCRhhJLorYWbxir5ZHnH1vbmWKkDhZVIOypmnUoREBCJWyyypjdvmOTIEHgkcD8fVaSrKpBuXMqpivibL5uoA==
   dependencies:
-    "@inrupt/universal-fetch" "^1.0.3"
     "@types/emscripten" "^1.39.13"
 
 text-hex@1.0.x:
@@ -4323,7 +4314,7 @@ undici-types@~5.25.1:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.25.3.tgz#e044115914c85f0bcbb229f346ab739f064998c3"
   integrity sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==
 
-undici@^5.19.1, undici@^5.21.2:
+undici@^5.21.2:
   version "5.26.5"
   resolved "https://registry.yarnpkg.com/undici/-/undici-5.26.5.tgz#f6dc8c565e3cad8c4475b187f51a13e505092838"
   integrity sha512-cSb4bPFd5qgR7qr2jYAi0hlX9n5YKK2ONKkLFkxl+v/9BvC0sOpZjBHDBSXc5lWAf5ty9oZdRXytBIHzgUcerw==
