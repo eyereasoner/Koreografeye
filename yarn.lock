@@ -3747,10 +3747,10 @@ rdf-quad@^1.5.0:
     rdf-literal "^1.2.0"
     rdf-string "^1.5.0"
 
-rdf-serialize@^2.0.1:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/rdf-serialize/-/rdf-serialize-2.2.3.tgz#11ad0e0504b53768111585cc8e8da426b303394a"
-  integrity sha512-t3AvH3lw1NUufCUjf6/pxOyU/cPBJ0J3TkMP+FuUJKMmsJ1FzFdNkpsIMp9QFmWtqUYijyhYpVfJ4Tqprl+1RA==
+rdf-serialize@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/rdf-serialize/-/rdf-serialize-3.0.0.tgz#6b0defeb0d92285f18a7feebfebcda51fb24b95d"
+  integrity sha512-mkH+lDM7q0U/dxnOv8lwbRWRL0zHR/8d/g1WnHdPxinhEr/B12/atyGnIoijgVOni3d8KoutYIsyMsSrmsENUA==
   dependencies:
     "@comunica/actor-rdf-serialize-jsonld" "^2.6.6"
     "@comunica/actor-rdf-serialize-n3" "^2.6.6"
