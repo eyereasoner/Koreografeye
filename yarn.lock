@@ -2727,9 +2727,9 @@ componentsjs-generator@^4.0.1:
     semver "^7.3.2"
 
 componentsjs@^6.0.0, componentsjs@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/componentsjs/-/componentsjs-6.0.1.tgz#f34cbd37195ec232dbcbad5426efab74d352a14d"
-  integrity sha512-8ylkwrS0WJCTkkp2dOamE4yLkkdFd9xZQQ8dGzaY22TdntLR9V/SH+dZ+GQ+im9/2KgrKtcEu0UHMY+cpE0LYw==
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/componentsjs/-/componentsjs-6.1.0.tgz#dc70ba75eb482509e829bce29cfca15d93dbd69e"
+  integrity sha512-u5UFuX6vXw6ZQcn8bYfpUlUzIP2iAUpGnL8+ggLgVtS4GgRNrAJVulsWH+PGKRurv4fYwIPQzgFS8irn1cwhVg==
   dependencies:
     "@rdfjs/types" "*"
     "@types/minimist" "^1.2.0"
