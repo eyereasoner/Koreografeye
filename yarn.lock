@@ -2164,9 +2164,9 @@
     fastq "^1.6.0"
 
 "@rdfjs/types@*", "@rdfjs/types@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@rdfjs/types/-/types-1.1.0.tgz#098f180b7cccb03bb416c7b4d03baaa9d480e36b"
-  integrity sha512-5zm8bN2/CC634dTcn/0AhTRLaQRjXDZs3QfcAsQKNturHT7XVWcKy/8p3P5gXl+YkZTAmy7T5M/LyiT/jbkENw==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@rdfjs/types/-/types-1.1.1.tgz#f798f70d4778af98f0aad2c56ee6258eaf9b9edf"
+  integrity sha512-zFSU1BDXGnyROZw4HoQ/UAZxCM9r86QXJCQI2Kre7XbxQ2Rbd1oBIHnkVeYkvg0kGwtQUQKJpFeAxk7J8/YrOQ==
   dependencies:
     "@types/node" "*"
 
