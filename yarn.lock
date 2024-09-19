@@ -2711,9 +2711,9 @@ comment-parser@^0.7.6:
   integrity sha512-GKNxVA7/iuTnAqGADlTWX4tkhzxZKXp5fLJqKTlQLHkE65XDUKutZ3BHaJC5IGcper2tT3QRD1xr4o3jNpgXXg==
 
 componentsjs-generator@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/componentsjs-generator/-/componentsjs-generator-4.0.1.tgz#c0f6d872163aca287d1bf64c7295fdc2c5379f5b"
-  integrity sha512-Bu29ttAaKXIVz6T+YlpPysApWiImZNn6lkgPPLhwnDnRoWT+ptyEUZWLf5Z8gTs3rW/L1o50vfUdI6AIfohbLw==
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/componentsjs-generator/-/componentsjs-generator-4.1.0.tgz#6796fe0d13c1cfb195e42c06616ede6bc42af608"
+  integrity sha512-I5rqlTOCzQAgC/I0IrT7RpbUfzAFX1mdqqYMYgNHFLRvNuQuXVToEuLJeH4QpocIVWmRczVlOP7aSKV+Ejltlw==
   dependencies:
     "@types/lru-cache" "^5.1.0"
     "@types/semver" "^7.3.4"
