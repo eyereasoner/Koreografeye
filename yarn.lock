@@ -2284,9 +2284,9 @@
   integrity sha512-HfMcUmy9hTMJh66VNcmeC9iVErIZJli2bszuXc6julh5YGuRb/W5OnkHjwLNYdFlMis0sY3If5SEAp+PktdJjw==
 
 "@types/n3@^1.10.4":
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/@types/n3/-/n3-1.21.0.tgz#dd51efcbf8597058c62e6ac6942364289cb45e5b"
-  integrity sha512-EmCSdHNrsRbUiFF1PSfxqJW/L3SxEwVVPe7x7Ruvy7EWgCeWTppMpbd7IpvRloFjvTQMjDVa1PuhJuREk2P81Q==
+  version "1.21.1"
+  resolved "https://registry.yarnpkg.com/@types/n3/-/n3-1.21.1.tgz#5e9f93f50e7a77f8c40bffa3e66f67209633c235"
+  integrity sha512-9KxFlFj3etnpdI2nyQEp/jHry5DHxWT22z9Nc/y/hdHe0CHVc9rKu+NacWKUyN06dDLDh7ZnjCzY8yBJ9lmzdw==
   dependencies:
     "@rdfjs/types" "^1.1.0"
     "@types/node" "*"
