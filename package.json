@@ -60,7 +60,7 @@
     "log4js": "^6.7.0",
     "n3": "^1.16.4",
     "node-fetch": "^3.3.0",
-    "rdf-parse": "^2.1.1",
+    "rdf-parse": "^3.0.0",
     "rdf-serialize": "^2.0.1",
     "stream-to-string": "^1.2.0",
     "streamify-string": "^1.0.1",
