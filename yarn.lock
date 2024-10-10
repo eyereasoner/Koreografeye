@@ -1768,12 +1768,12 @@
     sparqlalgebrajs "^4.2.0"
 
 "@comunica/context-entries@^3.0.1", "@comunica/context-entries@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@comunica/context-entries/-/context-entries-3.2.1.tgz#7f498e923cc90e81785319e29e639214abcca14d"
-  integrity sha512-FLa7i7QTP1RPegPH/yy1LzQLm9iH5rFzRuY9wOWAKh6f8XknsHeJ3JydYFuaus2GIhtUS9K9xpxd03gc1H/pxw==
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@comunica/context-entries/-/context-entries-3.3.0.tgz#80e1263493b68808896f41f43daa622a9bd819be"
+  integrity sha512-6kJGlAF5t/kNm+tejinqsryyzxYeSppWQ5ODF1j6IM5LLueMS7/3SZzNuA0zR6QmxJkRLDcZG0fYWn4mxjFjGw==
   dependencies:
-    "@comunica/core" "^3.2.1"
-    "@comunica/types" "^3.2.1"
+    "@comunica/core" "^3.3.0"
+    "@comunica/types" "^3.3.0"
     "@rdfjs/types" "*"
     jsonld-context-parser "^2.2.2"
     sparqlalgebrajs "^4.3.7"
@@ -1786,12 +1786,12 @@
     "@comunica/types" "^2.10.0"
     immutable "^4.1.0"
 
-"@comunica/core@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@comunica/core/-/core-3.2.1.tgz#673fe1c395b8adfbd69e17af3d488a53d604d032"
-  integrity sha512-P8sOdOSV5ys/kP1VBRcBbjDz20OiPzZo6xxTCYtPek46edUUDgiVTNZj5PBDno4ioCO2V0t/NTjw0RQDxk9L/w==
+"@comunica/core@^3.2.1", "@comunica/core@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@comunica/core/-/core-3.3.0.tgz#dd38aedc038ecaed507b04bf2326bd2a458c03fe"
+  integrity sha512-asLXeydYjcQdMPlHDWjvFsmIwY0LOegM7D8KkTNRW6w+u/+mgwnfj8L0r9/AqfrbJyJNEmrgZJSlY/aBntwZ5Q==
   dependencies:
-    "@comunica/types" "^3.2.1"
+    "@comunica/types" "^3.3.0"
     immutable "^4.1.0"
 
 "@comunica/data-factory@^3.1.0":
@@ -2093,10 +2093,10 @@
     asynciterator "^3.8.1"
     sparqlalgebrajs "^4.2.0"
 
-"@comunica/types@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@comunica/types/-/types-3.2.1.tgz#29d2c5aeacdf47c41762f2caf62f42cb4fd79c0e"
-  integrity sha512-mLHUT2V0IEUWLYPyFlNMIR5882frHj8099teuOGYyPU+D7rwWu9SD086We0TM+ETIh1CrCY7mwzQvbwO2UvBXg==
+"@comunica/types@^3.2.1", "@comunica/types@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@comunica/types/-/types-3.3.0.tgz#b3288314ee511bc3c8889f4d1f2f0aa04df7a138"
+  integrity sha512-Z6RtAzvcUvBzIyG5lzMWfGF9ODIJQ2SETA8dW6MWMmttJgYe6xRpUjTKzvhnEs3vcleDD5AutL7tZ7vx50NELg==
   dependencies:
     "@rdfjs/types" "*"
     "@types/yargs" "^17.0.24"
