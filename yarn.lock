@@ -1767,7 +1767,7 @@
     jsonld-context-parser "^2.2.2"
     sparqlalgebrajs "^4.2.0"
 
-"@comunica/context-entries@^3.0.1", "@comunica/context-entries@^3.3.0":
+"@comunica/context-entries@^3.3.0":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@comunica/context-entries/-/context-entries-3.3.0.tgz#80e1263493b68808896f41f43daa622a9bd819be"
   integrity sha512-6kJGlAF5t/kNm+tejinqsryyzxYeSppWQ5ODF1j6IM5LLueMS7/3SZzNuA0zR6QmxJkRLDcZG0fYWn4mxjFjGw==
@@ -1777,6 +1777,17 @@
     "@rdfjs/types" "*"
     jsonld-context-parser "^2.2.2"
     sparqlalgebrajs "^4.3.7"
+
+"@comunica/context-entries@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@comunica/context-entries/-/context-entries-4.0.1.tgz#795d33f32c76ecf8d702dc981e17807207948b43"
+  integrity sha512-7dB7Fh5cBpYG9ZFZ9n/glqSyvsiiLbH1Am1LxJOJxwIs4PuZTISN+byH9aAHQdWTJa9gAvDWhhpdR24u0OJarQ==
+  dependencies:
+    "@comunica/core" "^4.0.1"
+    "@comunica/types" "^4.0.1"
+    "@rdfjs/types" "*"
+    jsonld-context-parser "^2.2.2"
+    sparqlalgebrajs "^4.3.8"
 
 "@comunica/core@^2.0.1", "@comunica/core@^2.10.0", "@comunica/core@^2.8.2":
   version "2.10.0"
@@ -1793,6 +1804,14 @@
   dependencies:
     "@comunica/types" "^3.3.0"
     immutable "^4.1.0"
+
+"@comunica/core@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@comunica/core/-/core-4.0.1.tgz#fe4314b69acc43c61856ee1c3f7df03af822793e"
+  integrity sha512-qvT/x6CV04YWBZigu1kgb51T7lxvD4fOlvfaYPQdl4xlGdvGxy1Y5SDFKvD+od5QR3FX055WhBVREsZWT7Sx9Q==
+  dependencies:
+    "@comunica/types" "^4.0.1"
+    immutable "^4.3.7"
 
 "@comunica/data-factory@^3.1.0":
   version "3.1.0"
@@ -2102,6 +2121,17 @@
     "@types/yargs" "^17.0.24"
     asynciterator "^3.9.0"
     sparqlalgebrajs "^4.3.7"
+
+"@comunica/types@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@comunica/types/-/types-4.0.1.tgz#2609b630e195e9e110e26901f5d09cafc8b1408a"
+  integrity sha512-/WHfX5/Z6Up69tpIKr1F/zutLS+RcN6vCKMzuTxchKRQo2lV4s9f5lRW7CTwiUAOts1deVYzkdomTl0MTlQpqA==
+  dependencies:
+    "@rdfjs/types" "*"
+    "@types/yargs" "^17.0.24"
+    asynciterator "^3.9.0"
+    lru-cache "^10.0.1"
+    sparqlalgebrajs "^4.3.8"
 
 "@dabh/diagnostics@^2.0.2":
   version "2.0.3"
@@ -3177,6 +3207,11 @@ immutable@^4.1.0:
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.3.4.tgz#2e07b33837b4bb7662f288c244d1ced1ef65a78f"
   integrity sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==
 
+immutable@^4.3.7:
+  version "4.3.7"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.3.7.tgz#c70145fc90d89fb02021e65c84eb0226e4e5a381"
+  integrity sha512-1hqclzwYwjRDFLjcFxOM5AYkkG0rpFPpr1RLPMEuGczoS7YA8gLhy8SWXYRAA/XwfEHpfo3cw5JGioS32fnMRw==
+
 inflight@^1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/inflight/-/inflight-1.0.6.tgz#49bd6331d7d02d0c09bc910a1075ba8165b56df9"
@@ -3446,6 +3481,11 @@ lru-cache@^10.0.0:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.0.1.tgz#0a3be479df549cca0e5d693ac402ff19537a6b7a"
   integrity sha512-IJ4uwUTi2qCccrioU6g9g/5rvvVl13bsdczUUcqbciD9iLr095yj8DQKdObriEvuNSx325N1rV1O0sJFszx75g==
+
+lru-cache@^10.0.1:
+  version "10.4.3"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.4.3.tgz#410fc8a17b70e598013df257c2446b7f3383f119"
+  integrity sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==
 
 lru-cache@^6.0.0:
   version "6.0.0"
