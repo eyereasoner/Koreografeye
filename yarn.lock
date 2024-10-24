@@ -2741,9 +2741,9 @@ comment-parser@^0.7.6:
   integrity sha512-GKNxVA7/iuTnAqGADlTWX4tkhzxZKXp5fLJqKTlQLHkE65XDUKutZ3BHaJC5IGcper2tT3QRD1xr4o3jNpgXXg==
 
 componentsjs-generator@^4.0.1:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/componentsjs-generator/-/componentsjs-generator-4.2.0.tgz#8720189b1d166e29894a8e9cee07d73b5788e169"
-  integrity sha512-swd2DtqFGgzJR0ZE5J6oc1OUvizjQVIWVxkjTZod+t3rF6cuMyxW2ukypIfLX+8gMbtw+bQpxv+Dln+My3Xhvg==
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/componentsjs-generator/-/componentsjs-generator-4.3.0.tgz#90858d7dd1faf203ea3883ec5dd5ff63b3fd1d19"
+  integrity sha512-rEKHCtuSZtHJNBU+oNTSscljU0htac0V55I2JcmuyEikLGD1pU80LyQyJ26Pe4F2l+VVl6Ji6PNXlTa7pNr76g==
   dependencies:
     "@types/lru-cache" "^5.1.0"
     "@types/semver" "^7.3.4"
@@ -3477,12 +3477,7 @@ loupe@^2.3.6:
   dependencies:
     get-func-name "^2.0.1"
 
-lru-cache@^10.0.0:
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.0.1.tgz#0a3be479df549cca0e5d693ac402ff19537a6b7a"
-  integrity sha512-IJ4uwUTi2qCccrioU6g9g/5rvvVl13bsdczUUcqbciD9iLr095yj8DQKdObriEvuNSx325N1rV1O0sJFszx75g==
-
-lru-cache@^10.0.1:
+lru-cache@^10.0.0, lru-cache@^10.0.1:
   version "10.4.3"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.4.3.tgz#410fc8a17b70e598013df257c2446b7f3383f119"
   integrity sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==
