@@ -2939,13 +2939,13 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-eyereasoner@17.0.16:
-  version "17.0.16"
-  resolved "https://registry.yarnpkg.com/eyereasoner/-/eyereasoner-17.0.16.tgz#6534a1be7a9bfdedd03ac6c70601fbf537e52bb6"
-  integrity sha512-dOaVQ3oumnujYGFgXKkzeicTgfP4VqGEEzNH/T8+U/NDF1S8vu64yg4rpZPhABxlqFC1+rw3UnbRS7XchDRIFQ==
+eyereasoner@18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/eyereasoner/-/eyereasoner-18.0.0.tgz#da321c48c15b9a372ad81a3f22004bae7e24faac"
+  integrity sha512-bOHyB9wIk2L+0J4LSM6YWuW9ZHdb7r1UYmwezmjOSBaLY6DfeQHn+kwLuMVCjDIflIru7kApW7XjMnL8qLhOOg==
   dependencies:
     n3 "^1.16.3"
-    swipl-wasm "4.0.17"
+    swipl-wasm "4.0.18"
 
 fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -4283,10 +4283,10 @@ supports-color@^8.1.1:
   dependencies:
     has-flag "^4.0.0"
 
-swipl-wasm@4.0.17:
-  version "4.0.17"
-  resolved "https://registry.yarnpkg.com/swipl-wasm/-/swipl-wasm-4.0.17.tgz#964903096e6784ae380c6960f5577df83f829062"
-  integrity sha512-hadqI+mFoSv0pSiJLnXu85EB4NhiGuNtKVkxtGl253M/PJ0Jaxpe44GH1LAahR4tjKbdLH1rE28/V84xIGxFnQ==
+swipl-wasm@4.0.18:
+  version "4.0.18"
+  resolved "https://registry.yarnpkg.com/swipl-wasm/-/swipl-wasm-4.0.18.tgz#6283ee9ac902c053f8a0c070704cbf91fe7992ee"
+  integrity sha512-M0YrzAhsnt3e7o1SqjJz0F4eLUl6hV27hRn55tJluNsNlgEMCr7Fkgg/zQ9apoeAQ+Nq473TJ4ED5h1Qj0fCvA==
   dependencies:
     "@types/emscripten" "^1.39.13"
 
