@@ -51,7 +51,7 @@
     "@comunica/context-entries": "^4.0.1",
     "@comunica/query-sparql-rdfjs": "^3.0.1",
     "@types/jsonld": "^1.5.8",
-    "commander": "^12.0.0",
+    "commander": "^13.0.0",
     "componentsjs": "^6.0.0",
     "eyereasoner": "18.0.5",
     "fs-extra": "^11.1.1",
