@@ -2255,10 +2255,10 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.3.16.tgz#b1572967f0b8b60bf3f87fe1d854a5604ea70c82"
   integrity sha512-PatH4iOdyh3MyWtmHVFXLWCCIhUbopaltqddG9BzB+gMIzee2MJrvd+jouii9Z3wzQJruGWAm7WOMjgfG8hQlQ==
 
-"@types/emscripten@^1.39.13":
-  version "1.39.13"
-  resolved "https://registry.yarnpkg.com/@types/emscripten/-/emscripten-1.39.13.tgz#afeb1648648dc096efe57983e20387627306e2aa"
-  integrity sha512-cFq+fO/isvhvmuP/+Sl4K4jtU6E23DoivtbO4r50e3odaxAiVdbfSYRDdJ4gCdxx+3aRjhphS5ZMwIH4hFy/Cw==
+"@types/emscripten@^1.40.0":
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/@types/emscripten/-/emscripten-1.40.0.tgz#765f0c77080058faafd6b24de8ccebf573c1464c"
+  integrity sha512-MD2JJ25S4tnjnhjWyalMS6K6p0h+zQV6+Ylm+aGbiS8tSn/aHLSGNzBgduj6FB4zH0ax2GRMGYi/8G1uOxhXWA==
 
 "@types/fs-extra@^11.0.1":
   version "11.0.4"
@@ -2946,13 +2946,13 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-eyereasoner@18.4.8:
-  version "18.4.8"
-  resolved "https://registry.yarnpkg.com/eyereasoner/-/eyereasoner-18.4.8.tgz#85efe634029ecdc370d6fb606f79aa244e7c9f96"
-  integrity sha512-13fJF7KLOMzO56E7BhS6os+uAuGjodhjkXSnpNtjb/ceW90Kfh+rTVKyY7mMrFDZ8zVnuEzUv9X5iUI1o9so1Q==
+eyereasoner@18.6.0:
+  version "18.6.0"
+  resolved "https://registry.yarnpkg.com/eyereasoner/-/eyereasoner-18.6.0.tgz#4e212540f090acf9c24aef60a1117b5c72ff5d7d"
+  integrity sha512-vqCHLHnpD4Usmk4hyklqCjKY6F4WPtHDU1A1+JvKJuTUlhWJwfHCqIIlUod1KtOke6fHbQE8EgHEPsh/CRcoDA==
   dependencies:
     n3 "^1.16.3"
-    swipl-wasm "4.0.20"
+    swipl-wasm "5.0.0"
 
 fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -4326,12 +4326,12 @@ supports-color@^8.1.1:
   dependencies:
     has-flag "^4.0.0"
 
-swipl-wasm@4.0.20:
-  version "4.0.20"
-  resolved "https://registry.yarnpkg.com/swipl-wasm/-/swipl-wasm-4.0.20.tgz#12e13b870be9c53c29ef4a8e7cd604f0fac540cc"
-  integrity sha512-0FfVgyI2YaiGWq729rP2k443ISs/rfci6j5soUoau1Y0W9prREoY2tnt7T+pAXVQ+famVPC92rEl4DZeTUbs+g==
+swipl-wasm@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/swipl-wasm/-/swipl-wasm-5.0.0.tgz#7a85785113b72a287083982b46a3d0b389eb6bbf"
+  integrity sha512-WEgah23G+cG/P08l+px9P7kQrWaOKp1f/VRX/wc1Q+BI2MU1R6+vGvvUfPKSxT//QG01awsp4QZr49VEVfFPmQ==
   dependencies:
-    "@types/emscripten" "^1.39.13"
+    "@types/emscripten" "^1.40.0"
 
 text-hex@1.0.x:
   version "1.0.0"
