@@ -2193,7 +2193,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@rdfjs/types@*", "@rdfjs/types@^2.0.0":
+"@rdfjs/types@*", "@rdfjs/types@^2.0.0", "@rdfjs/types@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@rdfjs/types/-/types-2.0.1.tgz#f10b50ceffff00b961c4265e60ac9f74550251da"
   integrity sha512-uyAzpugX7KekAXAHq26m3JlUIZJOC0uSBhpnefGV5i15bevDyyejoB7I+9MKeUrzXD8OOUI3+4FeV1wwQr5ihA==
