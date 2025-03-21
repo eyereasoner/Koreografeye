@@ -53,7 +53,7 @@
     "@types/jsonld": "^1.5.8",
     "commander": "^13.0.0",
     "componentsjs": "^6.0.0",
-    "eyereasoner": "18.12.6",
+    "eyereasoner": "18.12.8",
     "fs-extra": "^11.1.1",
     "is-hidden-file": "^1.1.2",
     "jsonld": "^8.x.x",
