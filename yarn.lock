@@ -3652,9 +3652,9 @@ mute-stream@0.0.7:
   integrity sha512-r65nCZhrbXXb6dXOACihYApHw2Q6pV0M3V0PSxd74N0+D8nzAdEAITq2oAjA1jVnKI+tGvEBUpqiMh0+rW6zDQ==
 
 n3@^1.16.3, n3@^1.16.4, n3@^1.17.0, n3@^1.6.3:
-  version "1.25.1"
-  resolved "https://registry.yarnpkg.com/n3/-/n3-1.25.1.tgz#6ad95e39050bde9bd68d155014fa8920f36a3c86"
-  integrity sha512-5vqp6Wcolb57WLC4DC0Nf6ieFPnTOLWwvIG0mmSzTpcRcNyd7xquVSlYSU6clvAZUEfs/OHWGNDRNwQi+m912Q==
+  version "1.25.2"
+  resolved "https://registry.yarnpkg.com/n3/-/n3-1.25.2.tgz#20bfba17f633d5ecb287711e064b542ebb33eddb"
+  integrity sha512-ZBPnAgOw4sze/hnyoydNA5Ts9wbwiG+BXssTkdBKD6IkQZcg1IfQdo5AMU9JhsIu/RGtRD1QD0gphEhk/6ZnWA==
   dependencies:
     buffer "^6.0.3"
     readable-stream "^4.0.0"
