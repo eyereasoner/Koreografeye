@@ -2333,9 +2333,9 @@
   integrity sha512-xPyYSz1cMPnJQhl0CLMH68j3gprKZaTjG3s5Vi+fDgx+uhG9NOXwbVt52eFS8ECyXhyKcjDLCBEqBExKuiZb7Q==
 
 "@types/n3@^1.10.4":
-  version "1.24.2"
-  resolved "https://registry.yarnpkg.com/@types/n3/-/n3-1.24.2.tgz#50256811c95d8efbb649a370b1d23fb7e579e1b2"
-  integrity sha512-clurEPFqgx68kQxCBCrAUppsvZyyj/uVEgbhquYaawTZuDptrRrnFsHIWd4PubwWCfFgyrHBgaB2Tt09TTYLWw==
+  version "1.25.3"
+  resolved "https://registry.yarnpkg.com/@types/n3/-/n3-1.25.3.tgz#39699345e81ac5cb289b8cab31385a984ef62d33"
+  integrity sha512-BTxMKCvh4yso0ksZBrrhFV+BOUWvaaQ4+v2WsMN4S7yydfe6w62JM42woniX7KbsVkskwtjOo4AhXt+hSIzZZQ==
   dependencies:
     "@rdfjs/types" "*"
     "@types/node" "*"
@@ -3652,9 +3652,9 @@ mute-stream@0.0.7:
   integrity sha512-r65nCZhrbXXb6dXOACihYApHw2Q6pV0M3V0PSxd74N0+D8nzAdEAITq2oAjA1jVnKI+tGvEBUpqiMh0+rW6zDQ==
 
 n3@^1.16.3, n3@^1.16.4, n3@^1.17.0, n3@^1.6.3:
-  version "1.25.1"
-  resolved "https://registry.yarnpkg.com/n3/-/n3-1.25.1.tgz#6ad95e39050bde9bd68d155014fa8920f36a3c86"
-  integrity sha512-5vqp6Wcolb57WLC4DC0Nf6ieFPnTOLWwvIG0mmSzTpcRcNyd7xquVSlYSU6clvAZUEfs/OHWGNDRNwQi+m912Q==
+  version "1.26.0"
+  resolved "https://registry.yarnpkg.com/n3/-/n3-1.26.0.tgz#3d69de04bee680b9ebec9dbc1033dc1e6934d351"
+  integrity sha512-SQknS0ua90rN+3RHuk8BeIqeYyqIH/+ecViZxX08jR4j6MugqWRjtONl3uANG/crWXnOM2WIqBJtjIhVYFha+w==
   dependencies:
     buffer "^6.0.3"
     readable-stream "^4.0.0"
