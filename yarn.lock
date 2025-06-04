@@ -1779,12 +1779,12 @@
     sparqlalgebrajs "^4.3.7"
 
 "@comunica/context-entries@^4.0.1":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@comunica/context-entries/-/context-entries-4.1.0.tgz#89224b59d8c593236884da1ab384e2f315fe1968"
-  integrity sha512-OKHD8jtXZf1GqBsuIzRkrwoiTADoPJ/rIE3R8+Zc9DiNThlK8xN+dMzkvJAqZafdSLrJ+A7X9st8IziePpKzwg==
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@comunica/context-entries/-/context-entries-4.2.0.tgz#c14d3b87ae8040cde3fae8c9b35f7a779efe9851"
+  integrity sha512-F9FDSHXUP9TT9urSC+oXo6oNJYV6Q7lDRVQPi4DL81M9S34iNgOBnTdOlHxExiEwVnRfKdTKkRii/qe4Zk7Gbg==
   dependencies:
-    "@comunica/core" "^4.1.0"
-    "@comunica/types" "^4.1.0"
+    "@comunica/core" "^4.2.0"
+    "@comunica/types" "^4.2.0"
     "@rdfjs/types" "*"
     jsonld-context-parser "^2.2.2"
     sparqlalgebrajs "^4.3.8"
@@ -1805,12 +1805,12 @@
     "@comunica/types" "^3.3.0"
     immutable "^4.1.0"
 
-"@comunica/core@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@comunica/core/-/core-4.1.0.tgz#5316468c2881743812490a33743ba5d5134e2ecc"
-  integrity sha512-8o69EmrO7UUztMN9Yb0KBusn0wBARKtSCVWRQ44Z2QUkQqjMdkkji+LVTV1qmALTOLsA3SxDDayWVP5hIZhI3Q==
+"@comunica/core@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@comunica/core/-/core-4.2.0.tgz#c400b236f16a2df1aa65c3ebe42858f8b1fcbe81"
+  integrity sha512-E4TfsxmBYgan9xPSCAom6B231EonTFxM/hEdFbRmVhuCv+Ids7d4UhGt3MENJDXH+UhURjqKpfzYySvAqYqVOA==
   dependencies:
-    "@comunica/types" "^4.1.0"
+    "@comunica/types" "^4.2.0"
     immutable "^4.3.7"
 
 "@comunica/data-factory@^3.1.0":
@@ -2122,10 +2122,10 @@
     asynciterator "^3.9.0"
     sparqlalgebrajs "^4.3.7"
 
-"@comunica/types@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@comunica/types/-/types-4.1.0.tgz#0582776d967e36fe06984ddcd14053f6078eb4c9"
-  integrity sha512-Ux2j9rS89U3aMelBI8JrvH8FUUddD8E3awWz1DEk/epfnL4ieJEMRP0KlOqPSU6gFwrbxT8UMjhTjrfsnS5VJQ==
+"@comunica/types@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@comunica/types/-/types-4.2.0.tgz#e4f22856434c48094070af88422c602f7423cbee"
+  integrity sha512-3Vf3FOUB/i7tdlghovHsgjoZbdqIgB0m01UGwpxCBHI/swbxcqhQzmKFjU9T3gNxurmsdqafF8Unoh9ZCwNuRw==
   dependencies:
     "@rdfjs/types" "*"
     "@types/yargs" "^17.0.24"
